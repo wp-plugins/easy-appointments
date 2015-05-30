@@ -31,13 +31,26 @@ Install process is quite simple :
 – Click on “Upload plugin” beside top heading.
 – Drag and drop plugin zip file.
 
+= Shorcode =
+In order to have Appointments form in your Page or Post insert following shortcode
+<code>
+[ea_standard]
+</code>
+
 == Frequently Asked Questions ==
 
-= How to set multiple slots for one combination of location, service, worker?
+= How to set multiple slots for one combination of location, service, worker? =
 
 To add more slots per (location, service, worker) combination just clone the existing one. For two slots you need to
 have that connection twice.
 
+= Who to insert Appointments widget on Page/Post? =
+
+Place following shortcode into your Page/Post content:
+
+<code>
+[ea_standard]
+</code>
 
 == Screenshots ==
 
