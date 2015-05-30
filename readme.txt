@@ -21,6 +21,7 @@ Easy Appointments Wordpress plugin. Add Booking Appointments system to your Word
 5. Email notifications
 
 Live DEMO : http://http://nikolaloncar.com/demo/easy-appointments/
+Doc : http://nikolaloncar.com/easy-appointments-wordpress-plugin/easy-appointments-documentacion/
 
 == Installation ==
 
@@ -44,7 +45,7 @@ In order to have Appointments form in your Page or Post insert following shortco
 To add more slots per (location, service, worker) combination just clone the existing one. For two slots you need to
 have that connection twice.
 
-= Who to insert Appointments widget on Page/Post? =
+= How to insert Easy Appointments widget on Page/Post? =
 
 Place following shortcode into your Page/Post content:
 
