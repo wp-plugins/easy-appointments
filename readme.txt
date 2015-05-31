@@ -12,7 +12,11 @@ Easy Appointments Wordpress plugin. Add Booking system to your WordPress site an
 
 == Description ==
 
-Easy Appointments Wordpress plugin. Add Booking Appointments system to your WordPress site and manage Appointments with ease. Extremely flexible time management. Multiple location, services and workers. Email notifications. Can be used for : Lawyers, Salons, Mechanic, Cleaning services, Doctors, Spas, Personal trainers ,Private Lessons, etc,
+Easy Appointments Wordpress plugin. Add Booking Appointments system to your WordPress site and manage Appointments with ease. Extremely flexible time management. Multiple location, services and workers. Email notifications. 
+
+Can be used for : <strong>Lawyers</strong>, <strong>Salons</strong>, <strong>Mechanic</strong>, <strong>Cleaning services</strong>, <strong>Doctors</strong>, <strong>Spas</strong>, <strong>Personal trainers </strong>, <strong>Private Lessons</strong>, etc,
+
+= Features =
 
 1. Multiple location
 2. Multiple services
@@ -20,12 +24,18 @@ Easy Appointments Wordpress plugin. Add Booking Appointments system to your Word
 4. Extrimliy flexible time table
 5. Email notifications
 
-Live DEMO : http://http://nikolaloncar.com/demo/easy-appointments/
-Doc : http://nikolaloncar.com/easy-appointments-wordpress-plugin/easy-appointments-documentacion/
+= Live Demo = 
+http://nikolaloncar.com/demo/easy-appointments/
+
+= Doc =
+http://nikolaloncar.com/easy-appointments-wordpress-plugin/easy-appointments-documentacion/
+
+= HomePage =
+http://nikolaloncar.com/easy-appointments-wordpress-plugin/
 
 == Installation ==
 
-Install process is quite simple :
+= Install process is quite simple : =
 
 – After getting plugin ZIP file log onto WP admin page.
 – Open Plugins >> Add new.
