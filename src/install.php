@@ -16,7 +16,7 @@ class EAInstallTools
 
 	function __construct()
 	{
-		$this->easy_app_db_version = '1.0';
+		$this->easy_app_db_version = '1.1';
 	}
 
 	/**
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `{$table_prefix}ea_connections` (
   `location` int(11) DEFAULT NULL,
   `service` int(11) DEFAULT NULL,
   `worker` int(11) DEFAULT NULL,
-  `day_of_week` varchar(55) DEFAULT NULL,
+  `day_of_week` varchar(60) DEFAULT NULL,
   `time_from` time DEFAULT NULL,
   `time_to` time DEFAULT NULL,
   `day_from` date DEFAULT NULL,
@@ -143,7 +143,7 @@ EOT;
 			dbDelta( $table_query );
 		}
 
-		add_option( 'easy_app_db_version', $this->easy_app_db_version );
+		update_option( 'easy_app_db_version', $this->easy_app_db_version );
 	}
 
 	/**
@@ -167,7 +167,9 @@ EOT;
 			array('ea_key' => 'trans.worker','ea_value' => 'Worker','type' => 'default'),
 			array('ea_key' => 'trans.done_message','ea_value' => 'Done','type' => 'default'),
 			array('ea_key' => 'time_format','ea_value' => '00-24','type' => 'default'),
-			array('ea_key' => 'trans.currency','ea_value' => '$','type' => 'default')
+			array('ea_key' => 'trans.currency','ea_value' => '$','type' => 'default'),
+			array('ea_key' => 'pending.email','ea_value' => '','type' => 'default'),
+			array('ea_key' => 'price.hide','ea_value' => '0','type' => 'default')
 		);
 
 		// insert options
@@ -176,6 +178,34 @@ EOT;
 				$table_name,
 				$row
 			);
+		}
+	}
+
+	public function update()
+	{
+		global $wpdb;
+
+		$version = get_option( 'easy_app_db_version', '1.0');
+
+		// Migrate from 1.0 > 1.1
+		if( version_compare( $version, '1.1', '<' )) {
+
+			$this->init_db();
+
+			// options table
+			$table_name = $wpdb->prefix . 'ea_options';
+			// rows data
+			$wp_ea_options = array(
+				array('ea_key' => 'pending.email','ea_value' => '','type' => 'default'),
+				array('ea_key' => 'price.hide','ea_value' => '0','type' => 'default')
+			);
+			// insert options
+			foreach ($wp_ea_options as $row) {
+				$wpdb->insert(
+					$table_name,
+					$row
+				);
+			}
 		}
 	}
 }

@@ -280,6 +280,27 @@ class EALogic
 		return $result->ea_value;
 	}
 
+	public static function get_options()
+	{
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'ea_options';
+
+		$query = 
+			"SELECT ea_key, ea_value 
+			 FROM $table_name";
+
+		$output = $wpdb->get_results($query, OBJECT_K);
+
+		$result = array();
+
+		foreach ($output as $key => $value) {
+			$result[$key] = $value->ea_value;
+		}
+
+		return $result;
+	}
+
 	/**
 	 * Sending mail with every status change
 	 */
@@ -306,6 +327,27 @@ class EALogic
 		$body = str_replace(array_keys($params), array_values($params) , $body_template);
 
 		wp_mail( $app->email, 'Reservation #' . $app_id, $body );
+	}
+
+	/**
+	 * Send email notification
+	 */
+	public static function send_notification($data)
+	{
+		$emails = self::get_option_value('pending.email', '');
+
+		if($emails == '') {
+			return;
+		}
+
+		$app_id = $data['id'];
+		$body = '';
+
+		foreach ($data as $key => $value) {
+			$body .= $value . "\r\n";
+		}
+
+		wp_mail( $emails, 'New Reservation #' . $app_id, $body );
 	}
 
 	/**

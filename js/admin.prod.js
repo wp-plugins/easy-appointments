@@ -1244,7 +1244,15 @@
 
                 var input = fields.filter('[data-key="' + key + '"]');
 
-                model.set('ea_value', input.val());
+                if(input.is('[type="checkbox"]')) {
+                    if(input.is(':checked')) {
+                        model.set('ea_value', 1);
+                    } else {
+                        model.set('ea_value', 0);
+                    }
+                } else {
+                    model.set('ea_value', input.val());
+                }
             });
 
             var wrapper = new EA.SettingsWrapper(this.collection);

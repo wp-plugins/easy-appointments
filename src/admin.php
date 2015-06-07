@@ -190,8 +190,7 @@ class EAAdminPanel
 		$screen->add_help_tab( array(
 			 'id'       => 'easyapp_settings_help'
 			,'title'    => 'Appointments manager'
-			,'content'  => '<p>Use filter for date to reduce output results for appointments. You can filter by <b>location</b>, <b>service</b>, <b>worker</b>, <b>status</b> and <b>date</b>.</p>' .
-				'<a href="https://www.youtube.com/watch?v=TBJ_SwmPOOU">Watch plugin overview screen cast</a>'
+			,'content'  => '<p>Use filter for date to reduce output results for appointments. You can filter by <b>location</b>, <b>service</b>, <b>worker</b>, <b>status</b> and <b>date</b>.</p>'
 		) );
 
 		$screen->set_help_sidebar('<a href="http://nikolaloncar.com/easy-appointments-wordpress-plugin/easy-appointments-documentacion/">More info!</a>');
@@ -210,8 +209,7 @@ class EAAdminPanel
 			 'id'       => 'easyapp_settings_help'
 			,'title'    => 'Time table'
 			,'content'  => '<p>Time table report shows free slost for every locaition - service - worker connection on whole month</p>' .
-				'<p>There can you see free times an how many slots are taken.</p>' . 
-				'<a href="https://www.youtube.com/watch?v=TBJ_SwmPOOU">Watch plugin overview screen cast</a>'
+				'<p>There can you see free times an how many slots are taken.</p>'
 		) );
 
 		$screen->set_help_sidebar('<a href="http://nikolaloncar.com/easy-appointments-wordpress-plugin/easy-appointments-documentacion/">More info!</a>');
@@ -229,8 +227,7 @@ class EAAdminPanel
 		$screen->add_help_tab( array(
 			 'id'       => 'easyapp_settings_help'
 			,'title'    => 'Settings'
-			,'content'  => '<p>You need to define at least one location, worker and service! Without that widget wont work.</p>' .
-				'<a href="https://www.youtube.com/watch?v=TBJ_SwmPOOU">Watch plugin overview screen cast</a>'
+			,'content'  => '<p>You need to define at least one location, worker and service! Without that widget wont work.</p>'
 		) );
 
 		$screen->set_help_sidebar('<a href="http://nikolaloncar.com/easy-appointments-wordpress-plugin/easy-appointments-documentacion/">More info!</a>');

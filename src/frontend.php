@@ -73,10 +73,16 @@ class EAFrontend
 	}
 
 	/**
-	 * 
+	 * Standard widget
 	 */
 	public function standard_app($attrs)
 	{
+
+		$settings = EALogic::get_options();
+
+		wp_localize_script( 'ea-front-end', 'ea_settings', $settings );
+
+		wp_enqueue_script( 'underscore' );
 		wp_enqueue_script( 'ea-validator' );
 		wp_enqueue_script( 'ea-front-end' );
 		wp_enqueue_style( 'jquery-style' );
@@ -84,6 +90,9 @@ class EAFrontend
 		wp_enqueue_style( 'ea-admin-awesome-css' );
 
 		ob_start();
+
+		// require tempalte
+		require EA_SRC_DIR . 'templates/booking.overview.tpl.php';
 
 		?>
 <script type="text/javascript">
@@ -113,15 +122,15 @@ class EAFrontend
 		</div>
 		<div class="step final">
 			<div class="block"></div>
-			<h4>Personal information</h4>
+			<p class="section">Personal information</p>
 			<small>Fields with * are required</small><br>
 			<p><label>Email * : </label><input type="text" name="email" data-rule-required="true" data-rule-email="true" data-msg-email="Please enter a valid email address"></p>
 			<p><label>Name * : </label><input type="text" name="name" data-rule-required="true" data-rule-minlength="3"></p>
 			<p><label>Phone * : </label><input type="text" name="phone" data-rule-required="true" data-rule-minlength="3"></p>
-			<textarea name="description"></textarea>
-			<p>Booking overview</p>
-			<div id="booking-overview"></div>
+			<textarea class="description" name="description"></textarea>
 			<br>
+			<p class="section">Booking overview</p>
+			<div id="booking-overview"></div>
 			<button class="ea-btn ea-submit">Submit</button>
 			<button class="ea-btn ea-cancel">Cancel</button>
 		</div>

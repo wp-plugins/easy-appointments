@@ -97,19 +97,19 @@
 	cursor: pointer;
 }
 
-.ea-standard #booking-overview {
-	padding: 7px;
-	background-color: rgba(51, 51, 51, 0.1);
-	border: 1px solid rgba(51, 51, 51, 0.05);
+.ea-standard .description {
+	margin-bottom: 8px;
 }
 
-.ea-standard #booking-overview span {
-	text-align: left;
-	font-size: 75%;
-	margin: 0;
-	padding: 0;
-	width: 50%;
-	display: inline-table;
+.ea-standard .section {
+	color: #008000;
+}
+
+.ea-standard #booking-overview {
+}
+
+.ea-standard #booking-overview small {
+	display: block;
 }
 
 .ea-cancel {

@@ -3,7 +3,8 @@
 	var pluginName = "eaStandard",
 	
 	defaults = {
-		propertyName: "value"
+		overview_selector: "#ea-appointments-overview",
+		overview_template: null
 	};
 
 	// The actual plugin constructor
@@ -22,6 +23,8 @@
 		 */
 		init: function () {
 			var plugin = this;
+
+			this.settings.overview_template = _.template($(this.settings.overview_selector).html());
 
 			this.$element.find('form').validate();
 
@@ -74,6 +77,7 @@
 				}
 			});
 		},
+		// get All previus step options
 		getPrevousOptions: function( element ) {
 			var step = element.parents( '.step' );
 			
@@ -157,7 +161,7 @@
 				$.each(response, function(index, element) {
 					var name = element.name;
 
-					if('price' in element) {
+					if('price' in element && ea_settings['price.hide'] !== '1') {
 						name = element.name + ' - ' + element.price + next_element.data('currency');
 					}
 
@@ -182,20 +186,12 @@
 				$(element).addClass('disabled');
 			});
 
-			// Case if next element is calendar
-			if(current.nextAll('.step:visible:first').hasClass('calendar') && false) {
-				this.blurNextSteps(current.next(':visible'));
-
+			// if next step is calendar
+			if (current.hasClass('calendar')) {
 				var calendar = this.$element.find('.date');
 
 				this.$element.find('.ui-datepicker-current-day').click();
-
-				this.scrollToElement(current.next());
-
-			} else if (current.hasClass('calendar')) {
-				var calendar = this.$element.find('.date');
-
-				this.$element.find('.ui-datepicker-current-day').click();
+				this.scrollToElement(calendar);
 			}
 		},
 		/**
@@ -234,9 +230,6 @@
 				// enabled
 				next_element.parent().removeClass('disabled');
 
-				plugin.scrollToElement(next_element.parent());
-				// plugin.blurNextSteps(next_element.parent());
-
 			}, 'json');
 		},
 		/**
@@ -257,12 +250,12 @@
 			}
 
 			// for booking overview
-			var booking_data = [];
-			booking_data.push(this.$element.find('[name="location"] > option:selected').text());
-			booking_data.push(this.$element.find('[name="service"] > option:selected').text());
-			booking_data.push(this.$element.find('[name="worker"] > option:selected').text());
-			booking_data.push(this.$element.find('.date').datepicker().val());
-			booking_data.push(this.$element.find('.selected-time').text())
+			var booking_data = {};
+			booking_data.location = this.$element.find('[name="location"] > option:selected').text();
+			booking_data.service = this.$element.find('[name="service"] > option:selected').text();
+			booking_data.worker =  this.$element.find('[name="worker"] > option:selected').text();
+			booking_data.date = this.$element.find('.date').datepicker().val();
+			booking_data.time = this.$element.find('.selected-time').text();
 
 			$.get(ea_ajaxurl, options, function(response) {
 
@@ -276,11 +269,7 @@
 				// set overview cancel_appointment
 				var overview_content = '';
 
-				$.each(booking_data, function(index, element) {
-					if(element.trim() !== '') {
-						overview_content += '<span>' + element + '</span>';
-					}
-				});
+				overview_content = plugin.settings.overview_template({data: booking_data, settings: ea_settings});
 
 				$('#booking-overview').html(overview_content);
 
@@ -314,7 +303,7 @@
 			$.get(ea_ajaxurl, options, function(response) {
 				plugin.$element.find('.ea-submit').hide();
 				plugin.$element.find('.ea-cancel').hide();
-				plugin.$element.find('.final').append('<h4>' + response.message + '</h4>');
+				plugin.$element.find('.final').append('<h4>' + ea_settings['trans.done_message'] + '</h4>');
 
 			}, 'json');
 		},
@@ -344,7 +333,7 @@
 				}
 			}, 'json');
 
-		}, 
+		},
 		scrollToElement : function(element) {
 			$('html, body').animate({
 				scrollTop: ( element.offset().top - 20 )

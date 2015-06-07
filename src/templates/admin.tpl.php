@@ -429,6 +429,21 @@
 				</tr>
 			</tbody>
 		</table>
+		<table class="form-table form-table-translation">
+			<tbody>
+				<tr>
+					<th class="row">
+						<label for="">Pending notification emails :</label>
+					</th>
+					<td>
+						<input style="width: 300px" class="field" data-key="pending.email" name="currency" type="text" value="<%= _.findWhere(settings, {ea_key:'pending.email'}).ea_value %>"><br>
+					</td>
+					<td>
+						<span class="description"> Enter email adress that will recive new reservation notification. Separate multiple emails with , (comma)</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 		<h2>Translation: </h2>
 		<table class="form-table form-table-translation">
 			<tbody>
@@ -463,6 +478,9 @@
 					<td>
 						<input class="field" data-key="trans.done_message" name="done_message" type="text" value="<%= _.findWhere(settings, {ea_key:'trans.done_message'}).ea_value %>"><br>
 					</td>
+					<td>
+						<span class="description"> Message that user recive after completing appointment</span>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -491,6 +509,14 @@
 					</th>
 					<td>
 						<input class="field" data-key="trans.currency" name="currency" type="text" value="<%= _.findWhere(settings, {ea_key:'trans.currency'}).ea_value %>"><br>
+					</td>
+				</tr>
+				<tr>
+					<th class="row">
+						<label for="">Hide price :</label>
+					</th>
+					<td>
+						<input class="field" data-key="price.hide" name="price.hide" type="checkbox" <% if (_.findWhere(settings, {ea_key:'price.hide'}).ea_value == "1") { %>checked<% } %>><br>
 					</td>
 				</tr>
 			</body>

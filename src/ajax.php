@@ -166,7 +166,7 @@ class EAAjax
 		$table = 'ea_appointments';
 
 		$data = $_GET;
-		
+
 		unset($data['action']);
 
 		$data['status'] = 'pending';
@@ -184,11 +184,12 @@ class EAAjax
 		
 		if($response == false) {
 			$this->send_err_json_result('{"err":true}');
+		} else {
+			EALogic::send_notification($data);
 		}
 
 		$response = new stdClass();
-		$response->message = 'Thanks for appointment';
-
+		$response->message = 'Ok';
 		$this->send_ok_json_result($response);
 	}
 
