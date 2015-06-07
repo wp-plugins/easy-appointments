@@ -4,7 +4,7 @@ Donate link: http://nikolaloncar.com/donate/
 Tags: appointment, appointments, booking, calendar, plugin, reservation, reservations, wordpress, wp appointment
 Requires at least: 3.7
 Tested up to: 4.2.2
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -77,6 +77,12 @@ Place following shortcode into your Page/Post content:
 10. Admin panel - Report - Time table overview
 
 == Changelog ==
+
+= 1.1 =
+* Improve styles and overview form
+* Translations : done message
+* Notification to custom email on pending appointment
+* Fix scroll for date/time change
 
 = 1.0 =
 * First release
