@@ -106,6 +106,20 @@
 }
 
 .ea-standard #booking-overview {
+	padding-top: 5px;
+}
+
+.ea-standard #booking-overview td, .ea-standard #booking-overview th {
+	font-size: 0.8em;
+}
+
+.ea-standard #booking-overview .label {
+	opacity: 0.6;
+	width: 40%;
+}
+
+.ea-standard #booking-overview .value {
+	text-align: right;
 }
 
 .ea-standard #booking-overview small {

@@ -4,7 +4,7 @@ Donate link: http://nikolaloncar.com/donate/
 Tags: appointment, appointments, booking, calendar, plugin, reservation, reservations, wordpress, wp appointment
 Requires at least: 3.7
 Tested up to: 4.2.2
-Stable tag: 1.1
+Stable tag: 1.1.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,8 +78,12 @@ Place following shortcode into your Page/Post content:
 
 == Changelog ==
 
+= 1.1.1 =
+* Fix : select all days in a week
+* Improved styles
+
 = 1.1 =
-* Improve styles and overview form
+* Improved styles and overview form
 * Translations : done message
 * Notification to custom email on pending appointment
 * Fix scroll for date/time change
