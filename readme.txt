@@ -4,7 +4,7 @@ Donate link: http://nikolaloncar.com/donate/
 Tags: appointment, appointments, booking, calendar, plugin, reservation, reservations, wordpress, wp appointment
 Requires at least: 3.7
 Tested up to: 4.2.2
-Stable tag: 1.1.1
+Stable tag: 1.2.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,9 +23,11 @@ Can be used for : <strong>Lawyers</strong>, <strong>Salons</strong>, <strong>Mec
 3. Multiple workers
 4. Extrimliy flexible time table
 5. Email notifications
+6. **NEW** Responsive Bootstrap Layout for Appointment form  - new shorcode `[ea_bootstrap]`
 
 = Live Demo = 
-http://nikolaloncar.com/demo/easy-appointments/
+<a href="http://nikolaloncar.com/demo/easy-appointments/">**Standard Appointment form**</a><br>
+<a href="http://nikolaloncar.com/demo/easy-appointments-bootstrap/">**Bootstrap responsive Appointment form**</a>
 
 = Doc =
 http://nikolaloncar.com/easy-appointments-wordpress-plugin/easy-appointments-documentacion/
@@ -48,6 +50,11 @@ In order to have Appointments form in your Page or Post insert following shortco
 [ea_standard]
 </code>
 
+For **NEW** bootstrap version :
+<code>
+[ea_bootstrap]
+</code>
+
 == Frequently Asked Questions ==
 
 = How to set multiple slots for one combination of location, service, worker? =
@@ -62,21 +69,27 @@ Place following shortcode into your Page/Post content:
 <code>
 [ea_standard]
 </code>
+OR
+<code>
+[ea_bootstrap]
+</code>
 
 == Screenshots ==
 
-1. Main Banner
-2. Front end Appointment part where you can choose Appointment detail
-3. User infromation needed to complete single Appointment
-4. Admin panel - Appointments list
-5. Admin panel - Settings Location. Define your Locations
-6. Admin panel - Settings Services. Define your Services
-7. Admin panel - Settings Workers. Define your Workers
-8. Admin panel - Settings Connection. Set single combination for location, service, worker
-9. Admin panel - Customize - Email notifications
-10. Admin panel - Report - Time table overview
+1. Front end Appointment part where you can choose Appointment detail
+2. User infromation needed to complete single Appointment
+3. Admin panel - Appointments list
+4. Admin panel - Settings Location. Define your Locations
+5. Admin panel - Settings Services. Define your Services
+6. Admin panel - Settings Workers. Define your Workers
+7. Admin panel - Settings Connection. Set single combination for location, service, worker
+8. Admin panel - Customize - Email notifications
+9. Admin panel - Report - Time table overview
 
 == Changelog ==
+
+= 1.2.0 =
+* New shortcode for bootstrap version of frontend form `[ea_bootstrap]`
 
 = 1.1.1 =
 * Fix : select all days in a week
@@ -90,3 +103,8 @@ Place following shortcode into your Page/Post content:
 
 = 1.0 =
 * First release
+
+== Upgrade Notice ==
+
+= 1.2.0 =
+* New Responsive layout shortcode. 

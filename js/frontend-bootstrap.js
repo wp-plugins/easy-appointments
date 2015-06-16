@@ -1,8 +1,10 @@
 ;(function ( $, window, document, undefined ) {
 	
-	var pluginName = "eaStandard",
+	var pluginName = "eaBootstrap",
 	
 	defaults = {
+		main_selector: '#ea-bootstrap-main',
+		main_template: null,
 		overview_selector: "#ea-appointments-overview",
 		overview_template: null
 	};
@@ -24,7 +26,10 @@
 		init: function () {
 			var plugin = this;
 
-			this.settings.overview_template = _.template($(this.settings.overview_selector).html());
+			plugin.settings.main_template = _.template($(plugin.settings.main_selector).html());
+			plugin.settings.overview_template = _.template($(plugin.settings.overview_selector).html());
+
+			this.$element.html(plugin.settings.main_template({settings:ea_settings}));
 
 			this.$element.find('form').validate();
 
@@ -43,7 +48,7 @@
 			this.hideDefault();
 
 			// time is selected
-			this.$element.find('.time').on('click', '.time-value', function(element) {
+			this.$element.find('.ea-bootstrap').on('click', '.time-value', function(element) {
 				$(this).parent().children().removeClass('selected-time');
 				$(this).addClass('selected-time');
 
@@ -99,7 +104,7 @@
 		getNextOptions: function ( event ) {
 			var current = $(event.target);
 
-			var step = current.parent('.step');
+			var step = current.closest('.step');
 
 			// blur next options
 			this.blurNextSteps(step);
@@ -162,14 +167,14 @@
 					var name = element.name;
 
 					if('price' in element && ea_settings['price.hide'] !== '1') {
-						name = element.name + ' - ' + element.price + next_element.data('currency');
+						name = element.name + ' - ' + element.price + ea_settings['trans.currency'];
 					}
 
 					next_element.append('<option value="' + element.id +'">' + name + '</option>');
 				});
 
 				// enabled
-				next_element.parent().removeClass('disabled');
+				next_element.closest('.step').removeClass('disabled');
 
 				plugin.scrollToElement(next_element.parent());
 			}, 'json');
@@ -200,22 +205,21 @@
 		 * Change of date - datepicker
 		 */
 		dateChange: function( dateString, calendar ) {
-			var plugin = this;
+			var plugin = this, next_element;
 
-			calendar = $(calendar.dpDiv).parents( '.date' );
+			calendarEl = $(calendar.dpDiv).parents( '.date' );
 
-			calendar.parent().next().addClass('disabled');
+			calendarEl.parent().next().addClass('disabled');
 
-			var options = this.getPrevousOptions(calendar);
+			var options = this.getPrevousOptions(calendarEl);
 
 			options['action'] = 'date_selected';
 			options['date'] = dateString;
 
 			$.get(ea_ajaxurl, options, function(response) {
 
-				next_element = $(calendar).parent().next('.step').children('.time');
-
-				next_element.empty();
+				next_element = $(document.createElement('div'))
+							.addClass('time well well-lg');
 
 				$.each(response, function(index, element) {
 					if(element.count > 0) {
@@ -229,6 +233,14 @@
 					next_element.html('<p class="time-message">Please select another day</p>');
 				}
 
+				var newRow = $(document.createElement('tr'))
+							.addClass('time-row')
+							.append('<td colspan="7" />');
+
+				newRow.find('td').append(next_element);
+
+				$(calendar.dpDiv).find('.ui-datepicker-current-day').closest('tr').after(newRow);
+
 				// enabled
 				next_element.parent().removeClass('disabled');
 
@@ -240,7 +252,6 @@
 		 */ 
 		appSelected: function(element) {
 			var plugin = this;
-
 			// make pre reservation
 			var options = {
 				location : this.$element.find('[name="location"]').val(),
@@ -260,7 +271,6 @@
 			booking_data.time = this.$element.find('.selected-time').text();
 
 			$.get(ea_ajaxurl, options, function(response) {
-
 				plugin.res_app = response.id;
 
 				plugin.$element.find('.step').addClass('disabled');
@@ -273,7 +283,7 @@
 
 				overview_content = plugin.settings.overview_template({data: booking_data, settings: ea_settings});
 
-				$('#booking-overview').html(overview_content);
+				plugin.$element.find('#booking-overview').html(overview_content);
 
 			}, 'json');
 		},
@@ -305,7 +315,7 @@
 			$.get(ea_ajaxurl, options, function(response) {
 				plugin.$element.find('.ea-submit').hide();
 				plugin.$element.find('.ea-cancel').hide();
-				plugin.$element.find('.final').append('<h4>' + ea_settings['trans.done_message'] + '</h4>');
+				plugin.$element.find('.final').append('<h3>' + ea_settings['trans.done_message'] + '</h3>');
 
 			}, 'json');
 		},
@@ -357,5 +367,5 @@
 
 
 (function($){
-	$('.ea-standard').eaStandard();
+	$('.ea-bootstrap').eaBootstrap();
 })( jQuery );

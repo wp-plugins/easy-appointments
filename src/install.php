@@ -16,7 +16,7 @@ class EAInstallTools
 
 	function __construct()
 	{
-		$this->easy_app_db_version = '1.1.1';
+		$this->easy_app_db_version = '1.2.0';
 	}
 
 	/**
@@ -216,5 +216,12 @@ EOT;
 
 			$version = '1.1.1';
 		}
+
+		// Migrate from 1.1.1 > 1.2.0
+		if( version_compare( $version, '1.2.0', '<' )) {
+			$version = '1.2.0';
+		}
+
+		update_option( 'easy_app_db_version', $version );
 	}
 }

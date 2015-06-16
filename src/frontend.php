@@ -25,6 +25,9 @@ class EAFrontend
 
 		// add shortcode standard
 		add_shortcode('ea_standard', array($this, 'standard_app'));
+
+		// bootstrap form
+		add_shortcode('ea_bootstrap', array($this, 'ea_bootstrap'));
 	}
 
 	/**
@@ -46,10 +49,38 @@ class EAFrontend
 			true
 
 		);
-		// admin panel script
+		// frontend standard script
 		wp_register_script(
 			'ea-front-end',
 			EA_PLUGIN_URL . 'js/frontend.js',
+			array( 'jquery', 'jquery-ui-datepicker' ),
+			false,
+			true
+		);
+
+		// bootstrap script
+		wp_register_script(
+			'ea-bootstrap',
+			EA_PLUGIN_URL . 'components/bootstrap/js/bootstrap.js',
+			array(),
+			false,
+			true
+		);
+
+		// bootstrap select script
+		wp_register_script(
+			'ea-bootstrap-select',
+			EA_PLUGIN_URL . 'components/bootstrap-select/js/bootstrap-select.js',
+			array(),
+			false,
+			true
+		);
+
+
+		// frontend standard script
+		wp_register_script(
+			'ea-front-bootstrap',
+			EA_PLUGIN_URL . 'js/frontend-bootstrap.js',
 			array( 'jquery', 'jquery-ui-datepicker' ),
 			false,
 			true
@@ -60,9 +91,25 @@ class EAFrontend
 			'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css'
 		);
 
+
+		wp_register_style(
+			'ea-bootstrap',
+			EA_PLUGIN_URL . 'components/bootstrap/css/bootstrap.css'
+		);
+
+		wp_register_style(
+			'ea-bootstrap-select',
+			EA_PLUGIN_URL . 'components/bootstrap-select/css/bootstrap-select.css'
+		);
+
 		wp_register_style(
 			'ea-frontend-style',
 			EA_PLUGIN_URL . 'css/eafront.css'
+		);
+
+		wp_register_style(
+			'ea-frontend-bootstrap',
+			EA_PLUGIN_URL . 'css/eafront-bootstrap.css'
 		);
 
 		// admin style
@@ -142,9 +189,44 @@ class EAFrontend
 	}
 
 	/**
+	 * Bootstrap
+	 */
+	public function ea_bootstrap($attrs) {
+		$settings = EALogic::get_options();
+
+		if(is_array($attrs) && array_key_exists('width', $attrs)) {
+			$settings['width'] = $attrs['width'] . 'px';
+		} else {
+			$settings['width'] = '400px';
+		}
+
+		wp_localize_script( 'ea-front-bootstrap', 'ea_settings', $settings );
+
+		wp_enqueue_script( 'underscore' );
+		wp_enqueue_script( 'ea-validator' );
+		wp_enqueue_script( 'ea-bootstrap' );
+		// wp_enqueue_script( 'ea-bootstrap-select' );
+		wp_enqueue_script( 'ea-front-bootstrap' );
+		wp_enqueue_style( 'ea-bootstrap' );
+		// wp_enqueue_style( 'ea-bootstrap-select' );
+		// wp_enqueue_style( 'ea-frontend-style' );
+		wp_enqueue_style( 'ea-admin-awesome-css' );
+		wp_enqueue_style( 'ea-frontend-bootstrap' );
+
+
+		ob_start();
+
+		require EA_SRC_DIR . 'templates/ea_bootstrap.tpl.php';
+		require EA_SRC_DIR . 'templates/booking.overview.tpl.php';
+
+		?><div class="ea-bootstrap" /><?php
+		return ob_get_clean();
+	}
+
+	/**
 	 * 
 	 */
-	private function get_options($type)	
+	private function get_options($type) 
 	{
 		if(!$this->generate_next_option) {
 			return;
@@ -167,6 +249,6 @@ class EAFrontend
 			echo "<option value='{$row->id}'>{$row->name}</option>";
 		}
 
-		// $this->generate_next_option = false;
+		$this->generate_next_option = false;
 	}
 }
