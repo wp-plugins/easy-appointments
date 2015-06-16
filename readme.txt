@@ -76,15 +76,18 @@ OR
 
 == Screenshots ==
 
-1. Front end Appointment part where you can choose Appointment detail
-2. User infromation needed to complete single Appointment
-3. Admin panel - Appointments list
-4. Admin panel - Settings Location. Define your Locations
-5. Admin panel - Settings Services. Define your Services
-6. Admin panel - Settings Workers. Define your Workers
-7. Admin panel - Settings Connection. Set single combination for location, service, worker
-8. Admin panel - Customize - Email notifications
-9. Admin panel - Report - Time table overview
+1. **NEW** Responsive front end shortcode `[ea_bootstrap]` - part1
+2. **NEW** Responsive front end shortcode `[ea_bootstrap]` - part2
+3. Standard front end form for Appointment `[ea_standard]` - part1
+4. Standard front end form for Appointment `[ea_standard]` - part2
+5. Admin panel - Appointments list
+6. Admin panel - Settings Location. Define your Locations
+7. Admin panel - Settings Services. Define your Services
+8. Admin panel - Settings Workers. Define your Workers
+9. Admin panel - Settings Connection. Set single combination for location, service, worker
+10. Admin panel - Customize - Email notifications
+11. Admin panel - Customize - Label customization
+12. Admin panel - Report - Time table overview
 
 == Changelog ==
 
