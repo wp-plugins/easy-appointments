@@ -56,7 +56,7 @@
 			});
 
 			// init blur next steps
-			this.blurNextSteps(this.$element.find('.step:visible:first'));
+			this.blurNextSteps(this.$element.find('.step:visible:first'), true);
 
 			this.$element.find('.ea-submit').on('click', jQuery.proxy( plugin.finalComformation, plugin ));
 			this.$element.find('.ea-cancel').on('click', jQuery.proxy( plugin.cancelApp, plugin ));
@@ -182,7 +182,10 @@
 		getCurrentStatus: function() {
 			var options = $(this.element).find('select');
 		},
-		blurNextSteps: function( current ) {
+		blurNextSteps: function( current, dontScroll ) {
+			// check if there is scroll param
+			dontScroll = dontScroll || false;
+
 			current.removeClass('disabled');
 
 			var nextSteps = current.nextAll('.step:visible');
@@ -198,7 +201,9 @@
 
 				this.$element.find('.ui-datepicker-current-day').click();
 
-				this.scrollToElement(calendar);
+				if(!dontScroll) {
+					this.scrollToElement(calendar);
+				}
 			}
 		},
 		/**
@@ -230,7 +235,7 @@
 				});
 
 				if(response.length === 0) {
-					next_element.html('<p class="time-message">Please select another day</p>');
+					next_element.html('<p class="time-message">' + ea_settings['trans.please-select-new-date'] + '</p>');
 				}
 
 				var newRow = $(document.createElement('tr'))

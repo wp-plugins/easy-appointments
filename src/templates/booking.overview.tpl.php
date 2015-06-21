@@ -1,5 +1,5 @@
 <script type="text/template" id="ea-appointments-overview">
-	<small>Please check your appointment details below and confirm:</small>
+	<small><%= settings['trans.overview-message'] %></small>
 	<table>
 		<tbody>
 			<tr>
@@ -15,7 +15,7 @@
 				<td class="value"><%= data.worker %></td>
 			</tr>
 			<tr>
-				<td class="ea-label">Date & Time</td>
+				<td class="ea-label"><%= settings['trans.date-time'] %></td>
 				<td class="value"><%= data.date %> <%= data.time %></td>
 			</tr>
 		</tbody>

@@ -126,6 +126,8 @@ class EAFrontend
 	{
 
 		$settings = EALogic::get_options();
+		$settings['trans.please-select-new-date'] = __('Please select another day', 'easy-appointments');
+		$settings['trans.date-time'] = __('Date & time', 'easy-appointments');
 
 		wp_localize_script( 'ea-front-end', 'ea_settings', $settings );
 
@@ -169,17 +171,17 @@ class EAFrontend
 		</div>
 		<div class="step final">
 			<div class="block"></div>
-			<p class="section">Personal information</p>
-			<small>Fields with * are required</small><br>
-			<p><label>Email * : </label><input type="text" name="email" data-rule-required="true" data-rule-email="true" data-msg-email="Please enter a valid email address"></p>
-			<p><label>Name * : </label><input type="text" name="name" data-rule-required="true" data-rule-minlength="3"></p>
-			<p><label>Phone * : </label><input type="text" name="phone" data-rule-required="true" data-rule-minlength="3"></p>
+			<p class="section"><?php _e('Personal information', 'easy-appointments'); ?></p>
+			<small><?php _e('Fields with * are required', 'easy-appointments'); ?></small><br>
+			<p><label><?php _e('Email', 'easy-appointments'); ?> * : </label><input type="text" name="email" data-rule-required="true" data-rule-email="true" data-msg-required="<?php _e('This field is required.', 'easy-appointments'); ?>" data-msg-email="<?php _e('Please enter a valid email address', 'easy-appointments'); ?>"></p>
+			<p><label><?php _e('Name', 'easy-appointments'); ?> * : </label><input type="text" name="name" data-rule-required="true" data-rule-minlength="3" data-msg-required="<?php _e('This field is required.', 'easy-appointments'); ?>" data-msg-minlength="<?php _e('Please enter at least 3 characters.', 'easy-appointments'); ?>"></p>
+			<p><label><?php _e('Phone', 'easy-appointments'); ?> * : </label><input type="text" name="phone" data-rule-required="true" data-rule-minlength="3" data-msg-required="<?php _e('This field is required.', 'easy-appointments'); ?>" data-msg-minlength="<?php _e('Please enter at least 3 digits.', 'easy-appointments'); ?>"></p>
 			<textarea class="description" name="description"></textarea>
 			<br>
-			<p class="section">Booking overview</p>
+			<p class="section"><?php _e('Booking overview', 'easy-appointments'); ?></p>
 			<div id="booking-overview"></div>
-			<button class="ea-btn ea-submit">Submit</button>
-			<button class="ea-btn ea-cancel">Cancel</button>
+			<button class="ea-btn ea-submit"><?php _e('Submit', 'easy-appointments');?></button>
+			<button class="ea-btn ea-cancel"><?php _e('Cancel', 'easy-appointments');?></button>
 		</div>
 	</form>
 </div>
@@ -199,6 +201,24 @@ class EAFrontend
 		} else {
 			$settings['width'] = '400px';
 		}
+
+		$settings['trans.please-select-new-date'] = __('Please select another day', 'easy-appointments');
+		$settings['trans.personal-informations'] = __('Personal information', 'easy-appointments');
+		$settings['trans.field-required'] = __('This field is required.', 'easy-appointments');
+		$settings['trans.error-email'] = __('Please enter a valid email address', 'easy-appointments');
+		$settings['trans.error-name'] = __('Please enter at least 3 characters.', 'easy-appointments');
+		$settings['trans.error-phone'] = __('Please enter at least 3 digits.', 'easy-appointments');
+		$settings['trans.fields'] = __('Fields with * are required', 'easy-appointments');
+		$settings['trans.email'] = __('Email', 'easy-appointments');
+		$settings['trans.name'] = __('Name', 'easy-appointments');
+		$settings['trans.phone'] = __('Phone', 'easy-appointments');
+		$settings['trans.comment'] = __('Comment', 'easy-appointments');
+		$settings['trans.overview-message'] = __('Please check your appointment details below and confirm:', 'easy-appointments');
+		$settings['trans.booking-overview'] = __('Booking overview', 'easy-appointments');
+		$settings['trans.date-time'] = __('Date & time', 'easy-appointments');
+		$settings['trans.submit'] = __('Submit', 'easy-appointments');
+		$settings['trans.cancel'] = __('Cancel', 'easy-appointments');
+
 
 		wp_localize_script( 'ea-front-bootstrap', 'ea_settings', $settings );
 

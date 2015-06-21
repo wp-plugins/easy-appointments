@@ -236,11 +236,11 @@ class EALogic
 	{
 		$status = array();
 
-		$status[] = 'pending';
-		$status[] = 'reservation';
-		$status[] = 'abandoned';
-		$status[] = 'canceled';
-		$status[] = 'confirmed';
+		$status['pending'] = __('pending', 'easy-appointments');
+		$status['reservation'] = __('reservation', 'easy-appointments');
+		$status['abandoned'] = __('abandoned', 'easy-appointments');
+		$status['canceled'] = __('canceled', 'easy-appointments');
+		$status['confirmed'] = __('confirmed', 'easy-appointments');
 
 		return $status;
 	}

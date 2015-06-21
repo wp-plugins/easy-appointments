@@ -149,8 +149,8 @@ class EAAdminPanel
 		// Rename first 
 		$page_app_suffix = add_submenu_page(
 			'easy_app_top_level',
-			'Appointments',
-			'Appointments',
+			__('Appointments', 'easy-appointments'),
+			__('Appointments', 'easy-appointments'),
 			'edit_posts',
 			'easy_app_top_level',
 			array( $this, 'top_level_appointments' )
@@ -159,8 +159,8 @@ class EAAdminPanel
 		// settings
 		$page_settings_suffix = add_submenu_page(
 			'easy_app_top_level',
-			'Easy appoitments - settings',
-			'Settings',
+			__('Settings', 'easy-appointments') ,
+			__('Settings', 'easy-appointments'),
 			'edit_posts',
 			'easy_app_settings',
 			array( $this, 'top_settings_menu' )
@@ -169,8 +169,8 @@ class EAAdminPanel
 		// Overview - report
 		$page_report_suffix = add_submenu_page(
 			'easy_app_top_level',
-			'Easy appoitments - overview',
-			'Reports',
+			__('Overview', 'easy-appointments'),
+			__('Reports', 'easy-appointments'),
 			'edit_posts',
 			'easy_app_reports',
 			array( $this, 'reports_page' )

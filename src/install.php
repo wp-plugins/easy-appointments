@@ -16,7 +16,7 @@ class EAInstallTools
 
 	function __construct()
 	{
-		$this->easy_app_db_version = '1.2.0';
+		$this->easy_app_db_version = '1.2.1';
 	}
 
 	/**

@@ -47,38 +47,38 @@
 		</div>
 		<div class="step final">
 			<div class="block"></div>
-			<h3>Personal information</h3>
-			<small>Fields with * are required</small>
+			<h3><%= settings['trans.personal-informations'] %></h3>
+			<small><%= settings['trans.fields'] %></small>
 			<div class="form-group">
-				<label class="col-sm-4 control-label">Email * : </label>
+				<label class="col-sm-4 control-label"><%= settings['trans.email'] %> * : </label>
 				<div class="col-sm-8">
-					<input type="text" name="email" class="form-control" data-rule-required="true" data-rule-email="true" data-msg-email="Please enter a valid email address">
+					<input type="text" name="email" class="form-control" data-rule-required="true" data-rule-email="true" data-msg-required="<%= settings['trans.field-required'] %>" data-msg-email="<%= settings['trans.error-mail'] %>">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-4 control-label">Name * : </label>
+				<label class="col-sm-4 control-label"><%= settings['trans.name'] %> * : </label>
 				<div class="col-sm-8">
-					<input type="text" name="name" class="form-control" data-rule-required="true" data-rule-minlength="3">
+					<input type="text" name="name" class="form-control" data-rule-required="true" data-rule-minlength="3" data-msg-required="<%= settings['trans.field-required'] %>" data-msg-minlength="<%= settings['trans.error-name'] %>">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-4 control-label">Phone * : </label>
+				<label class="col-sm-4 control-label"><%= settings['trans.phone'] %> * : </label>
 				<div class="col-sm-8">
-					<input type="text" name="phone" class="form-control" data-rule-required="true" data-rule-minlength="3">
+					<input type="text" name="phone" class="form-control" data-rule-required="true" data-rule-minlength="3" data-msg-required="<%= settings['trans.field-required'] %>" data-msg-minlength="<%= settings['trans.error-phone'] %>">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-4 control-label">Comment : </label>
+				<label class="col-sm-4 control-label"><%= settings['trans.comment'] %> : </label>
 				<div class="col-sm-8">
 					<textarea name="description" class="form-control"></textarea>
 				</div>
 			</div>
-			<h3>Booking overview</h3>
+			<h3><%= settings['trans.booking-overview'] %></h3>
 			<div id="booking-overview"></div>
 			<div class="form-group">
 				<div class="col-sm-offset-4 col-sm-8">
-					<button class="ea-btn ea-submit btn btn-primary">Submit</button>
-					<button class="ea-btn ea-cancel btn btn-default">Cancel</button>
+					<button class="ea-btn ea-submit btn btn-primary"><%= settings['trans.submit'] %></button>
+					<button class="ea-btn ea-cancel btn btn-default"><%= settings['trans.cancel'] %></button>
 				</div>
 			</div>
 		</div>
