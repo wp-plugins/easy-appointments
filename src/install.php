@@ -222,6 +222,11 @@ EOT;
 			$version = '1.2.0';
 		}
 
+		// Migrate from 1.2.0- > 1.2.1
+		if( version_compare( $version, '1.2.1', '<' )) {
+			$version = '1.2.1';
+		}
+
 		update_option( 'easy_app_db_version', $version );
 	}
 }
