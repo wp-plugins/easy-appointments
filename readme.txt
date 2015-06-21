@@ -4,7 +4,7 @@ Donate link: http://nikolaloncar.com/donate/
 Tags: appointment, appointments, booking, calendar, plugin, reservation, reservations, wordpress, wp appointment
 Requires at least: 3.7
 Tested up to: 4.2.2
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -91,6 +91,10 @@ OR
 
 == Changelog ==
 
+= 1.2.1 =
+* Included label translation functions
+* Fix : init scroll
+
 = 1.2.0 =
 * New shortcode for bootstrap version of frontend form `[ea_bootstrap]`
 
@@ -109,5 +113,8 @@ OR
 
 == Upgrade Notice ==
 
+= 1.2.1 = 
+* Fixed init scroll
+
 = 1.2.0 =
-* New Responsive layout shortcode. 
+* New Responsive layout shortcode.
