@@ -68,6 +68,13 @@
 	border: 1px dotted #FFF;
 }
 
+#report-content .ui-datepicker .single-item.error-booking {
+	color: #fff;
+	background-color: black;
+	text-align: center;
+	border: 1px dotted #FFF;
+}
+
 #report-content .ui-state-default, .ui-widget-content .ui-state-default {
 	position: absolute;
 	top: 0px;

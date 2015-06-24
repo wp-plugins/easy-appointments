@@ -4,7 +4,7 @@ Donate link: http://nikolaloncar.com/donate/
 Tags: appointment, appointments, booking, calendar, plugin, reservation, reservations, wordpress, wp appointment
 Requires at least: 3.7
 Tested up to: 4.2.2
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -91,6 +91,12 @@ OR
 
 == Changelog ==
 
+= 1.2.2 = 
+* Fix timezone issue for current day
+* Fix translations issue
+* Price field in booking overview
+* Database changes (force reference integrity)
+
 = 1.2.1 =
 * Included label translation functions
 * Fix : init scroll
@@ -112,6 +118,9 @@ OR
 * First release
 
 == Upgrade Notice ==
+
+= 1.2.2 =
+* Please take upgrade with great care. There has been database changes regarding reference integrity of data. So upgrade will remove appointments/connections that don't have some key value (location, worker, service).
 
 = 1.2.1 = 
 * Fixed init scroll

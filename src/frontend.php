@@ -128,6 +128,7 @@ class EAFrontend
 		$settings = EALogic::get_options();
 		$settings['trans.please-select-new-date'] = __('Please select another day', 'easy-appointments');
 		$settings['trans.date-time'] = __('Date & time', 'easy-appointments');
+		$settings['trans.price'] = __('Price', 'easy-appointments');
 
 		wp_localize_script( 'ea-front-end', 'ea_settings', $settings );
 
@@ -218,6 +219,7 @@ class EAFrontend
 		$settings['trans.date-time'] = __('Date & time', 'easy-appointments');
 		$settings['trans.submit'] = __('Submit', 'easy-appointments');
 		$settings['trans.cancel'] = __('Cancel', 'easy-appointments');
+		$settings['trans.price'] = __('Price', 'easy-appointments');
 
 
 		wp_localize_script( 'ea-front-bootstrap', 'ea_settings', $settings );
@@ -258,15 +260,16 @@ class EAFrontend
 
 		// If there is only one result
 		if(count($rows) == 1) {
-
-			echo "<option value='{$rows[0]->id}' selected='selected'>{$rows[0]->name}</option>";
+			$price = !empty($rows[0]->price) ? " data-price='{$rows[0]->price}'" : '';
+			echo "<option value='{$rows[0]->id}' selected='selected'$price>{$rows[0]->name}</option>";
 			return;
 		}
 
 		echo "<option value='' selected='selected'>-</option>";
 
 		foreach ($rows as $row) {
-			echo "<option value='{$row->id}'>{$row->name}</option>";
+			$price = !empty($row->price) ? " data-price='{$row->price}'" : '';
+			echo "<option value='{$row->id}'$price>{$row->name}</option>";
 		}
 
 		$this->generate_next_option = false;

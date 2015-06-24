@@ -46,7 +46,7 @@ class EALogic
 		$serviceObj = $this->get_service($service);
 
 		$is_current_day = (date('Y-m-d') == $day);
-		$time_now = strtotime(date('H:i'));
+		$time_now = current_time( 'timestamp', false );
 
 		// times
 		foreach ($open_days as $working_day) {

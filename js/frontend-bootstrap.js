@@ -165,12 +165,14 @@
 				// options
 				$.each(response, function(index, element) {
 					var name = element.name;
+					var $option = $('<option value="' + element.id +'">' + name + '</option>');
 
 					if('price' in element && ea_settings['price.hide'] !== '1') {
-						name = element.name + ' - ' + element.price + ea_settings['trans.currency'];
+						$option.text(element.name + ' - ' + element.price + next_element.data('currency'));
+						$option.data('price', element.price);
 					}
 
-					next_element.append('<option value="' + element.id +'">' + name + '</option>');
+					next_element.append($option);
 				});
 
 				// enabled
@@ -274,6 +276,7 @@
 			booking_data.worker =  this.$element.find('[name="worker"] > option:selected').text();
 			booking_data.date = this.$element.find('.date').datepicker().val();
 			booking_data.time = this.$element.find('.selected-time').text();
+			booking_data.price = this.$element.find('[name="service"] > option:selected').data('price');
 
 			$.get(ea_ajaxurl, options, function(response) {
 				plugin.res_app = response.id;

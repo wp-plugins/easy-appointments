@@ -333,13 +333,19 @@
     				td.removeClass('empty-day');
     			}
 
+    			var itemElement;
     			for (var i = 0; i < slots.length; i++) {
-    				$(document.createElement('div'))
+
+    				itemElement = $(document.createElement('div'))
     					.text(slots[i].show + ' - x ' + slots[i].count	)
     					.addClass('single-item')
     					.addClass('free-items-' + slots[i].count)
     					.data('value', slots[i].value)
     					.appendTo(td);
+
+    				if(slots[i].count < 0) {
+    					itemElement.addClass('error-booking');
+    				}
     			};
     		});
     	}

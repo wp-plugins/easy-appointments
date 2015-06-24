@@ -16,7 +16,7 @@ class EAInstallTools
 
 	function __construct()
 	{
-		$this->easy_app_db_version = '1.2.1';
+		$this->easy_app_db_version = '1.2.2';
 	}
 
 	/**
@@ -33,7 +33,8 @@ class EAInstallTools
 		// 	
 		$charset_collate = $wpdb->get_charset_collate();
 
-		$table_query = array();
+		$table_querys = array();
+		$alter_querys = array();
 
 		// whole table struct
 		$table_querys[] = <<<EOT
@@ -56,7 +57,7 @@ CREATE TABLE {$table_prefix}ea_appointments (
   ip varchar(45) DEFAULT NULL,
   session varchar(32) DEFAULT NULL,
   PRIMARY KEY  (id),
-  KEY appointments_locatio (location),
+  KEY appointments_location (location),
   KEY appointments_service (service),
   KEY appointments_worker (worker)
 ) $charset_collate ;
@@ -124,13 +125,13 @@ CREATE TABLE {$table_prefix}ea_services (
 ) $charset_collate ;
 EOT;
 
-$table_querys[] = <<<EOT
+$alter_querys[] = <<<EOT
 ALTER TABLE {$table_prefix}ea_appointments
   ADD CONSTRAINT {$table_prefix}ea_appointments_ibfk_1 FOREIGN KEY (location) REFERENCES {$table_prefix}ea_locations (id) ON DELETE CASCADE,
   ADD CONSTRAINT {$table_prefix}ea_appointments_ibfk_2 FOREIGN KEY (service) REFERENCES {$table_prefix}ea_services (id) ON DELETE CASCADE,
   ADD CONSTRAINT {$table_prefix}ea_appointments_ibfk_3 FOREIGN KEY (worker) REFERENCES {$table_prefix}ea_staff (id) ON DELETE CASCADE;
 EOT;
-$table_querys[] = <<<EOT
+$alter_querys[] = <<<EOT
 ALTER TABLE {$table_prefix}ea_connections
   ADD CONSTRAINT {$table_prefix}ea_connections_ibfk_1 FOREIGN KEY (location) REFERENCES {$table_prefix}ea_locations (id) ON DELETE CASCADE,
   ADD CONSTRAINT {$table_prefix}ea_connections_ibfk_2 FOREIGN KEY (service) REFERENCES {$table_prefix}ea_services (id) ON DELETE CASCADE,
@@ -139,8 +140,14 @@ EOT;
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
+		// create structure
 		foreach ($table_querys as $table_query) {
 			dbDelta( $table_query );
+		}
+
+		// add relations
+		foreach ($alter_querys as $alter_query) {
+			$wpdb->query($alter_query);
 		}
 
 		update_option( 'easy_app_db_version', $this->easy_app_db_version );
@@ -185,6 +192,9 @@ EOT;
 	{
 		global $wpdb;
 
+		// get table prefix
+		$table_prefix = $wpdb->prefix;
+
 		$version = get_option( 'easy_app_db_version', '1.0');
 
 		// Migrate from 1.0 > 1.1
@@ -210,21 +220,57 @@ EOT;
 			$version = '1.1';
 		}
 
-		// Migrate from 1.1 > 1.1.1
-		if( version_compare( $version, '1.1.1', '<' )) {
+		// Migrate from 1.2.1- > 1.2.2
+		if( true || version_compare( $version, '1.2.2', '<' )) {
+			$version = '1.2.2';
+
+			$alter_querys = array();
+
+$alter_querys[] = <<<EOT
+ALTER TABLE {$table_prefix}ea_appointments DROP FOREIGN KEY {$table_prefix}ea_appointments_ibfk_1;
+EOT;
+$alter_querys[] = <<<EOT
+ALTER TABLE {$table_prefix}ea_appointments DROP FOREIGN KEY {$table_prefix}ea_appointments_ibfk_2;
+EOT;
+$alter_querys[] = <<<EOT
+ALTER TABLE {$table_prefix}ea_appointments DROP FOREIGN KEY {$table_prefix}ea_appointments_ibfk_3;
+EOT;
+$alter_querys[] = <<<EOT
+ALTER TABLE {$table_prefix}ea_connections DROP FOREIGN KEY {$table_prefix}ea_connections_ibfk_1;
+EOT;
+$alter_querys[] = <<<EOT
+ALTER TABLE {$table_prefix}ea_connections DROP FOREIGN KEY {$table_prefix}ea_connections_ibfk_2;
+EOT;
+$alter_querys[] = <<<EOT
+ALTER TABLE {$table_prefix}ea_connections DROP FOREIGN KEY {$table_prefix}ea_connections_ibfk_3;
+EOT;
+
+$alter_querys[] = <<<EOT
+DELETE FROM {$table_prefix}ea_connections 
+WHERE 
+	location NOT IN (SELECT id FROM {$table_prefix}ea_locations)
+	OR
+	service NOT IN (SELECT id FROM {$table_prefix}ea_services)
+	OR
+	worker NOT IN (SELECT id FROM {$table_prefix}ea_staff);
+EOT;
+
+$alter_querys[] = <<<EOT
+DELETE FROM {$table_prefix}ea_appointments 
+WHERE 
+	location NOT IN (SELECT id FROM {$table_prefix}ea_locations)
+	OR
+	service NOT IN (SELECT id FROM {$table_prefix}ea_services)
+	OR
+	worker NOT IN (SELECT id FROM {$table_prefix}ea_staff);
+EOT;
+
+			// add relations
+			foreach ($alter_querys as $alter_query) {
+				$wpdb->query($alter_query);
+			}
+
 			$this->init_db();
-
-			$version = '1.1.1';
-		}
-
-		// Migrate from 1.1.1 > 1.2.0
-		if( version_compare( $version, '1.2.0', '<' )) {
-			$version = '1.2.0';
-		}
-
-		// Migrate from 1.2.0- > 1.2.1
-		if( version_compare( $version, '1.2.1', '<' )) {
-			$version = '1.2.1';
 		}
 
 		update_option( 'easy_app_db_version', $version );
