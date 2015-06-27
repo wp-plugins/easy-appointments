@@ -94,6 +94,7 @@ OR
 
 = 1.2.3 =
 * Fix translations issue, not including mo files
+* Fix bug with db update in 1.2.2 version.
 
 = 1.2.2 = 
 * Fix timezone issue for current day
