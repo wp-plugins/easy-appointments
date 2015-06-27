@@ -61,6 +61,10 @@ class EasyAppointment
 
 	public function update()
 	{
+		// register domain
+		$this->register_text_domain();
+
+		// update database
 		require_once EA_SRC_DIR . 'install.php';
 
 		$tools = new EAInstallTools();
@@ -69,7 +73,7 @@ class EasyAppointment
 
 	public function register_text_domain()
 	{
-		load_plugin_textdomain( 'easy-appointments', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'easy-appointments', FALSE, basename(dirname( __FILE__ )) . '/languages/' );
 	}
 }
 
