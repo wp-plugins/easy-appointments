@@ -42,7 +42,7 @@ class EAAdminPanel
 		wp_register_script(
 			'ea-settings',
 			EA_PLUGIN_URL . 'js/admin.prod.js',
-			array( 'jquery', 'backbone', 'underscore', 'time-picker' ),
+			array( 'jquery', 'ea-datepicker-localization', 'backbone', 'underscore', 'time-picker' ),
 			false,
 			true
 		);
@@ -51,7 +51,7 @@ class EAAdminPanel
 		wp_register_script(
 			'ea-appointments',
 			EA_PLUGIN_URL . 'js/settings.prod.js',
-			array( 'jquery', 'backbone', 'underscore', 'jquery-ui-datepicker', 'time-picker' ),
+			array( 'jquery', 'ea-datepicker-localization', 'backbone', 'underscore', 'jquery-ui-datepicker', 'time-picker' ),
 			false,
 			true
 		);
@@ -60,7 +60,15 @@ class EAAdminPanel
 		wp_register_script(
 			'ea-report',
 			EA_PLUGIN_URL . 'js/report.prod.js',
-			array( 'jquery', 'backbone', 'underscore', 'time-picker' ),
+			array( 'jquery', 'ea-datepicker-localization', 'backbone', 'underscore', 'time-picker'),
+			false,
+			true
+		);
+
+		wp_register_script(
+			'ea-datepicker-localization',
+			'http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/jquery-ui-i18n.min.js',
+			array( 'jquery' ),
 			false,
 			true
 		);
@@ -186,6 +194,9 @@ class EAAdminPanel
 	 */
 	public function top_level_appointments()
 	{
+		$settings = EALogic::get_options();
+		wp_localize_script( 'ea-appointments', 'ea_settings', $settings );
+
 		$screen = get_current_screen();
 		$screen->add_help_tab( array(
 			 'id'       => 'easyapp_settings_help'
@@ -204,6 +215,9 @@ class EAAdminPanel
 	 */
 	public function reports_page()
 	{
+		$settings = EALogic::get_options();
+		wp_localize_script( 'ea-report', 'ea_settings', $settings );
+
 		$screen = get_current_screen();
 		$screen->add_help_tab( array(
 			 'id'       => 'easyapp_settings_help'
@@ -223,6 +237,9 @@ class EAAdminPanel
 	 */
 	public function top_settings_menu()
 	{
+		$settings = EALogic::get_options();
+		wp_localize_script( 'ea-settings', 'ea_settings', $settings );
+
 		$screen = get_current_screen();
 		$screen->add_help_tab( array(
 			 'id'       => 'easyapp_settings_help'

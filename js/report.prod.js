@@ -239,6 +239,8 @@
     	},
 
     	initialize: function () {
+    		jQuery.datepicker.setDefaults( $.datepicker.regional[ea_settings.datepicker] );
+
     		this.render();
     	},
 
@@ -251,7 +253,7 @@
 
     		this.$el.find('.datepicker').datepicker({
     			firstDay: 1,
-    			dayNamesMin: [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ],
+    			dayNamesMin: $.datepicker.regional[ea_settings.datepicker].dayNames,
     			onChangeMonthYear: function(year, month, widget) {
     				view.selectChange(month, year);
     			},
@@ -346,7 +348,7 @@
     				if(slots[i].count < 0) {
     					itemElement.addClass('error-booking');
     				}
-    			};
+    			}
     		});
     	}
     });

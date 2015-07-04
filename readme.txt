@@ -4,7 +4,7 @@ Donate link: http://nikolaloncar.com/donate/
 Tags: appointment, appointments, booking, calendar, plugin, reservation, reservations, wordpress, wp appointment
 Requires at least: 3.7
 Tested up to: 4.2.2
-Stable tag: 1.2.3
+Stable tag: 1.2.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,10 +21,11 @@ Can be used for : <strong>Lawyers</strong>, <strong>Salons</strong>, <strong>Mec
 1. Multiple location
 2. Multiple services
 3. Multiple workers
-4. Extrimliy flexible time table
+4. Extremely flexible time table
 5. Email notifications
-6. **NEW** Responsive Bootstrap Layout for Appointment form  - new shorcode `[ea_bootstrap]
-7. **NEW** Internationalization - support for translations
+6. Responsive Bootstrap Layout for Appointment form  - new shorcode `[ea_bootstrap]
+7. Internationalization - support for translations
+8. **NEW** Localization of datepicker for 74 different languages
 
 = Live Demo = 
 <a href="http://nikolaloncar.com/demo/easy-appointments/">**Standard Appointment form**</a><br>
@@ -92,9 +93,13 @@ OR
 
 == Changelog ==
 
+= 1.2.4 =
+* Localization of datepicker for 74 different languages
+* Fix issue with phone that starts with 0
+
 = 1.2.3 =
 * Fix translations issue, not including mo files
-* Fix bug with db update in 1.2.2 version.
+* Fix bug with db update in 1.2.2 version
 
 = 1.2.2 = 
 * Fix timezone issue for current day

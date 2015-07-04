@@ -149,13 +149,21 @@ class EAAjax
 		$data['session'] = session_id();
 
 		if(!$logic->can_make_reservation($data['ip'])) {
-			$this->send_err_json_result('{"err":true, "message":"Limit reach!"}');
+			$resp = array(
+				'err' => true,
+				'message' => __('Daily limit of booking request has been reached. Please contact us by email!', 'easy-appointments')
+			);
+			$this->send_err_json_result(json_encode($resp));
 		}
 
 		$response = $this->models->replace( $table, $data, true );
-		
+
 		if($response == false) {
-			$this->send_err_json_result('{"err":true, "message":"Something went wrong!"}');
+			$resp = array(
+				'err' => true,
+				'message' => __("Something went wrong! Please try again.", 'easy-appointments')
+			);
+			$this->send_err_json_result(json_encode($resp));
 		}
 
 		$this->send_ok_json_result($response);

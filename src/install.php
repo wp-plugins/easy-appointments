@@ -16,7 +16,7 @@ class EAInstallTools
 
 	function __construct()
 	{
-		$this->easy_app_db_version = '1.2.3';
+		$this->easy_app_db_version = '1.2.4';
 	}
 
 	/**
@@ -176,7 +176,8 @@ EOT;
 			array('ea_key' => 'time_format','ea_value' => '00-24','type' => 'default'),
 			array('ea_key' => 'trans.currency','ea_value' => '$','type' => 'default'),
 			array('ea_key' => 'pending.email','ea_value' => '','type' => 'default'),
-			array('ea_key' => 'price.hide','ea_value' => '0','type' => 'default')
+			array('ea_key' => 'price.hide','ea_value' => '0','type' => 'default'),
+			array('ea_key' => 'datepicker','ea_value' => 'en-US','type' => 'default')
 		);
 
 		// insert options
@@ -273,9 +274,23 @@ EOT;
 			$this->init_db();
 		}
 
-		// Migrate from 1.2.2- > 1.2.3
+		// Migrate from 1.2.2 > 1.2.3
 		if(version_compare( $version, '1.2.3', '<' )) {
 			$version = '1.2.3';
+		}
+
+		// Migrate form 1.2.3 > 1.2.4
+		if(version_compare( $version, '1.2.4', '<')) {
+			$option = array('ea_key' => 'datepicker','ea_value' => 'en-US','type' => 'default');
+
+			$table_name = $wpdb->prefix . 'ea_options';
+
+			$wpdb->insert(
+				$table_name,
+				$option
+			);
+
+			$version = '1.2.4';
 		}
 
 		update_option( 'easy_app_db_version', $version );

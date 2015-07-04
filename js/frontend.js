@@ -1,7 +1,7 @@
 ;(function ( $, window, document, undefined ) {
-	
+
 	var pluginName = "eaStandard",
-	
+
 	defaults = {
 		overview_selector: "#ea-appointments-overview",
 		overview_template: null
@@ -27,16 +27,17 @@
 			this.settings.overview_template = _.template($(this.settings.overview_selector).html());
 
 			this.$element.find('form').validate();
-
 			// select change event
 			this.$element.find('select').change(jQuery.proxy( this.getNextOptions, this ));
+
+			jQuery.datepicker.setDefaults( $.datepicker.regional[ea_settings.datepicker] );
 
 			// datePicker
 			this.$element.find('.date').datepicker({
 				onSelect : jQuery.proxy( plugin.dateChange, plugin ),
 				dateFormat : 'yy-mm-dd',
 				minDate: 0,
-				firstDay: 1
+				firstDay: 1,
 			});
 
 			// hide options with one choiche
@@ -139,7 +140,7 @@
 				return;
 			}
 
-			options['next'] = next.data('c');
+			options.next = next.data('c');
 
 			this.callServer( options, next );
 		},
@@ -149,7 +150,7 @@
 		callServer : function( options, next_element ) {
 			var plugin = this;
 
-			options['action'] = 'next_step';
+			options.action = 'next_step';
 
 			$.get(ea_ajaxurl, options, function(response) {
 				next_element.empty();
@@ -215,8 +216,8 @@
 
 			var options = this.getPrevousOptions(calendar);
 
-			options['action'] = 'date_selected';
-			options['date'] = dateString;
+			options.action = 'date_selected';
+			options.date = dateString;
 
 			$.get(ea_ajaxurl, options, function(response) {
 
@@ -256,7 +257,7 @@
 				date : this.$element.find('.date').datepicker().val(),
 				start : this.$element.find('.selected-time').data('val'),
 				action : 'res_appointment'
-			}
+			};
 
 			// for booking overview
 			var booking_data = {};
@@ -283,7 +284,10 @@
 
 				$('#booking-overview').html(overview_content);
 
-			}, 'json');
+			}, 'json')
+			.fail(function(response) {
+				alert(response.responseJSON.message);
+			});
 		},
 		/**
 		 * Comform appointment
@@ -306,9 +310,9 @@
 				phone : this.$element.find('[name="phone"]').val(),
 				description : this.$element.find('[name="description"]').datepicker().val(),
 				id : this.res_app
-			}
+			};
 
-			options['action'] = 'final_appointment';
+			options.action = 'final_appointment';
 
 			$.get(ea_ajaxurl, options, function(response) {
 				plugin.$element.find('.ea-submit').hide();
@@ -330,7 +334,7 @@
 			var options = {
 				id : this.res_app,
 				action : 'cancel_appointment'
-			}
+			};
 
 			$.get(ea_ajaxurl, options, function(response) {
 				if(response.data) {

@@ -1076,6 +1076,8 @@
         workers : null,
 
         initialize: function () {
+            jQuery.datepicker.setDefaults( $.datepicker.regional[ea_settings.datepicker] );
+
             // Empty array of connections
             this.collection = new EA.Connections();
 
@@ -1224,7 +1226,6 @@
         },
 
         render: function () {
-
             this.$el.empty(); // clear the element to make sure you don't double your contact view
 
             var content = this.template( { settings : this.collection.toJSON() } );

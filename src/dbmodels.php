@@ -123,7 +123,11 @@ class EADBModels
 				continue;
 			}
 
-			$types[] = ( is_numeric($value) ) ? '%d' : '%s';
+			if(strlen($value) > 0 && substr($value, 0, 1) == '0') {
+				$types[] = '%s';
+			} else {
+				$types[] = ( is_numeric($value) ) ? '%d' : '%s';
+			}
 		}
 
 		$return = $this->db->replace(

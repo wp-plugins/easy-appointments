@@ -36,6 +36,8 @@
 			// select change event
 			this.$element.find('select').change(jQuery.proxy( this.getNextOptions, this ));
 
+			jQuery.datepicker.setDefaults( $.datepicker.regional[ea_settings.datepicker] );
+
 			// datePicker
 			this.$element.find('.date').datepicker({
 				onSelect : jQuery.proxy( plugin.dateChange, plugin ),
@@ -144,7 +146,7 @@
 				return;
 			}
 
-			options['next'] = next.data('c');
+			options.next = next.data('c');
 
 			this.callServer( options, next );
 		},
@@ -154,7 +156,7 @@
 		callServer : function( options, next_element ) {
 			var plugin = this;
 
-			options['action'] = 'next_step';
+			options.action = 'next_step';
 
 			$.get(ea_ajaxurl, options, function(response) {
 				next_element.empty();
@@ -220,8 +222,8 @@
 
 			var options = this.getPrevousOptions(calendarEl);
 
-			options['action'] = 'date_selected';
-			options['date'] = dateString;
+			options.action = 'date_selected';
+			options.date = dateString;
 
 			$.get(ea_ajaxurl, options, function(response) {
 
@@ -267,7 +269,7 @@
 				date : this.$element.find('.date').datepicker().val(),
 				start : this.$element.find('.selected-time').data('val'),
 				action : 'res_appointment'
-			}
+			};
 
 			// for booking overview
 			var booking_data = {};
@@ -293,7 +295,10 @@
 
 				plugin.$element.find('#booking-overview').html(overview_content);
 
-			}, 'json');
+			}, 'json')
+			.fail(function(response) {
+				alert(response.responseJSON.message);
+			});
 		},
 		/**
 		 * Comform appointment
@@ -316,9 +321,9 @@
 				phone : this.$element.find('[name="phone"]').val(),
 				description : this.$element.find('[name="description"]').datepicker().val(),
 				id : this.res_app
-			}
+			};
 
-			options['action'] = 'final_appointment';
+			options.action = 'final_appointment';
 
 			$.get(ea_ajaxurl, options, function(response) {
 				plugin.$element.find('.ea-submit').hide();
@@ -340,7 +345,7 @@
 			var options = {
 				id : this.res_app,
 				action : 'cancel_appointment'
-			}
+			};
 
 			$.get(ea_ajaxurl, options, function(response) {
 				if(response.data) {

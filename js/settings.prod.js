@@ -214,6 +214,8 @@
     	},
 
     	initialize: function () {
+    		jQuery.datepicker.setDefaults( $.datepicker.regional[ea_settings.datepicker] );
+
     		// Empty array of connections
     		this.collection = new EA.Appointments();
 
@@ -251,7 +253,7 @@
     		// From datepicker
     		this.$el.find('#ea-filter-from').datepicker({
     			dateFormat: 'yy-mm-dd'
-    		})
+    		});
 
     		this.$el.find('#ea-filter-from').datepicker('setDate', this.getMonday(new Date()));
 

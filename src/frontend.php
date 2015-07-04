@@ -47,13 +47,21 @@ class EAFrontend
 			array( 'jquery' ),
 			false,
 			true
-
 		);
+
+		wp_register_script(
+			'ea-datepicker-localization',
+			'http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/jquery-ui-i18n.min.js',
+			array( 'jquery', 'jquery-ui-datepicker' ),
+			false,
+			true
+		);
+
 		// frontend standard script
 		wp_register_script(
 			'ea-front-end',
 			EA_PLUGIN_URL . 'js/frontend.js',
-			array( 'jquery', 'jquery-ui-datepicker' ),
+			array( 'jquery', 'jquery-ui-datepicker', 'ea-datepicker-localization' ),
 			false,
 			true
 		);
@@ -67,21 +75,11 @@ class EAFrontend
 			true
 		);
 
-		// bootstrap select script
-		wp_register_script(
-			'ea-bootstrap-select',
-			EA_PLUGIN_URL . 'components/bootstrap-select/js/bootstrap-select.js',
-			array(),
-			false,
-			true
-		);
-
-
 		// frontend standard script
 		wp_register_script(
 			'ea-front-bootstrap',
 			EA_PLUGIN_URL . 'js/frontend-bootstrap.js',
-			array( 'jquery', 'jquery-ui-datepicker' ),
+			array( 'jquery', 'jquery-ui-datepicker', 'ea-datepicker-localization' ),
 			false,
 			true
 		);
@@ -135,6 +133,7 @@ class EAFrontend
 		wp_enqueue_script( 'underscore' );
 		wp_enqueue_script( 'ea-validator' );
 		wp_enqueue_script( 'ea-front-end' );
+		//wp_enqueue_script( 'ea-datepicker-localization' );
 		wp_enqueue_style( 'jquery-style' );
 		wp_enqueue_style( 'ea-frontend-style' );
 		wp_enqueue_style( 'ea-admin-awesome-css' );
@@ -146,7 +145,7 @@ class EAFrontend
 
 		?>
 <script type="text/javascript">
-	var ea_ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
+	var ea_ajaxurl = "<?php echo admin_url('admin-ajax.php'); ?>";
 </script>
 <div class="ea-standard">
 	<form>
@@ -221,12 +220,12 @@ class EAFrontend
 		$settings['trans.cancel'] = __('Cancel', 'easy-appointments');
 		$settings['trans.price'] = __('Price', 'easy-appointments');
 
-
 		wp_localize_script( 'ea-front-bootstrap', 'ea_settings', $settings );
 
 		wp_enqueue_script( 'underscore' );
 		wp_enqueue_script( 'ea-validator' );
 		wp_enqueue_script( 'ea-bootstrap' );
+		// wp_enqueue_script( 'ea-datepicker-localization' );
 		// wp_enqueue_script( 'ea-bootstrap-select' );
 		wp_enqueue_script( 'ea-front-bootstrap' );
 		wp_enqueue_style( 'ea-bootstrap' );

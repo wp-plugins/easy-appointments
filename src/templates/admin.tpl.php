@@ -497,6 +497,25 @@
 						</select>
 					</td>
 				</tr>
+				<tr>
+					<th class="row">
+						<label><?php _e('Calendar localization', 'easy-appointments');?> :</label>
+					</th>
+					<td>
+						<select data-key="datepicker" class="field" name="datepicker">
+					<% var langs = [
+						'af','ar','ar-DZ','az','be','bg','bs','ca','cs','cy-GB','da','de','el','en','en-AU','en-GB','en-NZ','en-US','eo','es','et','eu','fa','fi','fo','fr','fr-CA','fr-CH','gl','he','hi','hr','hu','hy','id','is','it','it-CH','ja','ka','kk','km','ko','ky','lb','lt','lv','mk','ml','ms','nb','nl','nl-BE','nn','no','pl','pt','pt-BR','rm','ro','ru','sk','sl','sq','sr','sr-SR','sv','ta','th','tj','tr','uk','vi','zh-CN','zh-HK','zh-TW'
+					];
+					_.each(langs,function(item,key,list){
+						if(_.findWhere(settings, {ea_key:'datepicker'}).ea_value === item) { %>
+							<option value="<%= item %>" selected="selected"><%= item %></option>
+						<% } else { %>
+							<option value="<%= item %>"><%= item %></option>
+						<% }
+						});%>
+						</select>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 		<h2>Money</h2>
