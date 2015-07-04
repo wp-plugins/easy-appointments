@@ -1,0 +1,144 @@
+.ea-standard {
+	width: 375px;
+	font-size: 1.2em;
+}
+
+.ea-standard .ui-datepicker {
+	width: auto;
+}
+
+.ea-standard .step {
+	width: 100%;
+	padding-top: 7px;
+	padding-bottom: 7px;
+	padding-left: 7px;
+	padding-right: 7px;
+	position: relative;
+}
+
+.ea-standard .step label {
+	padding-right: 10px;
+	text-align: right;
+	display: inline-block;
+	width: 30%;
+}
+
+.ea-standard .step input {
+	margin-top: 5px;
+	width: 60%;
+}
+
+.ea-standard .step select {
+	width: 60%;
+}
+
+.ea-standard .step textarea {
+	width: 100%;
+	margin-top: 5px;
+	height: 100px;
+}
+
+.ea-standard .step .date .ui-datepicker-week-end {
+
+}
+
+.ea-standard .time-message {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 30px;
+}
+
+.ea-standard .disabled .block {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	opacity: 0.6;
+	background-color: white;
+	z-index: 1000000;
+}
+
+.ea-standard .time {
+	border: 1px solid #ccc;
+	min-height: 100px;
+}
+
+.ea-standard .time-value {
+	display: inline-block;
+	width: 20%;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-align: center;
+	vertical-align: middle;
+	border: 1px dotted #ccc;
+}
+
+.ea-standard .time-disabled {
+	cursor: default;
+	display: inline-block;
+	width: 20%;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-align: center;
+	vertical-align: middle;
+	border: 1px dotted #ccc;
+	background-color: #ccc;
+}
+
+.ea-standard .selected-time {
+	background-color: green;
+	color: white;
+}
+
+.ea-standard .time-value:hover {
+	background-color: #CCC;
+	cursor: pointer;
+}
+
+.ea-standard .description {
+	margin-bottom: 8px;
+}
+
+.ea-standard .section {
+	color: #008000;
+}
+
+.ea-standard #booking-overview {
+	padding-top: 5px;
+}
+
+.ea-standard #booking-overview td, .ea-standard #booking-overview th {
+	font-size: 0.8em;
+}
+
+.ea-standard #booking-overview .ea-label {
+	opacity: 0.6;
+	width: 40%;
+}
+
+.ea-standard #booking-overview .value {
+	text-align: right;
+}
+
+.ea-standard #booking-overview small {
+	display: block;
+}
+
+.ea-cancel {
+	margin-left: 110px;
+}
+
+label.error {
+	width: 100% !important;
+	color: red;
+}
+
+input.error {
+	border-color: red;
+}
+
+.final p {
+	margin-bottom: 0;
+}
