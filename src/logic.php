@@ -309,12 +309,12 @@ class EALogic
 		global $wpdb;
 
 		$dbmodels = new EADBModels();
-		
+
 		$table_name = 'ea_appointments';
-		
+
 		$app = $dbmodels->get_row( $table_name, $app_id );
 
-		$app_array = $dbmodels->get_row( $table_name, $app_id, ARRAY_A );
+		$app_array = $dbmodels->get_appintment_by_id( $app_id );
 
 		$params = array();
 		
@@ -340,14 +340,21 @@ class EALogic
 			return;
 		}
 
+		$dbmodels = new EADBModels();
+
 		$app_id = $data['id'];
-		$body = '';
 
-		foreach ($data as $key => $value) {
-			$body .= $value . "\r\n";
-		}
+		$data = $dbmodels->get_appintment_by_id( $app_id);
 
-		wp_mail( $emails, 'New Reservation #' . $app_id, $body );
+		ob_start();
+
+		require EA_SRC_DIR . 'templates/mail.notification.tpl.php';
+
+		$mail_content = ob_get_clean();
+
+		$headers = array('Content-Type: text/html; charset=UTF-8');
+
+		wp_mail( $emails, __('New Reservation #', 'easy-appointments') . $app_id, $mail_content, $headers );
 	}
 
 	/**

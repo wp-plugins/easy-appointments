@@ -70,7 +70,7 @@
 			<div class="form-group">
 				<label class="col-sm-4 control-label"><%= settings['trans.comment'] %> : </label>
 				<div class="col-sm-8">
-					<textarea name="description" class="form-control"></textarea>
+					<textarea name="description" class="form-control" style="height: auto;"></textarea>
 				</div>
 			</div>
 			<h3><%= settings['trans.booking-overview'] %></h3>

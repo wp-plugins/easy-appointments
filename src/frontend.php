@@ -92,7 +92,7 @@ class EAFrontend
 
 		wp_register_style(
 			'ea-bootstrap',
-			EA_PLUGIN_URL . 'components/bootstrap/css/bootstrap.css'
+			EA_PLUGIN_URL . 'components/bootstrap/ea-css/bootstrap.css'
 		);
 
 		wp_register_style(
@@ -240,7 +240,7 @@ class EAFrontend
 		require EA_SRC_DIR . 'templates/ea_bootstrap.tpl.php';
 		require EA_SRC_DIR . 'templates/booking.overview.tpl.php';
 
-		?><div class="ea-bootstrap" /><?php
+		?><div class="ea-bootstrap bootstrap" /><?php
 		return ob_get_clean();
 	}
 

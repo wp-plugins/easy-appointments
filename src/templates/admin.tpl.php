@@ -403,7 +403,7 @@
 	<div class="wp-filter">
 		<h2><?php _e('Mail', 'easy-appointments');?> : </h2>
 		<h3><?php _e('Notifications', 'easy-appointments');?></h3>
-		<p class="notifications-help"><?php _e('You can use this tags inside email content', 'easy-appointments');?> : <strong>#name#, #email#, #address#</strong></p>
+		<p class="notifications-help"><?php _e('You can use this tags inside email content', 'easy-appointments');?> : <strong>#id#, #name#, #email#, #phone#, #date#, #start#, #end#, #description#, #status#, #created#, #price#, #ip#, #service_name#, #worker_name#, #location_name#</strong></p>
 		<table class='notifications form-table'>
 			<tbody>
 				<tr>
@@ -443,7 +443,7 @@
 				</tr>
 			</tbody>
 		</table>
-		<h2>Translation: </h2>
+		<h2><?php _e('Labels', 'easy-appointments');?>:</h2>
 		<table class="form-table form-table-translation">
 			<tbody>
 				<tr>

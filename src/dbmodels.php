@@ -226,4 +226,41 @@ class EADBModels
 
 		return in_array($table_name, $tables);
 	}
+
+	/**
+	 * 
+	 */
+	public function get_appintment_by_id($id)
+	{
+		global $wpdb;
+
+		$table_app       = $this->db->prefix . 'ea_appointments';
+		$table_services  = $this->db->prefix . 'ea_services';
+		$table_workers   = $this->db->prefix . 'ea_staff';
+		$table_locations = $this->db->prefix . 'ea_locations';
+
+		$query = $this->db->prepare("SELECT 
+				a.*,
+				s.name AS service_name,
+				w.name AS worker_name,
+				l.name AS location_name
+			FROM 
+				{$table_app} a 
+			JOIN 
+				{$table_services} s
+				ON(a.service = s.id)
+			JOIN 
+				{$table_locations} l
+				ON(a.location = l.id)
+			JOIN 
+				{$table_workers} w
+				ON(a.worker = w.id)
+			WHERE a.id = %d", $id);
+
+		$results = $this->db->get_results($query, ARRAY_A);
+
+		if(count($results) == 1) {
+			return $results[0];
+		}
+	}
 }

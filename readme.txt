@@ -4,7 +4,7 @@ Donate link: http://nikolaloncar.com/donate/
 Tags: appointment, appointments, booking, calendar, plugin, reservation, reservations, wordpress, wp appointment
 Requires at least: 3.7
 Tested up to: 4.2.2
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,8 +93,13 @@ OR
 
 == Changelog ==
 
+= 1.2.5 =
+* Fix bootstrap issue that change style on whole page
+* New tags for email notification
+* Improved style of new appointment notification
+
 = 1.2.4 =
-* Localization of datepicker for 74 different languages
+* Localization of datepicker for 77 different languages
 * Fix issue with phone that starts with 0
 
 = 1.2.3 =
@@ -128,6 +133,13 @@ OR
 * First release
 
 == Upgrade Notice ==
+
+= 1.2.5 = 
+* Please check bootstrap widget if you using it. There has been changes on style part.
+
+= 1.2.4 =
+* Localization of datepicker for 77 different languages
+* Fix issue with phone that starts with 0
 
 = 1.2.3 =
 * Fix translation issue with mo files. In order to use localization, place *.mo files into languages dir inside plugin dir.
