@@ -124,6 +124,8 @@ class EAFrontend
 	{
 
 		$settings = EALogic::get_options();
+
+		$settings['scroll_off'] = $this->defaultSettings($attrs, 'scroll_off', false);
 		$settings['trans.please-select-new-date'] = __('Please select another day', 'easy-appointments');
 		$settings['trans.date-time'] = __('Date & time', 'easy-appointments');
 		$settings['trans.price'] = __('Price', 'easy-appointments');
@@ -196,11 +198,9 @@ class EAFrontend
 	public function ea_bootstrap($attrs) {
 		$settings = EALogic::get_options();
 
-		if(is_array($attrs) && array_key_exists('width', $attrs)) {
-			$settings['width'] = $attrs['width'] . 'px';
-		} else {
-			$settings['width'] = '400px';
-		}
+		$settings['width'] = $this->defaultSettings($attrs, 'width', '400px');
+		$settings['scroll_off'] = $this->defaultSettings($attrs, 'scroll_off', false);
+		$settings['layout_cols'] = $this->defaultSettings($attrs, 'layout_cols', '1');
 
 		$settings['trans.please-select-new-date'] = __('Please select another day', 'easy-appointments');
 		$settings['trans.personal-informations'] = __('Personal information', 'easy-appointments');
@@ -242,6 +242,18 @@ class EAFrontend
 
 		?><div class="ea-bootstrap bootstrap" /><?php
 		return ob_get_clean();
+	}
+
+	/**
+	 * 
+	 */
+	private function defaultSettings($params, $key, $default)
+	{
+		if(is_array($params) && array_key_exists($key, $params)) {
+			return $params[$key];
+		}
+
+		return $default;
 	}
 
 	/**

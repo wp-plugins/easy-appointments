@@ -194,6 +194,11 @@
 
 			var nextSteps = current.nextAll('.step:visible');
 
+			var nextParentSteps = current.parent().nextAll('.step:visible');
+
+			$.merge(nextSteps, nextParentSteps);
+			// find all next steps in secound column
+
 			nextSteps.each(function(index, element){
 				$(element).addClass('disabled');
 			});
@@ -340,7 +345,8 @@
 
 			var plugin = this;
 
-			this.$element.find('.final').addClass('disabled').prevAll('.step').removeClass('disabled');
+			this.$element.find('.final').addClass('disabled');
+			this.$element.find('.step:not(.final)').prevAll('.step').removeClass('disabled');
 
 			var options = {
 				id : this.res_app,
@@ -357,8 +363,12 @@
 
 				}
 			}, 'json');
-		}, 
+		},
 		scrollToElement : function(element) {
+			if(ea_settings.scroll_off === 'true') {
+				return;
+			}
+
 			$('html, body').animate({
 				scrollTop: ( element.offset().top - 20 )
 			}, 500);

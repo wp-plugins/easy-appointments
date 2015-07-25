@@ -1,9 +1,12 @@
 <script type="text/javascript">
-	var ea_ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
+	var ea_ajaxurl = '<?php echo admin_url("admin-ajax.php"); ?>';
 </script>
 <script type="text/template" id="ea-bootstrap-main">
-<div class="ea-bootstrap" style="max-width: <%= settings.width %>">
+<div class="ea-bootstrap" style="max-width: <%= settings.width %>;">
 	<form class="form-horizontal">
+		<% if (settings.layout_cols === '2') { %>
+		<div class="col-md-6" style="padding-top: 25px;">
+		<% } %>
 		<div class="step form-group">
 			<div class="block"></div>
 			<label class="ea-label col-sm-4 control-label">
@@ -45,7 +48,12 @@
 			<div class="block"></div>
 			<div class="time"></div>
 		</div>
+		<% if (settings.layout_cols === '2') { %>
+		</div>
+		<div class="step final col-md-6">
+		<% } else { %>
 		<div class="step final">
+		<% } %>
 			<div class="block"></div>
 			<h3><%= settings['trans.personal-informations'] %></h3>
 			<small><%= settings['trans.fields'] %></small>
