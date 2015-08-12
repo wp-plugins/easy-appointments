@@ -2,25 +2,25 @@
 	<small><%= settings['trans.overview-message'] %></small>
 	<table>
 		<tbody>
-			<tr>
+			<tr class="row-location">
 				<td class="ea-label"><%= settings['trans.location'] %></td>
 				<td class="value"><%= data.location %></td>
 			</tr>
-			<tr>
+			<tr class="row-service">
 				<td class="ea-label"><%= settings['trans.service'] %></td>
 				<td class="value"><%= data.service%></td>
 			</tr>
-			<tr>
+			<tr class="row-worker">
 				<td class="ea-label"><%= settings['trans.worker'] %></td>
 				<td class="value"><%= data.worker %></td>
 			</tr>
 			<% if (settings['price.hide'] !== '1') { %>
-			<tr>
+			<tr class="row-price">
 				<td class="ea-label"><%= settings['trans.price'] %></td>
 				<td class="value"><%= data.price %> <%= settings['trans.currency'] %></td>
 			</tr>
 			<% } %>
-			<tr>
+			<tr class="row-datetime">
 				<td class="ea-label"><%= settings['trans.date-time'] %></td>
 				<td class="value"><%= data.date %> <%= data.time %></td>
 			</tr>

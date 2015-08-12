@@ -208,3 +208,14 @@
 .ea-bootstrap input.error {
 	border-color: red;
 }
+
+#ea-loader {
+	background-image: url('../img/ajax-loader.gif');
+	background-position: 50% 50%;
+	position: absolute;
+	width: 25px;
+	height: 25px;
+	background-repeat: no-repeat;
+	background-color: rgba(255, 255, 255, 0.1);
+	display: none;
+}

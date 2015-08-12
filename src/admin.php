@@ -151,7 +151,7 @@ class EAAdminPanel
 			'easy_app_top_level',
 			null,
 			'dashicons-calendar-alt',
-			10
+			'10.842015'
 		);
 
 		// Rename first 

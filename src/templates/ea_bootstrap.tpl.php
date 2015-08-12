@@ -92,4 +92,5 @@
 		</div>
 	</form>
 </div>
+<div id="ea-loader"></div>
 </script>

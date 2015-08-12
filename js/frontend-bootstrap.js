@@ -158,6 +158,8 @@
 
 			options.action = 'next_step';
 
+			this.placeLoader(next_element.parent());
+
 			$.get(ea_ajaxurl, options, function(response) {
 				next_element.empty();
 
@@ -180,8 +182,23 @@
 				// enabled
 				next_element.closest('.step').removeClass('disabled');
 
+				plugin.removeLoader();
+
 				plugin.scrollToElement(next_element.parent());
 			}, 'json');
+		},
+		placeLoader: function($element) {
+			var width = $element.width();
+			var height = $element.height();
+			$('#ea-loader').prependTo($element);
+			$('#ea-loader').css({
+				'width': width,
+				'height': height
+			});
+			$('#ea-loader').show();
+		},
+		removeLoader: function(){
+			$('#ea-loader').hide();
 		},
 		getCurrentStatus: function() {
 			var options = $(this.element).find('select');
@@ -219,7 +236,7 @@
 		 * Change of date - datepicker
 		 */
 		dateChange: function( dateString, calendar ) {
-			var plugin = this, next_element;
+			var plugin = this, next_element, calendarEl;
 
 			calendarEl = $(calendar.dpDiv).parents( '.date' );
 
@@ -229,6 +246,8 @@
 
 			options.action = 'date_selected';
 			options.date = dateString;
+
+			this.placeLoader(calendarEl);
 
 			$.get(ea_ajaxurl, options, function(response) {
 
@@ -258,7 +277,11 @@
 				// enabled
 				next_element.parent().removeClass('disabled');
 
-			}, 'json');
+
+			}, 'json')
+			.always(function() {
+				plugin.removeLoader();
+			});
 		},
 		/**
 		 * Appintment information - before user add personal
@@ -266,6 +289,9 @@
 		 */ 
 		appSelected: function(element) {
 			var plugin = this;
+
+			this.placeLoader(this.$element.find('.selected-time'));
+
 			// make pre reservation
 			var options = {
 				location : this.$element.find('[name="location"]').val(),
@@ -303,6 +329,9 @@
 			}, 'json')
 			.fail(function(response) {
 				alert(response.responseJSON.message);
+			})
+			.always(function() {
+				plugin.removeLoader();
 			});
 		},
 		/**
@@ -314,6 +343,8 @@
 			var plugin = this;
 
 			var form = this.$element.find('form');
+
+			this.$element.find('.ea-submit').prop('disabled', true);
 
 			if(!form.valid()) {
 				return;
@@ -335,7 +366,10 @@
 				plugin.$element.find('.ea-cancel').hide();
 				plugin.$element.find('.final').append('<h3>' + ea_settings['trans.done_message'] + '</h3>');
 
-			}, 'json');
+			}, 'json')
+			.fail(function(){
+				plugin.find('.ea-submit').prop('disabled', false);
+			});
 		},
 		/**
 		 * Cancel appointment

@@ -152,6 +152,8 @@
 
 			options.action = 'next_step';
 
+			this.placeLoader(next_element.parent());
+
 			$.get(ea_ajaxurl, options, function(response) {
 				next_element.empty();
 
@@ -174,8 +176,23 @@
 				// enabled
 				next_element.parent().removeClass('disabled');
 
+				plugin.removeLoader();
+
 				plugin.scrollToElement(next_element.parent());
 			}, 'json');
+		},
+		placeLoader: function($element) {
+			var width = $element.width();
+			var height = $element.height();
+			$('#ea-loader').prependTo($element);
+			$('#ea-loader').css({
+				'width': width,
+				'height': height
+			});
+			$('#ea-loader').show();
+		},
+		removeLoader: function(){
+			$('#ea-loader').hide();
 		},
 		getCurrentStatus: function() {
 			var options = $(this.element).find('select');
@@ -219,6 +236,8 @@
 			options.action = 'date_selected';
 			options.date = dateString;
 
+			this.placeLoader(calendar);
+
 			$.get(ea_ajaxurl, options, function(response) {
 
 				next_element = $(calendar).parent().next('.step').children('.time');
@@ -240,7 +259,10 @@
 				// enabled
 				next_element.parent().removeClass('disabled');
 
-			}, 'json');
+			}, 'json')
+			.always(function() {
+				plugin.removeLoader();
+			});
 		},
 		/**
 		 * Appintment information - before user add personal
@@ -248,6 +270,8 @@
 		 */ 
 		appSelected: function(element) {
 			var plugin = this;
+
+			this.placeLoader(this.$element.find('.selected-time'));
 
 			// make pre reservation
 			var options = {
@@ -287,6 +311,9 @@
 			}, 'json')
 			.fail(function(response) {
 				alert(response.responseJSON.message);
+			})
+			.always(function() {
+				plugin.removeLoader();
 			});
 		},
 		/**

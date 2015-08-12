@@ -186,6 +186,7 @@ class EAFrontend
 			<button class="ea-btn ea-cancel"><?php _e('Cancel', 'easy-appointments');?></button>
 		</div>
 	</form>
+	<div id="ea-loader"></div>
 </div>
 		<?php
 
