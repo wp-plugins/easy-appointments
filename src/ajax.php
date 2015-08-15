@@ -171,6 +171,8 @@ class EAAjax
 
 	public function ajax_final_appointment()
 	{
+		$logic = new EALogic();
+
 		$table = 'ea_appointments';
 
 		$data = $_GET;
@@ -189,11 +191,17 @@ class EAAjax
 		}
 
 		$response = $this->models->replace( $table, $data, true );
-		
+
 		if($response == false) {
 			$this->send_err_json_result('{"err":true}');
 		} else {
 			EALogic::send_notification($data);
+
+			$send_user_mail = $logic->get_option_value('send.user.email', false);
+
+			if(!empty($send_user_mail)) {
+				EALogic::send_status_change_mail($data['id']);
+			}
 		}
 
 		$response = new stdClass();

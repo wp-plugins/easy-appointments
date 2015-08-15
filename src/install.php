@@ -177,7 +177,8 @@ EOT;
 			array('ea_key' => 'trans.currency','ea_value' => '$','type' => 'default'),
 			array('ea_key' => 'pending.email','ea_value' => '','type' => 'default'),
 			array('ea_key' => 'price.hide','ea_value' => '0','type' => 'default'),
-			array('ea_key' => 'datepicker','ea_value' => 'en-US','type' => 'default')
+			array('ea_key' => 'datepicker','ea_value' => 'en-US','type' => 'default'),
+			array('ea_key' => 'send.user.email','ea_value' => '0','type' => 'default'),
 		);
 
 		// insert options
@@ -295,6 +296,19 @@ EOT;
 
 		if(version_compare( $version, '1.2.7', '<')) {
 			$version = '1.2.7';
+		}
+
+		if(version_compare( $version, '1.2.8', '<')) {
+			$option = array('ea_key' => 'send.user.email','ea_value' => '0','type' => 'default');
+
+			$table_name = $wpdb->prefix . 'ea_options';
+
+			$wpdb->insert(
+				$table_name,
+				$option
+			);
+
+			$version = '1.2.8';
 		}
 
 		update_option( 'easy_app_db_version', $version );

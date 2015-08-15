@@ -441,6 +441,17 @@
 						<span class="description"> <?php _e('Enter email adress that will recive new reservation notification. Separate multiple emails with , (comma)', 'easy-appointments');?></span>
 					</td>
 				</tr>
+				<tr>
+					<th class="row">
+						<label for=""><?php _e('Send email to user', 'easy-appointments');?> :</label>
+					</th>
+					<td>
+						<input class="field" data-key="send.user.email" name="send.user.email" type="checkbox" <% if (_.findWhere(settings, {ea_key:'send.user.email'}).ea_value == "1") { %>checked<% } %>><br>
+					</td>
+					<td>
+						<span class="description"> <?php _e('Mark this option if you want to user recive email after filing the form.', 'easy-appointments');?></span>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 		<h2><?php _e('Labels', 'easy-appointments');?>:</h2>

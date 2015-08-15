@@ -4,7 +4,7 @@ Donate link: http://nikolaloncar.com/donate/
 Tags: appointment, appointments, booking, calendar, plugin, reservation, reservations, wordpress, wp appointment
 Requires at least: 3.7
 Tested up to: 4.2.4
-Stable tag: 1.2.7
+Stable tag: 1.2.8
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -118,6 +118,9 @@ You can set bootstrap form in two columns with `layout_cols` option. Example :
 
 == Changelog ==
 
+= 1.2.8 =
+* Option for sending user email after completing the form on frontend
+
 = 1.2.7 = 
 * Fix bug with Media item in menu
 * Ajax spinner
@@ -166,6 +169,9 @@ You can set bootstrap form in two columns with `layout_cols` option. Example :
 * First release
 
 == Upgrade Notice ==
+
+= 1.2.8 =
+* Option for sending user email after completing the form on frontend
 
 = 1.2.7 = 
 * Fix bug with Media menu item that is missing
