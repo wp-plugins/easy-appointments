@@ -3,8 +3,8 @@ Contributors: loncar
 Donate link: http://nikolaloncar.com/donate/
 Tags: appointment, appointments, booking, calendar, plugin, reservation, reservations, wordpress, wp appointment
 Requires at least: 3.7
-Tested up to: 4.2.4
-Stable tag: 1.2.8
+Tested up to: 4.3
+Stable tag: 1.2.9
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

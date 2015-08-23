@@ -219,3 +219,7 @@
 	background-color: rgba(255, 255, 255, 0.1);
 	display: none;
 }
+
+.ea-bootstrap .ui-datepicker .ui-datepicker-prev span, .ui-datepicker .ui-datepicker-next span {
+	display: none;
+}

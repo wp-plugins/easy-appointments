@@ -4,7 +4,7 @@
  * Plugin Name: Easy Appointments
  * Plugin URI: http://nikolaloncar.com/easy-appointments-wordpress-plugin/
  * Description: Simple managment of Appointments
- * Version: 1.2.8
+ * Version: 1.2.9
  * Author: Nikola Loncar
  * Author URI: http://nikolaloncar.com
  * Text Domain: easy-appointments

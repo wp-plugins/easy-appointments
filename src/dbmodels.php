@@ -130,11 +130,22 @@ class EADBModels
 			}
 		}
 
-		$return = $this->db->replace(
-			$table_name,
-			$data,
-			$types 
-		);
+		// check if there is id set, if true just update
+		if(array_key_exists('id', $data) && $data['id'] != '-1') {
+			$return = $this->db->update(
+				$table_name,
+				$data,
+				array('id' => $data['id']),
+				$types 
+			);
+		} else {
+			$return = $this->db->insert(
+				$table_name,
+				$data,
+				$types
+			);
+		}
+
 
 		if($return == false) {
 			return false;

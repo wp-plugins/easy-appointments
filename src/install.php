@@ -16,7 +16,7 @@ class EAInstallTools
 
 	function __construct()
 	{
-		$this->easy_app_db_version = '1.2.7';
+		$this->easy_app_db_version = '1.2.9';
 	}
 
 	/**
@@ -294,10 +294,12 @@ EOT;
 			$version = '1.2.4';
 		}
 
+		// Migrate form 1.2.4 > 1.2.7
 		if(version_compare( $version, '1.2.7', '<')) {
 			$version = '1.2.7';
 		}
 
+		// Migrate form 1.2.7 > 1.2.8
 		if(version_compare( $version, '1.2.8', '<')) {
 			$option = array('ea_key' => 'send.user.email','ea_value' => '0','type' => 'default');
 
@@ -309,6 +311,20 @@ EOT;
 			);
 
 			$version = '1.2.8';
+		}
+
+				// Migrate form 1.2.8 > 1.2.9
+		if(version_compare( $version, '1.2.9', '<')) {
+			$option = array('ea_key' => 'custom.css','ea_value' => '','type' => 'default');
+
+			$table_name = $wpdb->prefix . 'ea_options';
+
+			$wpdb->insert(
+				$table_name,
+				$option
+			);
+
+			$version = '1.2.9';
 		}
 
 		update_option( 'easy_app_db_version', $version );

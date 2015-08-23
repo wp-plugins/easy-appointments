@@ -130,6 +130,10 @@ class EAFrontend
 		$settings['trans.date-time'] = __('Date & time', 'easy-appointments');
 		$settings['trans.price'] = __('Price', 'easy-appointments');
 
+		$customCss = $settings['custom.css'];
+		$customCss = strip_tags($customCss);
+		$customCss = str_replace(array('<?php', '?>'), array('',''), $customCss);
+
 		wp_localize_script( 'ea-front-end', 'ea_settings', $settings );
 
 		wp_enqueue_script( 'underscore' );
@@ -141,6 +145,8 @@ class EAFrontend
 		wp_enqueue_style( 'ea-admin-awesome-css' );
 
 		ob_start();
+
+		echo "<style type='text/css'>{$customCss}</style>";
 
 		// require tempalte
 		require EA_SRC_DIR . 'templates/booking.overview.tpl.php';
@@ -198,28 +204,34 @@ class EAFrontend
 	 */
 	public function ea_bootstrap($attrs) {
 		$settings = EALogic::get_options();
-
-		$settings['width'] = $this->defaultSettings($attrs, 'width', '400px');
-		$settings['scroll_off'] = $this->defaultSettings($attrs, 'scroll_off', false);
+		
+		$settings['width']       = $this->defaultSettings($attrs, 'width', '400px');
+		$settings['scroll_off']  = $this->defaultSettings($attrs, 'scroll_off', false);
 		$settings['layout_cols'] = $this->defaultSettings($attrs, 'layout_cols', '1');
-
+		
 		$settings['trans.please-select-new-date'] = __('Please select another day', 'easy-appointments');
-		$settings['trans.personal-informations'] = __('Personal information', 'easy-appointments');
-		$settings['trans.field-required'] = __('This field is required.', 'easy-appointments');
-		$settings['trans.error-email'] = __('Please enter a valid email address', 'easy-appointments');
-		$settings['trans.error-name'] = __('Please enter at least 3 characters.', 'easy-appointments');
-		$settings['trans.error-phone'] = __('Please enter at least 3 digits.', 'easy-appointments');
-		$settings['trans.fields'] = __('Fields with * are required', 'easy-appointments');
-		$settings['trans.email'] = __('Email', 'easy-appointments');
-		$settings['trans.name'] = __('Name', 'easy-appointments');
-		$settings['trans.phone'] = __('Phone', 'easy-appointments');
-		$settings['trans.comment'] = __('Comment', 'easy-appointments');
-		$settings['trans.overview-message'] = __('Please check your appointment details below and confirm:', 'easy-appointments');
-		$settings['trans.booking-overview'] = __('Booking overview', 'easy-appointments');
-		$settings['trans.date-time'] = __('Date & time', 'easy-appointments');
-		$settings['trans.submit'] = __('Submit', 'easy-appointments');
-		$settings['trans.cancel'] = __('Cancel', 'easy-appointments');
-		$settings['trans.price'] = __('Price', 'easy-appointments');
+		$settings['trans.personal-informations']  = __('Personal information', 'easy-appointments');
+		$settings['trans.field-required']         = __('This field is required.', 'easy-appointments');
+		$settings['trans.error-email']            = __('Please enter a valid email address', 'easy-appointments');
+		$settings['trans.error-name']             = __('Please enter at least 3 characters.', 'easy-appointments');
+		$settings['trans.error-phone']            = __('Please enter at least 3 digits.', 'easy-appointments');
+		$settings['trans.fields']                 = __('Fields with * are required', 'easy-appointments');
+		$settings['trans.email']                  = __('Email', 'easy-appointments');
+		$settings['trans.name']                   = __('Name', 'easy-appointments');
+		$settings['trans.phone']                  = __('Phone', 'easy-appointments');
+		$settings['trans.comment']                = __('Comment', 'easy-appointments');
+		$settings['trans.overview-message']       = __('Please check your appointment details below and confirm:', 'easy-appointments');
+		$settings['trans.booking-overview']       = __('Booking overview', 'easy-appointments');
+		$settings['trans.date-time']              = __('Date & time', 'easy-appointments');
+		$settings['trans.submit']                 = __('Submit', 'easy-appointments');
+		$settings['trans.cancel']                 = __('Cancel', 'easy-appointments');
+		$settings['trans.price']                  = __('Price', 'easy-appointments');
+
+		$customCss = $settings['custom.css'];
+		$customCss = strip_tags($customCss);
+		$customCss = str_replace(array('<?php', '?>'), array('',''), $customCss);
+
+		unset($settings['custom.css']);
 
 		wp_localize_script( 'ea-front-bootstrap', 'ea_settings', $settings );
 
@@ -237,6 +249,8 @@ class EAFrontend
 
 
 		ob_start();
+
+		echo "<style type='text/css'>{$customCss}</style>";
 
 		require EA_SRC_DIR . 'templates/ea_bootstrap.tpl.php';
 		require EA_SRC_DIR . 'templates/booking.overview.tpl.php';
