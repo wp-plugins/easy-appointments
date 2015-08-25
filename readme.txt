@@ -4,7 +4,7 @@ Donate link: http://nikolaloncar.com/donate/
 Tags: appointment, appointments, booking, calendar, plugin, reservation, reservations, wordpress, wp appointment
 Requires at least: 3.7
 Tested up to: 4.3
-Stable tag: 1.2.10
+Stable tag: 1.2.11
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -118,6 +118,9 @@ You can set bootstrap form in two columns with `layout_cols` option. Example :
 
 == Changelog ==
 
+= 1.2.11 =
+* Fix install
+
 = 1.2.10 =
 * Fix bug with fresh install and customize page of settings
 
@@ -177,6 +180,9 @@ You can set bootstrap form in two columns with `layout_cols` option. Example :
 * First release
 
 == Upgrade Notice ==
+
+= 1.2.11 =
+* Fix install
 
 = 1.2.10 = 
 * If you have fresh install of 1.2.9 (not upgrade from previous versions), there is problem with customize page of settings. This version have fix for it.
