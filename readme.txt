@@ -4,7 +4,7 @@ Donate link: http://nikolaloncar.com/donate/
 Tags: appointment, appointments, booking, calendar, plugin, reservation, reservations, wordpress, wp appointment
 Requires at least: 3.7
 Tested up to: 4.3
-Stable tag: 1.2.9
+Stable tag: 1.2.10
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,7 +26,7 @@ Can be used for : <strong>Lawyers</strong>, <strong>Salons</strong>, <strong>Mec
 6. Responsive Bootstrap Layout for Appointment form  - new shorcode `[ea_bootstrap]
 7. Internationalization - support for translations
 8. Localization of datepicker for 77 different languages
-9. **NEW** Two column layout for bootstrap form
+9. Two column layout for bootstrap form
 
 = Live Demo =
 <a href="http://nikolaloncar.com/demo/easy-appointments/">**Standard Appointment form**</a><br>
@@ -118,6 +118,14 @@ You can set bootstrap form in two columns with `layout_cols` option. Example :
 
 == Changelog ==
 
+= 1.2.10 =
+* Fix bug with fresh install and customize page of settings
+
+= 1.2.9 =
+* Fix for bug on editing location/service/worker that delete connection.
+* New option is customize tab : custom css field
+* Minor css improvement
+
 = 1.2.8 =
 * Option for sending user email after completing the form on frontend
 
@@ -169,6 +177,12 @@ You can set bootstrap form in two columns with `layout_cols` option. Example :
 * First release
 
 == Upgrade Notice ==
+
+= 1.2.10 = 
+* If you have fresh install of 1.2.9 (not upgrade from previous versions), there is problem with customize page of settings. This version have fix for it.
+
+= 1.2.9 =
+* * Fix for bug on editing location/service/worker that delete connection
 
 = 1.2.8 =
 * Option for sending user email after completing the form on frontend

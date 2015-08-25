@@ -179,6 +179,7 @@ EOT;
 			array('ea_key' => 'price.hide','ea_value' => '0','type' => 'default'),
 			array('ea_key' => 'datepicker','ea_value' => 'en-US','type' => 'default'),
 			array('ea_key' => 'send.user.email','ea_value' => '0','type' => 'default'),
+			array('ea_key' => 'custom.css','ea_value' => '','type' => 'default')
 		);
 
 		// insert options
@@ -313,7 +314,7 @@ EOT;
 			$version = '1.2.8';
 		}
 
-				// Migrate form 1.2.8 > 1.2.9
+		// Migrate form 1.2.8 > 1.2.9
 		if(version_compare( $version, '1.2.9', '<')) {
 			$option = array('ea_key' => 'custom.css','ea_value' => '','type' => 'default');
 
