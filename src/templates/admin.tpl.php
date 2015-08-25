@@ -537,7 +537,7 @@
 						<label for=""><?php _e('Custom style', 'easy-appointments');?> :</label>
 					</th>
 					<td class="custom-css">
-						<textarea class="field" data-key="custom.css"><%= _.findWhere(settings, {ea_key:'custom.css'}).ea_value %></textarea>
+						<textarea class="field" data-key="custom.css"><% if (typeof _.findWhere(settings, {ea_key:'custom.css'}) !== 'undefined') { %><%= (_.findWhere(settings, {ea_key:'custom.css'})).ea_value %><% } %></textarea>
 					</td>
 					<td>
 						<span class="description"> <?php _e('Place here custom css styles. This will be included in both standard and bootstrap widget.', 'easy-appointments');?></span>
