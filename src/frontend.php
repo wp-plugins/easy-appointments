@@ -188,6 +188,12 @@ class EAFrontend
 			<br>
 			<p class="section"><?php _e('Booking overview', 'easy-appointments'); ?></p>
 			<div id="booking-overview"></div>
+			<?php if( !empty($settings['show.iagree'])) :?>
+			<p>
+				<label style="font-size: 65%; width: 80%;"><?php _e('I agree with terms and conditions', 'easy-appointments'); ?> * : </label><input style="width: 15%;" type="checkbox" name="iagree" data-rule-required="true" data-msg-required="<?php _e('You must agree with terms and conditions', 'easy-appointments'); ?>">
+			</p>
+			<br>
+			<?php endif;?>
 			<button class="ea-btn ea-submit"><?php _e('Submit', 'easy-appointments');?></button>
 			<button class="ea-btn ea-cancel"><?php _e('Cancel', 'easy-appointments');?></button>
 		</div>
@@ -226,6 +232,8 @@ class EAFrontend
 		$settings['trans.submit']                 = __('Submit', 'easy-appointments');
 		$settings['trans.cancel']                 = __('Cancel', 'easy-appointments');
 		$settings['trans.price']                  = __('Price', 'easy-appointments');
+		$settings['trans.iagree']                 = __('I agree with terms and conditions', 'easy-appointments');
+		$settings['trans.field-iagree']           = __('You must agree with terms and conditions', 'easy-appointments');
 
 		$customCss = $settings['custom.css'];
 		$customCss = strip_tags($customCss);

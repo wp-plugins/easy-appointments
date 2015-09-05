@@ -83,6 +83,20 @@
 			</div>
 			<h3><%= settings['trans.booking-overview'] %></h3>
 			<div id="booking-overview"></div>
+			<% if (settings['show.iagree'] == '1') { %>
+			
+			<div class="form-group">
+				<label class="col-sm-4 control-label">&nbsp;</label>
+				<div class="col-sm-8">
+					<div class="checkbox">
+						<label>
+							<input name="iagree" type="checkbox" data-rule-required="true" data-msg-required="<%= settings['trans.field-iagree'] %>">
+							<%= settings['trans.iagree'] %>
+						</label>
+					</div>
+				</div>
+			</div>
+			<% } %>
 			<div class="form-group">
 				<div class="col-sm-offset-4 col-sm-8">
 					<button class="ea-btn ea-submit btn btn-primary"><%= settings['trans.submit'] %></button>

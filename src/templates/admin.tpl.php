@@ -529,7 +529,7 @@
 				</tr>
 			</tbody>
 		</table>
-		<h2>Widget</h2>
+		<h2>Form</h2>
 		<table class="form-table">
 			<tbody>
 				<tr>
@@ -541,6 +541,40 @@
 					</td>
 					<td>
 						<span class="description"> <?php _e('Place here custom css styles. This will be included in both standard and bootstrap widget.', 'easy-appointments');?></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<table class="form-table">
+			<tbody>
+				<tr>
+					<th class="row">
+						<label for=""><?php _e('I agree field', 'easy-appointments');?> :</label>
+					</th>
+					<td>
+						<input class="field" type="checkbox" name="show.iagree" data-key="show.iagree"<% if (typeof _.findWhere(settings, {ea_key:'show.iagree'}) !== 'undefined' && _.findWhere(settings, {ea_key:'show.iagree'}).ea_value == '1') { %>checked<% } %> />
+					</td>
+					<td>
+						<span class="description"> <?php _e('I agree option at the end of form. If this is marked user must confirme "I agree" checkbox.', 'easy-appointments');?></span>
+					</td>
+				</tr>
+				<tr>
+					<th class="row">
+						<label><?php _e('After cancel scroll to', 'easy-appointments');?> :</label>
+					</th>
+					<td>
+						<select data-key="cancel.scroll" class="field" name="cancel.scroll">
+					<% var langs = [
+						'calendar','worker', 'service', 'location'
+					];
+					_.each(langs,function(item,key,list){
+						if(typeof _.findWhere(settings, {ea_key:'cancel.scroll'}) !== 'undefined' && _.findWhere(settings, {ea_key:'cancel.scroll'}).ea_value === item) { %>
+							<option value="<%= item %>" selected="selected"><%= item %></option>
+						<% } else { %>
+							<option value="<%= item %>"><%= item %></option>
+						<% }
+						});%>
+						</select>
 					</td>
 				</tr>
 			</body>

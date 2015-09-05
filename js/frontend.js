@@ -330,6 +330,8 @@
 				return;
 			}
 
+			this.$element.find('.ea-submit').prop('disabled', true);
+
 			// make pre reservation
 			var options = {
 				name : this.$element.find('[name="name"]').val(),
@@ -345,8 +347,11 @@
 				plugin.$element.find('.ea-submit').hide();
 				plugin.$element.find('.ea-cancel').hide();
 				plugin.$element.find('.final').append('<h4>' + ea_settings['trans.done_message'] + '</h4>');
-
-			}, 'json');
+				plugin.$element.find('form').find('input').prop('disabled', true);
+			}, 'json')
+			.fail(function(){
+				plugin.find('.ea-submit').prop('disabled', false);
+			});
 		},
 		/**
 		 * Cancel appointment
@@ -367,13 +372,44 @@
 				if(response.data) {
 					// remove selected time
 					plugin.$element.find('.time').find('.selected-time').removeClass('selected-time');
-					
-					plugin.scrollToElement(plugin.$element.find('.date'));
+
+					//plugin.scrollToElement(plugin.$element.find('.date'));
+					plugin.chooseStep();
 					plugin.res_app = null;
 
 				}
 			}, 'json');
-		}, 
+		},
+		chooseStep : function () {
+			var plugin = this;
+			var $temp;
+
+			switch(ea_settings['cancel.scroll']) {
+				case 'calendar':
+					plugin.scrollToElement(plugin.$element.find('.date'));
+					break;
+				case 'worker' :
+					$temp = plugin.$element.find('[name="worker"]');
+					$temp.val('');
+					$temp.change();
+					plugin.scrollToElement($temp);
+					break;
+				case 'service' :
+					$temp = plugin.$element.find('[name="service"]');
+					$temp.val('');
+					$temp.change();
+					plugin.scrollToElement($temp);
+					break;
+				case 'location' : 
+					$temp = plugin.$element.find('[name="location"]');
+					$temp.val('');
+					$temp.change();
+					plugin.scrollToElement($temp);
+					break;
+				case 'pagetop':
+					break;
+			}
+		},
 		scrollToElement : function(element) {
 			$('html, body').animate({
 				scrollTop: ( element.offset().top - 20 )
