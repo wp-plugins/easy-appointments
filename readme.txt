@@ -118,9 +118,9 @@ You can set bootstrap form in two columns with `layout_cols` option. Example :
 
 == Changelog ==
 
-= 1.3.0
-* New options for cancel button
-* I agree option for widget
+= 1.3.0 =
+* New options for cancel button and scroll
+* I agree option for form
 
 = 1.2.11 =
 * Fix install
@@ -184,6 +184,9 @@ You can set bootstrap form in two columns with `layout_cols` option. Example :
 * First release
 
 == Upgrade Notice ==
+
+= 1.3.0 =
+* New options
 
 = 1.2.11 =
 * Fix install
