@@ -40,6 +40,9 @@ class EAAjax
 
 		add_action( 'wp_ajax_cancel_appointment', array($this, 'ajax_cancel_appointment') );
 		add_action( 'wp_ajax_nopriv_cancel_appointment', array($this, 'ajax_cancel_appointment') );
+
+		add_action( 'wp_ajax_month_status', array($this, 'ajax_month_status') );
+		add_action( 'wp_ajax_nopriv_month_status', array($this, 'ajax_month_status') );
 		// end frontend
 
 		// admin ajax section
@@ -427,6 +430,16 @@ class EAAjax
 	public function ajax_connection()
 	{
 		$this->parse_single_model('ea_connections');
+	}
+
+	public function ajax_month_status()
+	{
+		$data = $this->parse_input_data();
+
+		$rep = new EAReport();
+		$response = $rep->get_available_dates($data['location'], $data['service'], $data['worker'], $data['month'], $data['year']);
+
+		$this->send_ok_json_result($response);
 	}
 
 	/**

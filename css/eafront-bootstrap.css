@@ -223,3 +223,29 @@
 .ea-bootstrap .ui-datepicker .ui-datepicker-prev span, .ui-datepicker .ui-datepicker-next span {
 	display: none;
 }
+
+.ea-bootstrap .ui-datepicker .free {
+	
+}
+
+.ea-bootstrap .ui-datepicker .no-slots, .ea-bootstrap .ui-datepicker .no-slots:hover {
+	background-color:rgba(163,163,117,0.5);
+	color: #fff;
+	cursor: default;
+}
+
+.ea-bootstrap .ui-datepicker .no-slots a {
+	color: #fff;
+	cursor: default;
+}
+
+.ea-bootstrap .ui-datepicker .busy, .ea-bootstrap .ui-datepicker .busy:hover {
+	background-color:rgba(255,0,0,0.5);
+	color: #fff;
+	cursor: default;
+}
+
+.ea-bootstrap .ui-datepicker .busy a {
+	color: #fff;
+	cursor: default;
+}

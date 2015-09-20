@@ -65,4 +65,41 @@ class EAReport
 
 		return $result;
 	}
+
+	/**
+	 * 
+	 */
+	public function get_available_dates($location, $service, $worker, $month, $year) {
+		$slots = $this->get_whole_month_slots($location, $service, $worker, $month, $year);
+
+		$currentDate = date('Y-m-d');
+
+		$result = array();
+
+		foreach ($slots as $key => $value) {
+			if($currentDate > $key) {
+				continue;
+			}
+
+			if(count($value) == 0) {
+				$result[$key] = 'no-slots';
+				continue;
+			}
+
+			$has_free = false;
+			foreach ($value as $k => $v) {
+				if( ((int) $v['count']) > 0 ) {
+					$result[$key] = 'free';
+					$has_free = true;
+					break;
+				}
+			}
+
+			if(!$has_free) {
+				$result[$key] = 'busy';
+			}
+		}
+
+		return $result;
+	}
 }

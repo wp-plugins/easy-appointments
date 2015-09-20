@@ -6,7 +6,9 @@
 		main_selector: '#ea-bootstrap-main',
 		main_template: null,
 		overview_selector: "#ea-appointments-overview",
-		overview_template: null
+		overview_template: null,
+		store: {},
+		ajaxCount: 0
 	};
 
 	// The actual plugin constructor
@@ -43,7 +45,28 @@
 				onSelect : jQuery.proxy( plugin.dateChange, plugin ),
 				dateFormat : 'yy-mm-dd',
 				minDate: 0,
-				firstDay: 1
+				firstDay: 1,
+				// on month change event
+				onChangeMonthYear: function(year, month, widget) {
+					plugin.selectChange(month, year);
+				},
+				// add class to every field
+				beforeShowDay: function(date) {
+					var month = date.getMonth() + 1;
+					var days = date.getDate();
+
+					if(month < 10) {
+						month = '0' + month;
+					}
+
+					if(days < 10) {
+						days = '0' + days;
+					}
+
+					var response = [true, date.getFullYear() + '-' + month + '-' + days, ''];
+
+					return response;
+				}
 			});
 
 			// hide options with one choiche
@@ -188,6 +211,10 @@
 			}, 'json');
 		},
 		placeLoader: function($element) {
+			if(++this.settings.ajaxCount !== 1) {
+				return;
+			}
+
 			var width = $element.width();
 			var height = $element.height();
 			$('#ea-loader').prependTo($element);
@@ -198,6 +225,12 @@
 			$('#ea-loader').show();
 		},
 		removeLoader: function(){
+			if(--this.settings.ajaxCount > 1){
+				return;
+			}
+
+			this.settings.ajaxCount = 0;
+
 			$('#ea-loader').hide();
 		},
 		getCurrentStatus: function() {
@@ -225,7 +258,7 @@
 
 				var calendar = this.$element.find('.date');
 
-				this.$element.find('.ui-datepicker-current-day').click();
+				this.selectChange();
 
 				if(!dontScroll) {
 					this.scrollToElement(calendar);
@@ -277,11 +310,74 @@
 				// enabled
 				next_element.parent().removeClass('disabled');
 
-
 			}, 'json')
 			.always(function() {
+				plugin.refreshData(plugin.settings.store);
 				plugin.removeLoader();
 			});
+		},
+		selectChange: function(month, year) {
+			var self = this;
+			self.placeLoader(self.$element.find('.calendar'));
+
+			var simulateClick = false;
+
+			if(typeof month === 'undefined' || typeof year === 'undefined') {
+				var currentDate = this.$element.find('.date').datepicker('getDate');
+
+				month = currentDate.getMonth() + 1;
+				year  = currentDate.getFullYear();
+
+				simulateClick = true;
+			}
+
+			// check is all filled
+			if(this.checkStatus()) {
+				var selects = this.$element.find('select');
+
+				var fields = selects.serializeArray();
+
+				fields.push({ 'name' : 'action', 'value': 'month_status' });
+				fields.push({ 'name' : 'month', 'value': month });
+				fields.push({ 'name' : 'year', 'value': year });
+
+				$.get(ea_ajaxurl, fields, function(result) {
+					self.settings.store = result;
+					self.refreshData(result);
+
+					if(simulateClick) {
+						self.$element.find('.ui-datepicker-current-day').filter('.free').click();
+					}
+				}, 'json');
+			}
+		},
+		refreshData: function(data) {
+
+			var datepicker = this.$element.find('.date');
+
+			$.each(data, function(key, status){
+
+				var td = datepicker.find('.' + key);
+
+				td.addClass(status);
+			});
+
+			this.removeLoader();
+		},
+		/**
+		 * Is everything selected
+		 * @return {boolean} Is ready for sending data
+		 */
+		checkStatus: function() {
+			var selects = this.$element.find('select');
+
+			var isComplete = true;
+
+			selects.each(function(index, element) {
+				isComplete = isComplete && $(element).val() !== '';
+			});
+
+			return isComplete;
 		},
 		/**
 		 * Appintment information - before user add personal
@@ -411,18 +507,24 @@
 					$temp = plugin.$element.find('[name="worker"]');
 					$temp.val('');
 					$temp.change();
+					$temp.closest('.step').nextAll('.step').find('select').val('');
+					this.$element.find('.time-row').remove();
 					plugin.scrollToElement($temp);
 					break;
 				case 'service' :
 					$temp = plugin.$element.find('[name="service"]');
 					$temp.val('');
 					$temp.change();
+					$temp.closest('.step').nextAll('.step').find('select').val('');
+					this.$element.find('.time-row').remove();
 					plugin.scrollToElement($temp);
 					break;
 				case 'location' : 
 					$temp = plugin.$element.find('[name="location"]');
 					$temp.val('');
 					$temp.change();
+					$temp.closest('.step').nextAll('.step').find('select').val('');
+					this.$element.find('.time-row').remove();
 					plugin.scrollToElement($temp);
 					break;
 				case 'pagetop':

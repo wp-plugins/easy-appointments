@@ -131,7 +131,7 @@ class EADBModels
 		}
 
 		// check if there is id set, if true just update
-		if(array_key_exists('id', $data) && $data['id'] != '-1') {
+		if(array_key_exists('id', $data) && $data['id'] != '-1' && !empty($data['id'])) {
 			$return = $this->db->update(
 				$table_name,
 				$data,
@@ -139,6 +139,12 @@ class EADBModels
 				$types 
 			);
 		} else {
+			// clone - new
+			if(array_key_exists('id', $data)) {
+				unset($data['id']);
+				unset($types[0]);
+			}
+
 			$return = $this->db->insert(
 				$table_name,
 				$data,
