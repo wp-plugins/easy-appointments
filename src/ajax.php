@@ -316,7 +316,7 @@ class EAAjax
 		$response = $this->parse_single_model('ea_appointments', false);
 		
 		if($response == false) {
-			$this->send_err_json_result('err');	
+			$this->send_err_json_result('err');
 		}
 
 		if($this->type != 'NEW' && $this->type != 'UPDATE') {
@@ -343,6 +343,7 @@ class EAAjax
 	 */
 	public function ajax_services()
 	{
+
 		$this->parse_input_data();
 
 		$response = array();

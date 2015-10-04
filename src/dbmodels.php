@@ -130,6 +130,8 @@ class EADBModels
 			}
 		}
 
+		$insert_id = -1;
+
 		// check if there is id set, if true just update
 		if(array_key_exists('id', $data) && $data['id'] != '-1' && !empty($data['id'])) {
 			$return = $this->db->update(
@@ -138,6 +140,8 @@ class EADBModels
 				array('id' => $data['id']),
 				$types 
 			);
+
+			$insert_id = $data['id'];
 		} else {
 			// clone - new
 			if(array_key_exists('id', $data)) {
@@ -150,16 +154,18 @@ class EADBModels
 				$data,
 				$types
 			);
+
+			$insert_id = $this->db->insert_id;
 		}
 
 
-		if($return == false) {
+		if($return === false) {
 			return false;
 		}
 
 		if($json){
 			$output = new stdClass;
-			$output->id = "{$this->db->insert_id}";
+			$output->id = "{$insert_id}";
 			return $output;
 		}
 		
