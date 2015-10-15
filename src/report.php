@@ -58,7 +58,7 @@ class EAReport
 
 		$num_of_days = date('t', strtotime($year . '-' . $month . '-01'));
 		for( $i=1; $i<= $num_of_days; $i++) {
-			$day = date('Y') . "-". sprintf("%02d", $month) . "-". str_pad($i,2,'0', STR_PAD_LEFT);
+			$day = $year . "-". sprintf("%02d", $month) . "-". str_pad($i,2,'0', STR_PAD_LEFT);
 
 			$result[$day] = $this->logic->get_open_slots($location, $service, $worker, $day, null, false);
 		}

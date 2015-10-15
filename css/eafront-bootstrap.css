@@ -205,7 +205,7 @@
 	color: red;
 }
 
-.ea-bootstrap input.error {
+.ea-bootstrap input.error, .ea-bootstrap textarea.error, .ea-bootstrap select.error {
 	border-color: red;
 }
 

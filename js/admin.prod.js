@@ -129,6 +129,42 @@
             return data;
         }
     });    /**
+     * Single field
+     */
+    EA.Field = Backbone.Model.extend({
+
+    	defaults : {
+    		type: 'INPUT',
+    		slug: '',
+    		label: '',
+    		default_value: '',
+    		validation: false,
+    		mixed: '',
+    		visible: true,
+    		required: false,
+    		position: 10,
+    	},
+    	url: function() { return ajaxurl+'?action=field&id=' + encodeURIComponent(this.id); },
+    	toJSON: function() {
+    		var attrs = _.clone( this.attributes );
+    		//console.log(attrs);
+    		return attrs;
+    	},
+    	save: function(attrs, options) {
+    		options || (options = {});
+    		attrs || (attrs = _.clone(this.attributes));
+
+    		attrs.day_of_week = attrs.day_of_week.join(',');
+
+    		return Backbone.Model.prototype.save.call(this, attrs, options);
+    	}
+    });    /**
+     * Connections collection
+     */
+    EA.Fields = Backbone.Collection.extend({
+        url : ajaxurl+'?action=fields',
+        model: EA.Field
+    });    /**
      * Locations collection
      */
     EA.Locations = Backbone.Collection.extend({
@@ -337,7 +373,7 @@
             this.collection.bind("reset", this.render, this);
 
             // if there is no data in cache
-            if( this.collection.length == 0 ) {
+            if( this.collection.length === 0 ) {
                 // Get data from server
                 this.collection.fetch( {reset:true} );
             }
@@ -1206,31 +1242,55 @@
     EA.CustumizeView = Backbone.View.extend({
 
         template : _.template( $("#ea-tpl-custumize").html() ),
+        template_fields : _.template($("#ea-tpl-custom-forms").html()),
+        template_options : _.template($("#ea-tpl-custom-form-options").html()),
 
         events: {
-            "click .btn-save-settings" : "saveSettings"
+            "click .btn-save-settings" : "saveSettings",
+            "click .btn-add-field" : "addCustomFiled",
+            "click .single-field-options" : "fieldOptions",
+            "click .add-select-option" : "addSelectOption",
+            "click .item-save" : "apply",
+            "click .item-delete": "deleteOption",
+            "click .remove-select-option": "removeSelectedOption",
         },
 
         initialize: function () {
 
             this.collection = new EA.Settings();
 
+            this.fields = new EA.Fields();
+            this.fields.comparator = 'position';
+
             // Table draw
     //      this.render();
 
             // Bind the reset event
             this.collection.bind("reset", this.render, this);
+            this.fields.bind("reset", this.renderFields, this);
 
             // if there is no data in cache
             this.collection.fetch( {reset:true} );
+            this.fields.fetch( {reset:true} );
         },
 
         render: function () {
+            var obj = this;
             this.$el.empty(); // clear the element to make sure you don't double your contact view
 
             var content = this.template( { settings : this.collection.toJSON() } );
 
             this.$el.html( content );
+
+            this.renderFields();
+
+            this.$el.find('#custom-fields').sortable({
+                placeholder: 'sortable-placeholder',
+                update : function(event, ui) {
+                    obj.reorder();
+                }
+            });
+            //this.$el.find('#custom-fields').disableSelection();
 
             return this;
         },
@@ -1256,14 +1316,177 @@
                 }
             });
 
-            var wrapper = new EA.SettingsWrapper(this.collection);
-            wrapper.save( null,{
+            var wrapper = new EA.SettingsWrapper({options: this.collection, fields: this.fields});
+            wrapper.save( null, {
                 error: function(response){
                     alert('There has been some error. Please try later.');
                 },
                 success: function(){
                     alert('Settings saved!');
                 }
+            });
+        },
+
+        addCustomFiled: function(e) {
+            var obj = this;
+            var $btn = $(e.currentTarget);
+            var $row = $btn.closest('th');
+            var name = $row.find('input').val();
+            var type = $row.find('select').val();
+
+            var field = new EA.Field({
+                label:name,
+                type:type,
+                position: obj.fields.length + 1
+            });
+
+            this.fields.add(field);
+
+            var $html = this.template_fields({item : field.toJSON()});
+            $ul = this.$el.find('#custom-fields');
+            $ul.append($html);
+        },
+
+        renderFields: function() {
+            var obj = this, $ul, tags = [];
+
+            $ul = this.$el.find('#custom-fields');
+
+            $ul.empty();
+
+            this.fields.sort();
+
+            this.fields.each(function(model, index) {
+                var o = model.toJSON();
+
+                var $html = obj.template_fields({item : o});
+                $ul.append($html);
+
+                tags.push('#' + o.slug + '#');
+            });
+
+            this.$el.find('#custom-tags').html(tags.join(', '));
+        },
+
+        fieldOptions: function(e) {
+            e.preventDefault();
+            var $btn = $(e.currentTarget);
+            var $li = $btn.closest('li');
+            var name = $li.data('name');
+            var element = this.fields.findWhere({label:name});
+
+            if($btn.find('i').hasClass('fa-chevron-down')) {
+                // open
+                $btn.find('i').removeClass('fa-chevron-down');
+                $btn.find('i').addClass('fa-chevron-up');
+
+                var o = element.toJSON();
+
+                if(o.type === 'SELECT') {
+                    if(o.mixed !== '' ) {
+                        o.options = o.mixed.split(',');
+                    } else {
+                        o.options = ['-'];
+                    }
+                }
+
+                $html = this.template_options({item:o});
+                $li.append($html);
+
+                this.$el.find('#custom-fields').sortable('disable');
+
+                $li.find('.select-options').sortable();
+            } else {
+                // close
+                $btn.find('i').removeClass('fa-chevron-up');
+                $btn.find('i').addClass('fa-chevron-down');
+                $li.find('.field-settings').remove();
+                this.$el.find('#custom-fields').sortable('enable');
+            }
+
+            return false;
+        },
+
+        addSelectOption: function(e) {
+            e.preventDefault();
+            var $btn = $(e.currentTarget);
+            var value = $btn.prevAll('input').val();
+            var cont = $btn.closest('.field-settings');
+
+            cont.find('.select-options').append('<li data-element="'+ value + '">'+ value + '<a href="#" class="remove-select-option"><i class="fa fa-trash-o"></i></a></li>');
+
+        },
+
+
+        apply: function(e) {
+            e.preventDefault();
+
+            var $btn = $(e.currentTarget);
+            var $li = $btn.closest('li');
+            var name = $li.data('name');
+            var element = this.fields.findWhere({label:name});
+
+            var options = [];
+
+            $li.find('.select-options > li').each(function(index, el) {
+                options.push($(el).text().trim());
+            });
+
+            element.set('label', $li.find('.field-label').val());
+            element.set('required', $li.find('.required').is(":checked"));
+            element.set('visible', $li.find('.visible').is(":checked"));
+
+            if(options.length > 0) {
+                element.set('mixed', options.join(','));
+            }
+
+            $li.closest('ul').sortable('enable');
+
+            this.renderFields();
+        },
+
+        deleteOption: function(e) {
+            e.preventDefault();
+
+            var obj = this;
+
+            var $btn = $(e.currentTarget);
+            var $li = $btn.closest('li');
+            var name = $li.data('name');
+            var element = this.fields.findWhere({label:name});
+
+            this.fields.remove(element);
+
+            element.destroy({
+                success: function(model, response) {
+                    obj.renderFields();
+                },
+                error: function() {
+                    alert('Error on delete!');
+                }
+            });
+        },
+
+        removeSelectedOption: function(e) {
+            e.preventDefault();
+            var $btn = $(e.currentTarget);
+
+            $btn.closest('li').remove();
+        },
+
+        reorder: function() {
+            var obj = this;
+            var $ul = this.$el.find('#custom-fields');
+
+            $lis = $ul.children();
+
+            var count = 1;
+
+            $lis.each(function(index, el) {
+                var name = $(el).data('name');
+                var element = obj.fields.findWhere({label:name});
+
+                element.set('position', count++);
             });
         },
 
@@ -1277,7 +1500,7 @@
             // Remove view from DOM
             this.remove();
             Backbone.View.prototype.remove.call(this);
-        }
+        },
     });    /**
      * Main Admin View
      * Renders Admin tab panel

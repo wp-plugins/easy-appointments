@@ -334,12 +334,13 @@
 
 			// make pre reservation
 			var options = {
-				name : this.$element.find('[name="name"]').val(),
-				email : this.$element.find('[name="email"]').val(),
-				phone : this.$element.find('[name="phone"]').val(),
-				description : this.$element.find('[name="description"]').datepicker().val(),
 				id : this.res_app
 			};
+
+			this.$element.find('.custom-field').each(function(index, element){
+				var name = $(element).attr('name');
+				options[name] = $(element).val();
+			});
 
 			options.action = 'final_appointment';
 

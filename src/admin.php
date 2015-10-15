@@ -2,6 +2,7 @@
 
 require_once EA_SRC_DIR . 'ajax.php';
 require_once EA_SRC_DIR . 'logic.php';
+require_once EA_SRC_DIR . 'metafields.php';
 
 /**
  * Admin panel
@@ -42,7 +43,7 @@ class EAAdminPanel
 		wp_register_script(
 			'ea-settings',
 			EA_PLUGIN_URL . 'js/admin.prod.js',
-			array( 'jquery', 'ea-datepicker-localization', 'backbone', 'underscore', 'time-picker' ),
+			array( 'jquery', 'ea-datepicker-localization', 'backbone', 'underscore', 'time-picker', 'jquery-ui-sortable'),
 			false,
 			true
 		);
