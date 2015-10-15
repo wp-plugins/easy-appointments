@@ -4,7 +4,7 @@ Donate link: http://nikolaloncar.com/donate/
 Tags: appointment, appointments, booking, calendar, plugin, reservation, reservations, wordpress, wp appointment
 Requires at least: 3.7
 Tested up to: 4.3
-Stable tag: 1.4.0
+Stable tag: 1.5.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,7 @@ Can be used for : <strong>Lawyers</strong>, <strong>Salons</strong>, <strong>Mec
 7. Internationalization - support for translations
 8. Localization of datepicker for 77 different languages
 9. Two column layout for bootstrap form
+10. **NEW** Custom form fields
 
 = Live Demo =
 <a href="http://nikolaloncar.com/demo/easy-appointments/">**Standard Appointment form**</a><br>
@@ -118,6 +119,12 @@ You can set bootstrap form in two columns with `layout_cols` option. Example :
 
 == Changelog ==
 
+= 1.5.0 = 
+* Custom form fields
+
+= 1.4.1 = 
+* Fix bug with status change and email notification in admin panel
+
 = 1.4.0 =
 * Calendar in bootstrap form now shows the free days and days with out free slots
 * Improved scroll to after cancel option
@@ -189,6 +196,9 @@ You can set bootstrap form in two columns with `layout_cols` option. Example :
 * First release
 
 == Upgrade Notice ==
+
+= 1.4.1 =
+* Please update plugin to fix bug with email notifications on status change
 
 = 1.4.0 =
 * Calendar in bootstrap form now shows the free days and days with out free slots
