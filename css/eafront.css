@@ -135,7 +135,7 @@ label.error {
 	color: red;
 }
 
-input.error {
+input.error, textarea.error, select.error {
 	border-color: red;
 }
 

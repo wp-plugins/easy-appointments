@@ -184,9 +184,10 @@ class EALogic
 
 		$day_of_week = date('l', strtotime($day));
 
+		$multiple = self::get_option_value('multiple.work', '1');
+
 		$query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}ea_appointments WHERE 
-			location=%d AND 
-			service=%d AND 
+			((location=%d AND service=%d) OR '{$multiple}' = '0') AND 
 			worker=%d AND 
 			date = %s AND
 			id <> %d AND 
@@ -326,7 +327,9 @@ class EALogic
 
 		$body = str_replace(array_keys($params), array_values($params) , $body_template);
 
-		wp_mail( $app->email, 'Reservation #' . $app_id, $body );
+		if(array_key_exists('email', $app_array)) {
+			wp_mail( $app_array['email'], 'Reservation #' . $app_id, $body );
+		}
 	}
 
 	/**
@@ -345,6 +348,8 @@ class EALogic
 		$app_id = $data['id'];
 
 		$data = $dbmodels->get_appintment_by_id( $app_id);
+
+		$meta = $dbmodels->get_all_rows('ea_meta_fields', array(), array('position' => 'ASC'));
 
 		ob_start();
 

@@ -57,30 +57,29 @@
 			<div class="block"></div>
 			<h3><%= settings['trans.personal-informations'] %></h3>
 			<small><%= settings['trans.fields'] %></small>
+
+			<% _.each(settings.MetaFields, function(item,key,list) { %>
+			<% if (item.visible == "0") { return; } %>
 			<div class="form-group">
-				<label class="col-sm-4 control-label"><%= settings['trans.email'] %> * : </label>
+				<label class="col-sm-4 control-label"><%= item.label %> <% if (item.required == "1") { %>*<% } %> : </label>
 				<div class="col-sm-8">
-					<input type="text" name="email" class="form-control" data-rule-required="true" data-rule-email="true" data-msg-required="<%= settings['trans.field-required'] %>" data-msg-email="<%= settings['trans.error-mail'] %>">
+					<% if(item.type === 'INPUT') { %>
+					<input class="form-control custom-field" type="text" name="<%= item.slug %>" <% if (item.required == "1") { %>data-rule-required="true" data-msg-required="<%= settings['trans.field-required'] %>"<% } %> <% if (item.validation == "email") { %>data-rule-email="true" data-msg-email="<%= settings['trans.error-mail'] %>"<% } %>>
+					<% } else if(item.type === 'SELECT') { %>
+						<select class="form-control custom-field" name="<%= item.slug %>" <% if (item.required == "1") { %>aria-required="true" <% if (item.required == "1") { %>data-rule-required="true"<% } %> data-msg-required="<%= settings['trans.field-required'] %>"<% } %>>
+							<% _.each(item.mixed.split(','),function(i,k,l) { %>
+							<% if (i == "-") { %>
+							<option value="">-</option>
+							<% } else { %>
+							<option value="<%= i %>" ><%= i %></option>
+							<% }});%>
+						</select>
+					<% } else if(item.type === 'TEXTAREA') { %>
+						<textarea class="form-control custom-field" rows="3" style="height: auto;" name="<%= item.slug %>" <% if (item.required == "1") { %>data-rule-required="true" data-msg-required="<%= settings['trans.field-required'] %>"<% } %>></textarea>
+					<% } %>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-sm-4 control-label"><%= settings['trans.name'] %> * : </label>
-				<div class="col-sm-8">
-					<input type="text" name="name" class="form-control" data-rule-required="true" data-rule-minlength="3" data-msg-required="<%= settings['trans.field-required'] %>" data-msg-minlength="<%= settings['trans.error-name'] %>">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-4 control-label"><%= settings['trans.phone'] %> * : </label>
-				<div class="col-sm-8">
-					<input type="text" name="phone" class="form-control" data-rule-required="true" data-rule-minlength="3" data-msg-required="<%= settings['trans.field-required'] %>" data-msg-minlength="<%= settings['trans.error-phone'] %>">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-4 control-label"><%= settings['trans.comment'] %> : </label>
-				<div class="col-sm-8">
-					<textarea name="description" class="form-control" style="height: auto;"></textarea>
-				</div>
-			</div>
+			<% });%>
 			<h3><%= settings['trans.booking-overview'] %></h3>
 			<div id="booking-overview"></div>
 			<% if (settings['show.iagree'] == '1') { %>
