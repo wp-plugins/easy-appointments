@@ -205,7 +205,7 @@ class EAAdminPanel
 			,'content'  => '<p>Use filter for date to reduce output results for appointments. You can filter by <b>location</b>, <b>service</b>, <b>worker</b>, <b>status</b> and <b>date</b>.</p>'
 		) );
 
-		$screen->set_help_sidebar('<a href="http://nikolaloncar.com/easy-appointments-wordpress-plugin/easy-appointments-documentacion/">More info!</a>');
+		$screen->set_help_sidebar('<a href="http://nikolaloncar.com/easy-appointments-wordpress-plugin/easy-appointments-documentation/">More info!</a>');
 		
 		require_once EA_SRC_DIR . 'templates/appointments.tpl.php';
 		require_once EA_SRC_DIR . 'templates/inlinedata.tpl.php';
@@ -227,7 +227,7 @@ class EAAdminPanel
 				'<p>There can you see free times an how many slots are taken.</p>'
 		) );
 
-		$screen->set_help_sidebar('<a href="http://nikolaloncar.com/easy-appointments-wordpress-plugin/easy-appointments-documentacion/">More info!</a>');
+		$screen->set_help_sidebar('<a href="http://nikolaloncar.com/easy-appointments-wordpress-plugin/easy-appointments-documentation/">More info!</a>');
 
 		require_once EA_SRC_DIR . 'templates/report.tpl.php';
 		require_once EA_SRC_DIR . 'templates/inlinedata.tpl.php';
@@ -248,7 +248,7 @@ class EAAdminPanel
 			,'content'  => '<p>You need to define at least one location, worker and service! Without that widget wont work.</p>'
 		) );
 
-		$screen->set_help_sidebar('<a href="http://nikolaloncar.com/easy-appointments-wordpress-plugin/easy-appointments-documentacion/">More info!</a>');
+		$screen->set_help_sidebar('<a href="http://nikolaloncar.com/easy-appointments-wordpress-plugin/easy-appointments-documentation/">More info!</a>');
 
 		require_once EA_SRC_DIR . 'templates/admin.tpl.php';
 		require_once EA_SRC_DIR . 'templates/inlinedata.tpl.php';

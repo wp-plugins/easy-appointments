@@ -400,6 +400,23 @@
 
 <script type="text/template" id="ea-tpl-custumize">
 	<div class="wp-filter">
+		<h2><?php _e('Connections', 'easy-appointments');?> :</h2>
+		<table class="form-table form-table-translation">
+			<tbody>
+				<tr>
+					<th class="row">
+						<label for=""><?php _e('Multiple work', 'easy-appointments');?> :</label>
+					</th>
+					<td>
+						<input class="field" data-key="multiple.work" name="multiple.work" type="checkbox" <% if (_.findWhere(settings, {ea_key:'multiple.work'}).ea_value == "1") { %>checked<% } %>>
+					</td>
+					<td>
+						<span class="description"> <?php _e('Mark this option if you want to calculate free worker slots only by current service and location. If it\'s not marked system will check if worker is working on any location and service at current time.', 'easy-appointments');?></span>
+					</td>
+				</tr>
+			</body>
+		</table>
+		<hr class="divider">
 		<h2><?php _e('Mail', 'easy-appointments');?> : </h2>
 		<h3><?php _e('Notifications', 'easy-appointments');?></h3>
 		<p class="notifications-help"><?php _e('You can use this tags inside email content', 'easy-appointments');?> : <strong>#id#, #date#, #start#, #end#, #status#, #created#, #price#, #ip#, #service_name#, #worker_name#, #location_name#, <span id="custom-tags"></span></strong></p>

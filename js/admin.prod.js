@@ -149,14 +149,6 @@
     		var attrs = _.clone( this.attributes );
     		//console.log(attrs);
     		return attrs;
-    	},
-    	save: function(attrs, options) {
-    		options || (options = {});
-    		attrs || (attrs = _.clone(this.attributes));
-
-    		attrs.day_of_week = attrs.day_of_week.join(',');
-
-    		return Backbone.Model.prototype.save.call(this, attrs, options);
     	}
     });    /**
      * Connections collection
@@ -1345,6 +1337,10 @@
             var $html = this.template_fields({item : field.toJSON()});
             $ul = this.$el.find('#custom-fields');
             $ul.append($html);
+
+            $row.find('input').val('');
+
+            $ul.find('.single-field-options:last').click();
         },
 
         renderFields: function() {
@@ -1415,8 +1411,9 @@
 
             cont.find('.select-options').append('<li data-element="'+ value + '">'+ value + '<a href="#" class="remove-select-option"><i class="fa fa-trash-o"></i></a></li>');
 
+            // delete option
+            $btn.prevAll('input').val('');
         },
-
 
         apply: function(e) {
             e.preventDefault();
@@ -1441,6 +1438,13 @@
             }
 
             $li.closest('ul').sortable('enable');
+
+            element.save( null, {
+                error: function(response){
+                    alert('There has been some error.');
+                }
+            });
+
 
             this.renderFields();
         },

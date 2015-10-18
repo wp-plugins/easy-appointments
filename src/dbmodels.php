@@ -93,20 +93,48 @@ class EADBModels
 			$data['to']
 		);
 
+		$location = '';
+		$serice = '';
+		$worker = '';
+		$status = '';
+
+		if(array_key_exists('location', $data)) {
+			$location = ' AND location = %d';
+			$params[] = $data['location'];
+		}
+
+		if(array_key_exists('service', $data)) {
+			$service = ' AND service = %d';
+			$params[] = $data['service'];
+		}
+
+		if(array_key_exists('worker', $data)) {
+			$worker = ' AND worker = %d';
+			$params[] = $data['worker'];
+		}
+
+		if(array_key_exists('status', $data)) {
+			$status = ' AND status = %s';
+			$params[] = $data['status'];
+		}
+
+
 		$query = "SELECT * 
 			FROM $tableName
-			WHERE 1 AND date >= %s AND date <= %s 
+			WHERE 1 AND date >= %s AND date <= %s {$location}{$service}{$worker}{$status}
 			ORDER BY id DESC";
 
 		$apps = $this->db->get_results($this->db->prepare($query, $params), OBJECT_K);
 
 		$ids = array_keys($apps);
 
-		$fields = $this->get_fields_for_apps($ids);
+		if(!empty($ids)) {
+			$fields = $this->get_fields_for_apps($ids);
 
-		foreach ($fields as $f) {
-			if(array_key_exists($f->app_id, $apps)) {
-				$apps[$f->app_id]->{$f->slug} = $f->value;
+			foreach ($fields as $f) {
+				if(array_key_exists($f->app_id, $apps)) {
+					$apps[$f->app_id]->{$f->slug} = $f->value;
+				}
 			}
 		}
 
