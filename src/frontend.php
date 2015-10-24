@@ -144,6 +144,10 @@ class EAFrontend
 		wp_enqueue_style( 'ea-frontend-style' );
 		wp_enqueue_style( 'ea-admin-awesome-css' );
 
+		$dbmod = new EADBModels;
+		$meta = $dbmod->get_all_rows("ea_meta_fields", array(), array('position' => 'ASC'));
+		$custom_form = $this->generate_custom_fields($meta);
+
 		ob_start();
 
 		echo "<style type='text/css'>{$customCss}</style>";
@@ -181,10 +185,7 @@ class EAFrontend
 			<div class="block"></div>
 			<p class="section"><?php _e('Personal information', 'easy-appointments'); ?></p>
 			<small><?php _e('Fields with * are required', 'easy-appointments'); ?></small><br>
-			<p><label><?php _e('Email', 'easy-appointments'); ?> * : </label><input type="text" name="email" data-rule-required="true" data-rule-email="true" data-msg-required="<?php _e('This field is required.', 'easy-appointments'); ?>" data-msg-email="<?php _e('Please enter a valid email address', 'easy-appointments'); ?>"></p>
-			<p><label><?php _e('Name', 'easy-appointments'); ?> * : </label><input type="text" name="name" data-rule-required="true" data-rule-minlength="3" data-msg-required="<?php _e('This field is required.', 'easy-appointments'); ?>" data-msg-minlength="<?php _e('Please enter at least 3 characters.', 'easy-appointments'); ?>"></p>
-			<p><label><?php _e('Phone', 'easy-appointments'); ?> * : </label><input type="text" name="phone" data-rule-required="true" data-rule-minlength="3" data-msg-required="<?php _e('This field is required.', 'easy-appointments'); ?>" data-msg-minlength="<?php _e('Please enter at least 3 digits.', 'easy-appointments'); ?>"></p>
-			<textarea class="description" name="description"></textarea>
+			<?php echo $custom_form;?>
 			<br>
 			<p class="section"><?php _e('Booking overview', 'easy-appointments'); ?></p>
 			<div id="booking-overview"></div>
@@ -203,6 +204,55 @@ class EAFrontend
 		<?php
 
 		return ob_get_clean();
+	}
+
+	public function generate_custom_fields($meta)
+	{
+		$html ='';
+
+		foreach ($meta as $item) {
+
+			if(empty($item->visible)) {
+				continue;
+			}
+
+			$r = !empty($item->required);
+
+			$star = ($r) ? ' * ': ' ';
+
+			$html .= '<p>';
+			$html .= '<label>' . $item->label . $star. ': </label>';
+
+			if($item->type == 'INPUT') {
+				$msg = ($r) ? 'data-rule-required="true" data-msg-required="' . __('This field is required.', 'easy-appointments') . '"' : '';
+				$email = ($item->validation == 'email') ? 'data-msg-email="' . __('Please enter a valid email address', 'easy-appointments') . '" data-rule-email="true"' : '';
+
+				$html .= '<input class="custom-field" type="text" name="' . $item->slug . '" ' . $msg . ' ' . $email . ' />';
+			} else if($item->type == 'SELECT') {
+				$msg = ($r) ? 'data-rule-required="true" data-msg-required="' . __('This field is required.', 'easy-appointments') . '"' : '';
+
+				$html .= '<select class="form-control custom-field" name="' . $item->slug . '" '.  $msg .'>';
+				$options = explode(',', $item->mixed);
+
+				foreach ($options as $o) {
+					if($o == '-') {
+						$html .= '<option value="">-</option>';
+					} else {
+						$html .= '<option value="' . $o . '" >' . $o . '</option>';
+					}
+				}
+
+				$html .= '</select>';
+
+			} else if($item->type == 'TEXTAREA') {
+				$msg = ($r) ? 'data-rule-required="true" data-msg-required="' . __('This field is required.', 'easy-appointments') . '"' : '';
+				$html .= '<textarea class="form-control custom-field" rows="3" style="height: auto;" name="' . $item->slug .'" ' . $msg .'></textarea>';
+			}
+
+			$html .= '</p>';
+		}
+
+		return $html;
 	}
 
 	/**
@@ -241,6 +291,10 @@ class EAFrontend
 
 		unset($settings['custom.css']);
 
+		$dbmod = new EADBModels;
+		$rows = $dbmod->get_all_rows("ea_meta_fields", array(), array('position' => 'ASC'));
+		$settings['MetaFields'] = $rows;
+		
 		wp_localize_script( 'ea-front-bootstrap', 'ea_settings', $settings );
 
 		wp_enqueue_script( 'underscore' );

@@ -1,22 +1,6 @@
 <table border="0" cellpadding="15" cellspacing="0" width="500">
 	<tbody>
 		<tr>
-			<td style="text-align:left; background-color: #CCFFFF;"><?php _e('Name', 'easy-appointments');?></td>
-			<td style="text-align: right; font-weight: bold; background-color: #CCFFFF;"><?php echo $data['name'];?></td>
-		</tr>
-		<tr>
-			<td style="text-align:left;"><?php _e('Email', 'easy-appointments');?></td>
-			<td style="text-align: right; font-weight: bold;"><?php echo $data['email'];?></td>
-		</tr>
-		<tr>
-			<td style="text-align:left; background-color: #CCFFFF;"><?php _e('Phone', 'easy-appointments');?></td>
-			<td style="text-align: right; font-weight: bold; background-color: #CCFFFF;"><?php echo $data['phone'];?></td>
-		</tr>
-		<tr>
-			<td style="text-align:left;"><?php _e('Description', 'easy-appointments');?></td>
-			<td style="text-align: right; font-weight: bold;"><?php echo $data['description'];?></td>
-		</tr>
-		<tr>
 			<td style="text-align:left; background-color: #CCFFFF;"><?php _e('Id', 'easy-appointments');?></td>
 			<td style="text-align: right; font-weight: bold; background-color: #CCFFFF;"><?php echo $data['id'];?></td>
 		</tr>
@@ -60,5 +44,24 @@
 			<td style="text-align: left; background-color: #CCFFFF;">IP</td>
 			<td style="text-align: right; font-weight: bold; background-color: #CCFFFF;"><?php echo $data['ip'];?></td>
 		</tr>
+
+		<?php 
+			$count = 1;
+			foreach ($meta as $field) {
+				if(array_key_exists($field->slug, $data)) {
+					if($count++ % 2 == 1) {
+						echo '<tr>
+							<td style="text-align:left;">' . $field->label . '</td>
+							<td style="text-align: right; font-weight: bold;">' . $data[$field->slug] . '</td>
+						</tr>';
+					} else {
+						echo '<tr>
+							<td style="text-align:left; background-color: #CCFFFF;">' . $field->label . '</td>
+							<td style="text-align: right; font-weight: bold; background-color: #CCFFFF;">' . $data[$field->slug] . '</td>
+						</tr>';
+					}
+				}
+			}
+		?>
 	</tbody>
 </table>

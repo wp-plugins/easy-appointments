@@ -2,6 +2,7 @@
 
 require_once EA_SRC_DIR . 'ajax.php';
 require_once EA_SRC_DIR . 'logic.php';
+require_once EA_SRC_DIR . 'metafields.php';
 
 /**
  * Admin panel
@@ -9,6 +10,8 @@ require_once EA_SRC_DIR . 'logic.php';
 class EAAdminPanel
 {
 	
+	protected $compatibility_mode;
+
 	function __construct()
 	{
 
@@ -21,6 +24,7 @@ class EAAdminPanel
 		add_action( 'admin_init', array( $this, 'init' ));
 		//add_action( 'admin_enqueue_scripts', array( $this, 'init' ) );
 
+		$this->compatibility_mode = EALogic::get_option_value('compatibility.mode');
 	}
 
 	/**
@@ -28,6 +32,15 @@ class EAAdminPanel
 	 */
 	public function init()
 	{
+
+		// admin panel script
+		wp_register_script(
+			'ea-compatibility-mode',
+			EA_PLUGIN_URL . 'js/backbone.sync.fix.js',
+			array( 'backbone' ),
+			false,
+			true
+		);
 
 		// admin panel script
 		wp_register_script(
@@ -42,7 +55,7 @@ class EAAdminPanel
 		wp_register_script(
 			'ea-settings',
 			EA_PLUGIN_URL . 'js/admin.prod.js',
-			array( 'jquery', 'ea-datepicker-localization', 'backbone', 'underscore', 'time-picker' ),
+			array( 'jquery', 'ea-datepicker-localization', 'backbone', 'underscore', 'time-picker', 'jquery-ui-sortable'),
 			false,
 			true
 		);
@@ -108,6 +121,10 @@ class EAAdminPanel
 	 */
 	public function add_settings_js()
 	{
+		if(!empty($this->compatibility_mode)) {
+			wp_enqueue_script( 'ea-compatibility-mode' );
+		}
+
 		wp_enqueue_script( 'ea-settings' );
 		wp_enqueue_style( 'ea-admin-css' );
 		wp_enqueue_style( 'jquery-style' );
@@ -120,6 +137,10 @@ class EAAdminPanel
 	 */
 	public function add_appointments_js()
 	{
+		if(!empty($this->compatibility_mode)) {
+			wp_enqueue_script( 'ea-compatibility-mode' );
+		}
+
 		wp_enqueue_script( 'ea-appointments' );
 		wp_enqueue_style( 'ea-admin-css' );
 		wp_enqueue_style( 'jquery-style' );
@@ -131,6 +152,10 @@ class EAAdminPanel
 	 * JS for report admin page
 	 */
 	public function add_report_js() {
+		if(!empty($this->compatibility_mode)) {
+			wp_enqueue_script( 'ea-compatibility-mode' );
+		}
+
 		wp_enqueue_script( 'ea-report' );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_style( 'ea-admin-awesome-css' );
@@ -204,7 +229,7 @@ class EAAdminPanel
 			,'content'  => '<p>Use filter for date to reduce output results for appointments. You can filter by <b>location</b>, <b>service</b>, <b>worker</b>, <b>status</b> and <b>date</b>.</p>'
 		) );
 
-		$screen->set_help_sidebar('<a href="http://nikolaloncar.com/easy-appointments-wordpress-plugin/easy-appointments-documentacion/">More info!</a>');
+		$screen->set_help_sidebar('<a href="http://nikolaloncar.com/easy-appointments-wordpress-plugin/easy-appointments-documentation/">More info!</a>');
 		
 		require_once EA_SRC_DIR . 'templates/appointments.tpl.php';
 		require_once EA_SRC_DIR . 'templates/inlinedata.tpl.php';
@@ -226,7 +251,7 @@ class EAAdminPanel
 				'<p>There can you see free times an how many slots are taken.</p>'
 		) );
 
-		$screen->set_help_sidebar('<a href="http://nikolaloncar.com/easy-appointments-wordpress-plugin/easy-appointments-documentacion/">More info!</a>');
+		$screen->set_help_sidebar('<a href="http://nikolaloncar.com/easy-appointments-wordpress-plugin/easy-appointments-documentation/">More info!</a>');
 
 		require_once EA_SRC_DIR . 'templates/report.tpl.php';
 		require_once EA_SRC_DIR . 'templates/inlinedata.tpl.php';
@@ -247,7 +272,7 @@ class EAAdminPanel
 			,'content'  => '<p>You need to define at least one location, worker and service! Without that widget wont work.</p>'
 		) );
 
-		$screen->set_help_sidebar('<a href="http://nikolaloncar.com/easy-appointments-wordpress-plugin/easy-appointments-documentacion/">More info!</a>');
+		$screen->set_help_sidebar('<a href="http://nikolaloncar.com/easy-appointments-wordpress-plugin/easy-appointments-documentation/">More info!</a>');
 
 		require_once EA_SRC_DIR . 'templates/admin.tpl.php';
 		require_once EA_SRC_DIR . 'templates/inlinedata.tpl.php';

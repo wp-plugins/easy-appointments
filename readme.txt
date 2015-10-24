@@ -4,7 +4,7 @@ Donate link: http://nikolaloncar.com/donate/
 Tags: appointment, appointments, booking, calendar, plugin, reservation, reservations, wordpress, wp appointment
 Requires at least: 3.7
 Tested up to: 4.3
-Stable tag: 1.4.0
+Stable tag: 1.5.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,10 +23,11 @@ Can be used for : <strong>Lawyers</strong>, <strong>Salons</strong>, <strong>Mec
 3. Multiple workers
 4. Extremely flexible time table
 5. Email notifications
-6. Responsive Bootstrap Layout for Appointment form  - new shorcode `[ea_bootstrap]
+6. Responsive Bootstrap Layout for Appointment form  - new shorcode `[ea_bootstrap]`
 7. Internationalization - support for translations
 8. Localization of datepicker for 77 different languages
 9. Two column layout for bootstrap form
+10. **NEW** Custom form fields (input, select, textarea)
 
 = Live Demo =
 <a href="http://nikolaloncar.com/demo/easy-appointments/">**Standard Appointment form**</a><br>
@@ -67,6 +68,14 @@ layout_cols : default value 1
 example : [ea_bootstrap width="800px" scroll_off="true" layout_cols="2"]
 
 == Frequently Asked Questions ==
+
+= In admin panel all pages from plugin are blank? =
+
+You have probably turned on option in PHP called asp_tags, you need to turn it off in order to plugin work properly.
+
+= I can't edit or delete any settings? =
+
+Your hosting is probably blocking HTTP PUT and DELETE method. You must mark option called 'Compatibility mode' in settings.
 
 = How to set multiple slots for one combination of location, service, worker? =
 
@@ -117,6 +126,22 @@ You can set bootstrap form in two columns with `layout_cols` option. Example :
 12. Admin panel - Report - Time table overview
 
 == Changelog ==
+
+= 1.5.2 = 
+* Compatibility mode for hostings that are blocking PUT and DELETE methods
+
+= 1.5.1 =
+* Fix bug with sending email notification
+* Fix bug with filtering appointments in Admin panel
+* New options for worker, before free slots are calculated only for current service type. Now you can calculate free slots for all services for that worker
+
+= 1.5.0 = 
+* Custom form fields
+* Fix bug with new year and date selection in calendar
+* Fix issue with wrong time after creating appointment in admin panel
+
+= 1.4.1 = 
+* Fix bug with status change and email notification in admin panel
 
 = 1.4.0 =
 * Calendar in bootstrap form now shows the free days and days with out free slots
@@ -189,6 +214,18 @@ You can set bootstrap form in two columns with `layout_cols` option. Example :
 * First release
 
 == Upgrade Notice ==
+
+= 1.5.2 =
+* If you can't edit or delete items on settings page please update this version. After update mark Compatibility mode option in settings.
+
+= 1.5.1 = 
+* Please update to new version, there are bugs on 1.5 with email notifications.
+
+= 1.5.0 =
+* Please check if there are all fields with appointments
+
+= 1.4.1 =
+* Please update plugin to fix bug with email notifications on status change
 
 = 1.4.0 =
 * Calendar in bootstrap form now shows the free days and days with out free slots

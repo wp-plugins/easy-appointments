@@ -2,7 +2,18 @@
 
     var EA = {};
 
-    /**
+    Backbone.ajax = function() {
+        var args = Array.prototype.slice.call(arguments, 0)[0];
+        var change = {};
+
+        if(args.type === 'PUT' || args.type === 'DELETE') {
+            change.type = 'POST';
+            change.url = args.url + '&_method=' + args.type;
+        }
+
+        var newArgs = _.extend(args, change);
+        return Backbone.$.ajax.apply(Backbone.$, [newArgs]);
+    };    /**
      * Single location
      */
     EA.Location = Backbone.Model.extend({
@@ -116,9 +127,9 @@
             location    : null,
             service     : null,
             worker      : null,
-            name        : '',
-            email       : '',
-            phone       : '',
+            // name        : '',
+            // email       : '',
+            // phone       : '',
             date        : null,
             start       : null,
             end         : null,
@@ -308,9 +319,9 @@
     			if(value !== '') {
 
     				if(col === 'from') {
-    					value = '+' + value;
+    					value = value;
     				} else if(col === 'to') {
-    					value = '-' + value;
+    					value = value;
     				}
 
     				filter[col] = value;
@@ -468,6 +479,8 @@
             var appointment = this.model;
             var view = this;
             var customParams = {};
+
+            this.$el.find('.time-start').change();
 
             $.each(this.$el.find('input, select, textarea'), function(index, elem){
                 var $elem = $(elem);

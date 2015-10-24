@@ -41,7 +41,6 @@
 	</div>
 </script>
 
-
 <script type="text/template" id="ea-tpl-locations-table">
 <div>
 	<h2>
@@ -401,9 +400,37 @@
 
 <script type="text/template" id="ea-tpl-custumize">
 	<div class="wp-filter">
+		<h2><?php _e('Connections', 'easy-appointments');?> :</h2>
+		<table class="form-table form-table-translation">
+			<tbody>
+				<tr>
+					<th class="row">
+						<label for=""><?php _e('Multiple work', 'easy-appointments');?> :</label>
+					</th>
+					<td>
+						<input class="field" data-key="multiple.work" name="multiple.work" type="checkbox" <% if (_.findWhere(settings, {ea_key:'multiple.work'}).ea_value == "1") { %>checked<% } %>>
+					</td>
+					<td>
+						<span class="description"> <?php _e('Mark this option if you want to calculate free worker slots only by current service and location. If it\'s not marked system will check if worker is working on any location and service at current time.', 'easy-appointments');?></span>
+					</td>
+				</tr>
+				<tr>
+					<th class="row">
+						<label for=""><?php _e('Compatibility mode', 'easy-appointments');?> :</label>
+					</th>
+					<td>
+						<input class="field" data-key="compatibility.mode" name="compatibility.mode" type="checkbox" <% if (_.findWhere(settings, {ea_key:'compatibility.mode'}).ea_value == "1") { %>checked<% } %>>
+					</td>
+					<td>
+						<span class="description"> <?php _e('If you can\'t <strong>EDIT</strong> or <strong>DELETE</strong> conecntion or any other settings, you should mark this option. NOTE: <strong>After saving this options you must refresh page!</strong>', 'easy-appointments');?></span>
+					</td>
+				</tr>
+			</body>
+		</table>
+		<hr class="divider">
 		<h2><?php _e('Mail', 'easy-appointments');?> : </h2>
 		<h3><?php _e('Notifications', 'easy-appointments');?></h3>
-		<p class="notifications-help"><?php _e('You can use this tags inside email content', 'easy-appointments');?> : <strong>#id#, #name#, #email#, #phone#, #date#, #start#, #end#, #description#, #status#, #created#, #price#, #ip#, #service_name#, #worker_name#, #location_name#</strong></p>
+		<p class="notifications-help"><?php _e('You can use this tags inside email content', 'easy-appointments');?> : <strong>#id#, #date#, #start#, #end#, #status#, #created#, #price#, #ip#, #service_name#, #worker_name#, #location_name#, <span id="custom-tags"></span></strong></p>
 		<table class='notifications form-table'>
 			<tbody>
 				<tr>
@@ -454,7 +481,8 @@
 				</tr>
 			</tbody>
 		</table>
-		<h2><?php _e('Labels', 'easy-appointments');?>:</h2>
+		<hr class="divider">
+		<h2><?php _e('Labels', 'easy-appointments');?> :</h2>
 		<table class="form-table form-table-translation">
 			<tbody>
 				<tr>
@@ -494,6 +522,7 @@
 				</tr>
 			</tbody>
 		</table>
+		<hr class="divider">
 		<h2><?php _e('Date & Time', 'easy-appointments');?> : </h2>
 		<table class="form-table form-table-translation">
 			<tbody>
@@ -529,6 +558,36 @@
 				</tr>
 			</tbody>
 		</table>
+		<hr class="divider">
+		<h2><?php _e('Custom form fields', 'easy-appointments');?> - <small>Create all fields that you need. Custom order them by drag and drop.</small></h2>
+		<table class="form-table">
+			<tbody>
+				<tr>
+					<th colspan="2">
+						<span>Name :</span>
+						<input type="text">
+						<span>Type :</span>
+						<select>
+							<option value="INPUT">Input</option>
+							<option value="SELECT">Select</option>
+							<option value="TEXTAREA">Textarea</option>
+						</select>
+						<button class="button button-primary btn-add-field"><?php _e('Add', 'easy-appointments');?></button>
+					</th>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<ul id="custom-fields"></ul>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<span class="description"> <?php _e('For using the email notification for user there must be field named "Email"', 'easy-appointments');?></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<hr class="divider">
 		<h2>Form</h2>
 		<table class="form-table">
 			<tbody>
@@ -604,4 +663,46 @@
 		<button class="button button-primary btn-save-settings"><?php _e('Save', 'easy-appointments');?></button>
 		<br><br>
 	</div>
+</script>
+
+<script type="text/template" id="ea-tpl-custom-forms">
+	<li data-name="<%= item.label %>" style="display: list-item;">
+		<div class="menu-item-bar">
+			<div class="menu-item-handle">
+				<span class="item-title"><span class="menu-item-title"><%= item.label %></span> <span class="is-submenu" style="display: none;">sub item</span></span>
+				<span class="item-controls">
+					<span class="item-type"><%= item.type %></span>
+						<a class="single-field-options"><i class="fa fa-chevron-down"></i></a>
+				</span>
+			</div>
+		</div>
+	</li>
+</script>
+
+<script type="text/template" id="ea-tpl-custom-form-options">
+<div class="field-settings">
+	<p>
+		<label>Label :</label><input type="text" class="field-label" name="field-label" value="<%= item.label %>">
+	</p>
+	<% if (item.type === "SELECT") { %>
+		<p>
+			<label>Options :</label>
+		</p>
+		<p>
+			<ul class="select-options">
+			<% _.each(item.options, function(element) { %>
+				<li data-element="<%= element %>"><%= element %><a href="#" class="remove-select-option"><i class="fa fa-trash-o"></i></a></li>
+			<% }); %>
+			</ul>
+		</p>
+		<p><input type="text"><a href="#" class="add-select-option">&nbsp;&nbsp;<i class="fa fa-plus"></i> Add option</a></p>
+	<% } %>
+	<p>
+		<label>Required :</label><input type="checkbox" class="required" name="required" <% if (item.required == "1") { %>checked<% } %>>
+	</p>
+	<p>
+		<label>Visible :</label><input type="checkbox" class="visible" name="visible" <% if (item.visible == "1") { %>checked<% } %>>
+	</p>
+	<p><a href="#" class="deletion item-delete">Delete</a> | <a href="#" class="item-save">Apply</a></p>
+</div>
 </script>
