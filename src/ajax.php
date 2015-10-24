@@ -497,6 +497,11 @@ class EAAjax
 	{
 		$method = $_SERVER['REQUEST_METHOD'];
 
+		if(!empty($_REQUEST['_method'])) {
+			$method = strtoupper($_REQUEST['_method']);
+			unset($_REQUEST['_method']);
+		}
+
 		switch ($method) {
 			case 'POST':
 				$data = json_decode( file_get_contents( "php://input" ), true );
@@ -518,7 +523,7 @@ class EAAjax
 				$this->type = 'DELETE';
 				break;
 		}
-		
+
 		return $data;
 	}
 

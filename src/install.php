@@ -16,7 +16,7 @@ class EAInstallTools
 
 	function __construct()
 	{
-		$this->easy_app_db_version = '1.5.1';
+		$this->easy_app_db_version = '1.5.2';
 	}
 
 	/**
@@ -209,7 +209,8 @@ EOT;
 			array('ea_key' => 'custom.css','ea_value' => '','type' => 'default'),
 			array('ea_key' => 'show.iagree','ea_value' => '0','type' => 'default'),
 			array('ea_key' => 'cancel.scroll','ea_value' => 'calendar','type' => 'default'),
-			array('ea_key' => 'multiple.work','ea_value' => '1','type' => 'default')
+			array('ea_key' => 'multiple.work','ea_value' => '1','type' => 'default'),
+			array('ea_key' => 'compatibility.mode','ea_value' => '0','type' => 'default')
 		);
 
 		// insert options
@@ -469,6 +470,25 @@ EOT;
 			}
 
 			$version = '1.5.1';
+		}
+
+		if(version_compare($version, '1.5.2', '<')) {
+			// rows data
+			$wp_ea_options = array(
+				array('ea_key' => 'compatibility.mode','ea_value' => '0','type' => 'default'),
+			);
+
+			$table_name = $wpdb->prefix . 'ea_options';
+
+			// insert options
+			foreach ($wp_ea_options as $row) {
+				$wpdb->insert(
+					$table_name,
+					$row
+				);
+			}
+
+			$version = '1.5.2';
 		}
 
 		update_option( 'easy_app_db_version', $version );

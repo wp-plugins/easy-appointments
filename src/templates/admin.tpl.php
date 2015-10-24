@@ -414,6 +414,17 @@
 						<span class="description"> <?php _e('Mark this option if you want to calculate free worker slots only by current service and location. If it\'s not marked system will check if worker is working on any location and service at current time.', 'easy-appointments');?></span>
 					</td>
 				</tr>
+				<tr>
+					<th class="row">
+						<label for=""><?php _e('Compatibility mode', 'easy-appointments');?> :</label>
+					</th>
+					<td>
+						<input class="field" data-key="compatibility.mode" name="compatibility.mode" type="checkbox" <% if (_.findWhere(settings, {ea_key:'compatibility.mode'}).ea_value == "1") { %>checked<% } %>>
+					</td>
+					<td>
+						<span class="description"> <?php _e('If you can\'t <strong>EDIT</strong> or <strong>DELETE</strong> conecntion or any other settings, you should mark this option. NOTE: <strong>After saving this options you must refresh page!</strong>', 'easy-appointments');?></span>
+					</td>
+				</tr>
 			</body>
 		</table>
 		<hr class="divider">
@@ -567,6 +578,11 @@
 				<tr>
 					<td colspan="2">
 						<ul id="custom-fields"></ul>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<span class="description"> <?php _e('For using the email notification for user there must be field named "Email"', 'easy-appointments');?></span>
 					</td>
 				</tr>
 			</tbody>

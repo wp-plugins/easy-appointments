@@ -10,6 +10,8 @@ require_once EA_SRC_DIR . 'metafields.php';
 class EAAdminPanel
 {
 	
+	protected $compatibility_mode;
+
 	function __construct()
 	{
 
@@ -22,6 +24,7 @@ class EAAdminPanel
 		add_action( 'admin_init', array( $this, 'init' ));
 		//add_action( 'admin_enqueue_scripts', array( $this, 'init' ) );
 
+		$this->compatibility_mode = EALogic::get_option_value('compatibility.mode');
 	}
 
 	/**
@@ -29,6 +32,15 @@ class EAAdminPanel
 	 */
 	public function init()
 	{
+
+		// admin panel script
+		wp_register_script(
+			'ea-compatibility-mode',
+			EA_PLUGIN_URL . 'js/backbone.sync.fix.js',
+			array( 'backbone' ),
+			false,
+			true
+		);
 
 		// admin panel script
 		wp_register_script(
@@ -109,6 +121,10 @@ class EAAdminPanel
 	 */
 	public function add_settings_js()
 	{
+		if(!empty($this->compatibility_mode)) {
+			wp_enqueue_script( 'ea-compatibility-mode' );
+		}
+
 		wp_enqueue_script( 'ea-settings' );
 		wp_enqueue_style( 'ea-admin-css' );
 		wp_enqueue_style( 'jquery-style' );
@@ -121,6 +137,10 @@ class EAAdminPanel
 	 */
 	public function add_appointments_js()
 	{
+		if(!empty($this->compatibility_mode)) {
+			wp_enqueue_script( 'ea-compatibility-mode' );
+		}
+
 		wp_enqueue_script( 'ea-appointments' );
 		wp_enqueue_style( 'ea-admin-css' );
 		wp_enqueue_style( 'jquery-style' );
@@ -132,6 +152,10 @@ class EAAdminPanel
 	 * JS for report admin page
 	 */
 	public function add_report_js() {
+		if(!empty($this->compatibility_mode)) {
+			wp_enqueue_script( 'ea-compatibility-mode' );
+		}
+
 		wp_enqueue_script( 'ea-report' );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_style( 'ea-admin-awesome-css' );

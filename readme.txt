@@ -4,7 +4,7 @@ Donate link: http://nikolaloncar.com/donate/
 Tags: appointment, appointments, booking, calendar, plugin, reservation, reservations, wordpress, wp appointment
 Requires at least: 3.7
 Tested up to: 4.3
-Stable tag: 1.5.1
+Stable tag: 1.5.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -69,6 +69,14 @@ example : [ea_bootstrap width="800px" scroll_off="true" layout_cols="2"]
 
 == Frequently Asked Questions ==
 
+= In admin panel all pages from plugin are blank? =
+
+You have probably turned on option in PHP called asp_tags, you need to turn it off in order to plugin work properly.
+
+= I can't edit or delete any settings? =
+
+Your hosting is probably blocking HTTP PUT and DELETE method. You must mark option called 'Compatibility mode' in settings.
+
 = How to set multiple slots for one combination of location, service, worker? =
 
 To add more slots per (location, service, worker) combination just clone the existing one. For two slots you need to
@@ -118,6 +126,9 @@ You can set bootstrap form in two columns with `layout_cols` option. Example :
 12. Admin panel - Report - Time table overview
 
 == Changelog ==
+
+= 1.5.2 = 
+* Compatibility mode for hostings that are blocking PUT and DELETE methods
 
 = 1.5.1 =
 * Fix bug with sending email notification
@@ -203,6 +214,9 @@ You can set bootstrap form in two columns with `layout_cols` option. Example :
 * First release
 
 == Upgrade Notice ==
+
+= 1.5.2 =
+* If you can't edit or delete items on settings page please update this version. After update mark Compatibility mode option in settings.
 
 = 1.5.1 = 
 * Please update to new version, there are bugs on 1.5 with email notifications.
