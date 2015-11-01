@@ -24,7 +24,7 @@
             cord: null
         },
 
-        url: function() { return ajaxurl+'?action=location&id=' + encodeURIComponent(this.id) },
+        url: function() { return ajaxurl+'?action=ea_location&id=' + encodeURIComponent(this.id) },
 
         toJSON : function() {
             var attrs = _.clone( this.attributes );
@@ -40,7 +40,7 @@
             price: 10
         },
         url : function() {
-            return ajaxurl+'?action=service&id=' + this.id;
+            return ajaxurl+'?action=ea_service&id=' + this.id;
         },
         toJSON : function() {
             var attrs = _.clone( this.attributes );
@@ -57,7 +57,7 @@
             phone: ""
         },
         url : function() {
-            return ajaxurl+'?action=worker&id=' + this.id;
+            return ajaxurl+'?action=ea_worker&id=' + this.id;
         },
         toJSON : function() {
             var attrs = _.clone( this.attributes );
@@ -80,7 +80,7 @@
             is_working : 0
         },
 
-        url: function() { return ajaxurl+'?action=connection&id=' + encodeURIComponent(this.id) },
+        url: function() { return ajaxurl+'?action=ea_connection&id=' + encodeURIComponent(this.id) },
 
         toJSON: function() {
             var attrs = _.clone( this.attributes );
@@ -129,7 +129,7 @@
             type: ""
         },
         url : function() {
-            return ajaxurl+'?action=setting&id=' + this.id;
+            return ajaxurl+'?action=ea_setting&id=' + this.id;
         },
         toJSON : function() {
             var attrs = _.clone( this.attributes );
@@ -143,7 +143,7 @@
      * Locations collection
      */
     EA.Locations = Backbone.Collection.extend({
-        url : ajaxurl+'?action=locations',
+        url : ajaxurl+'?action=ea_locations',
         model: EA.Location,
         cacheData: function() {
             if(typeof eaData !== 'undefined') {
@@ -154,7 +154,7 @@
      * Services collection
      */
     EA.Services = Backbone.Collection.extend({
-        url : ajaxurl+'?action=services',
+        url : ajaxurl+'?action=ea_services',
         model: EA.Service,
         parse: function(response) {
         	// console.log(response);
@@ -169,7 +169,7 @@
      * Workers collection
      */
     EA.Workers = Backbone.Collection.extend({
-        url : ajaxurl+'?action=workers',
+        url : ajaxurl+'?action=ea_workers',
         model: EA.Worker,
         cacheData: function() {
             if(typeof eaData !== 'undefined') {
@@ -180,13 +180,13 @@
      * Connections collection
      */
     EA.Connections = Backbone.Collection.extend({
-        url : ajaxurl+'?action=connections',
+        url : ajaxurl+'?action=ea_connections',
         model: EA.Connection
     });    /**
      * Settings collection
      */
     EA.Settings = Backbone.Collection.extend({
-        url : ajaxurl+'?action=settings',
+        url : ajaxurl+'?action=ea_settings',
         model: EA.Setting
     });
 
@@ -194,7 +194,7 @@
      * Wrapper around settings data
      */
     EA.SettingsWrapper = Backbone.Model.extend({
-    	url : ajaxurl+'?action=settings',
+    	url : ajaxurl+'?action=ea_settings',
     	/*toJSON : function() {
     		return this.model.toJSON();
     	}*/
@@ -230,8 +230,8 @@
 
     		switch (report) {
     			case 'overview' :
-    				var report = new EA.OverviewReportView();
-    				var output = report.render();
+    				var rep = new EA.OverviewReportView();
+    				var output = rep.render();
 
     				this.$el.find('#report-content').html(output.$el);
     				break;
@@ -306,7 +306,7 @@
 
     			var fields = selects.serializeArray();
 
-    			fields.push({ 'name' : 'action', 'value': 'report' });
+    			fields.push({ 'name' : 'action', 'value': 'ea_report' });
     			fields.push({ 'name' : 'report', 'value': 'overview' });
     			fields.push({ 'name' : 'month', 'value': month });
     			fields.push({ 'name' : 'year', 'value': year });

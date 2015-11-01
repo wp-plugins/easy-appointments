@@ -360,6 +360,7 @@ class EAFrontend
 			echo "<option value='{$row->id}'$price>{$row->name}</option>";
 		}
 
-		$this->generate_next_option = false;
+		// just to have all options
+		//$this->generate_next_option = false;
 	}
 }

@@ -278,6 +278,10 @@ class EALogic
 			$result = $wpdb->get_row($query);
 		}
 
+		if(empty($result)) {
+			return $default;
+		}
+
 		return $result->ea_value;
 	}
 
@@ -328,7 +332,8 @@ class EALogic
 		$body = str_replace(array_keys($params), array_values($params) , $body_template);
 
 		if(array_key_exists('email', $app_array)) {
-			wp_mail( $app_array['email'], 'Reservation #' . $app_id, $body );
+			$headers = array('Content-Type: text/html; charset=UTF-8');
+			wp_mail( $app_array['email'], 'Reservation #' . $app_id, $body, $headers );
 		}
 	}
 

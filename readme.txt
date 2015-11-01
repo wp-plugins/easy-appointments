@@ -4,7 +4,7 @@ Donate link: http://nikolaloncar.com/donate/
 Tags: appointment, appointments, booking, calendar, plugin, reservation, reservations, wordpress, wp appointment
 Requires at least: 3.7
 Tested up to: 4.3
-Stable tag: 1.5.2
+Stable tag: 1.6.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -69,6 +69,10 @@ example : [ea_bootstrap width="800px" scroll_off="true" layout_cols="2"]
 
 == Frequently Asked Questions ==
 
+= How to hide service / location / worker in front end part of form? =
+
+To do this you must create one location / worker or service and set Name that starts with underscore. For example : *_dummy*, *_location*...
+
 = In admin panel all pages from plugin are blank? =
 
 You have probably turned on option in PHP called asp_tags, you need to turn it off in order to plugin work properly.
@@ -126,6 +130,11 @@ You can set bootstrap form in two columns with `layout_cols` option. Example :
 12. Admin panel - Report - Time table overview
 
 == Changelog ==
+
+= 1.6.0 =
+* Fix issue with activating the plugin and error output
+* UTF8 email encoding
+* Option for turning of Location/Services/Worker by setting dummy records. Set name that starts with underscore (for example :*_dummy*).
 
 = 1.5.2 = 
 * Compatibility mode for hostings that are blocking PUT and DELETE methods
@@ -214,6 +223,9 @@ You can set bootstrap form in two columns with `layout_cols` option. Example :
 * First release
 
 == Upgrade Notice ==
+
+= 1.6.0 =
+* Please update if you are experiencing problems with AJAX naming collision
 
 = 1.5.2 =
 * If you can't edit or delete items on settings page please update this version. After update mark Compatibility mode option in settings.

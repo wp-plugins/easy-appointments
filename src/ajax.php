@@ -26,72 +26,72 @@ class EAAjax
 	function __construct()
 	{
 		// Frontend ajax calls
-		add_action( 'wp_ajax_nopriv_next_step', array($this, 'ajax_front_end') );
-		add_action( 'wp_ajax_next_step', array($this, 'ajax_front_end') );
+		add_action( 'wp_ajax_nopriv_ea_next_step', array($this, 'ajax_front_end') );
+		add_action( 'wp_ajax_ea_next_step', array($this, 'ajax_front_end') );
 
-		add_action( 'wp_ajax_nopriv_date_selected', array($this, 'ajax_date_selected') );
-		add_action( 'wp_ajax_date_selected', array($this, 'ajax_date_selected') );
+		add_action( 'wp_ajax_nopriv_ea_date_selected', array($this, 'ajax_date_selected') );
+		add_action( 'wp_ajax_ea_date_selected', array($this, 'ajax_date_selected') );
 
-		add_action( 'wp_ajax_res_appointment', array($this, 'ajax_res_appointment') );
-		add_action( 'wp_ajax_nopriv_res_appointment', array($this, 'ajax_res_appointment') );
+		add_action( 'wp_ajax_ea_res_appointment', array($this, 'ajax_res_appointment') );
+		add_action( 'wp_ajax_nopriv_ea_res_appointment', array($this, 'ajax_res_appointment') );
 
-		add_action( 'wp_ajax_final_appointment', array($this, 'ajax_final_appointment') );
-		add_action( 'wp_ajax_nopriv_final_appointment', array($this, 'ajax_final_appointment') );
+		add_action( 'wp_ajax_ea_final_appointment', array($this, 'ajax_final_appointment') );
+		add_action( 'wp_ajax_nopriv_ea_final_appointment', array($this, 'ajax_final_appointment') );
 
-		add_action( 'wp_ajax_cancel_appointment', array($this, 'ajax_cancel_appointment') );
-		add_action( 'wp_ajax_nopriv_cancel_appointment', array($this, 'ajax_cancel_appointment') );
+		add_action( 'wp_ajax_ea_cancel_appointment', array($this, 'ajax_cancel_appointment') );
+		add_action( 'wp_ajax_nopriv_ea_cancel_appointment', array($this, 'ajax_cancel_appointment') );
 
-		add_action( 'wp_ajax_month_status', array($this, 'ajax_month_status') );
-		add_action( 'wp_ajax_nopriv_month_status', array($this, 'ajax_month_status') );
+		add_action( 'wp_ajax_ea_month_status', array($this, 'ajax_month_status') );
+		add_action( 'wp_ajax_nopriv_ea_month_status', array($this, 'ajax_month_status') );
 		// end frontend
 
 		// admin ajax section
 		if(is_admin()) {
 			// Appointments
-			add_action( 'wp_ajax_appointments', array($this, 'ajax_appointments') );
+			add_action( 'wp_ajax_ea_appointments', array($this, 'ajax_appointments') );
 
 			// Appointment
-			add_action( 'wp_ajax_appointment', array($this, 'ajax_appointment') );
+			add_action( 'wp_ajax_ea_appointment', array($this, 'ajax_appointment') );
 
 			// Services
-			add_action( 'wp_ajax_services', array($this, 'ajax_services'));
+			add_action( 'wp_ajax_ea_services', array($this, 'ajax_services'));
 
 			// Service
-			add_action( 'wp_ajax_service', array($this, 'ajax_service'));
+			add_action( 'wp_ajax_ea_service', array($this, 'ajax_service'));
 
 			// Locations
-			add_action( 'wp_ajax_locations', array($this, 'ajax_locations'));
+			add_action( 'wp_ajax_ea_locations', array($this, 'ajax_locations'));
 
 			// Location
-			add_action( 'wp_ajax_location', array($this, 'ajax_location'));
+			add_action( 'wp_ajax_ea_location', array($this, 'ajax_location'));
 
 			// Worker
-			add_action( 'wp_ajax_worker', array($this, 'ajax_worker'));
+			add_action( 'wp_ajax_ea_worker', array($this, 'ajax_worker'));
 
 			// Workers
-			add_action( 'wp_ajax_workers', array($this, 'ajax_workers'));
+			add_action( 'wp_ajax_ea_workers', array($this, 'ajax_workers'));
 
 			// Connection
-			add_action( 'wp_ajax_connection', array($this, 'ajax_connection'));
+			add_action( 'wp_ajax_ea_connection', array($this, 'ajax_connection'));
 
 			// Connections
-			add_action( 'wp_ajax_connections', array($this, 'ajax_connections'));
+			add_action( 'wp_ajax_ea_connections', array($this, 'ajax_connections'));
 
 			// Open times
-			add_action( 'wp_ajax_open_times', array($this, 'ajax_open_times'));
+			add_action( 'wp_ajax_ea_open_times', array($this, 'ajax_open_times'));
 
 			// Setting
-			add_action( 'wp_ajax_setting', array($this, 'ajax_setting'));
+			add_action( 'wp_ajax_ea_setting', array($this, 'ajax_setting'));
 
 			// Settings
-			add_action( 'wp_ajax_settings', array($this, 'ajax_settings'));
+			add_action( 'wp_ajax_ea_settings', array($this, 'ajax_settings'));
 
 			// Report
-			add_action( 'wp_ajax_report', array($this, 'ajax_report'));
+			add_action( 'wp_ajax_ea_report', array($this, 'ajax_report'));
 
 			// Custom fields
-			add_action( 'wp_ajax_fields', array($this, 'ajax_fields'));
-			add_action( 'wp_ajax_field', array($this, 'ajax_field'));
+			add_action( 'wp_ajax_ea_fields', array($this, 'ajax_fields'));
+			add_action( 'wp_ajax_ea_field', array($this, 'ajax_field'));
 
 		}
 

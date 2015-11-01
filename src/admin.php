@@ -24,7 +24,7 @@ class EAAdminPanel
 		add_action( 'admin_init', array( $this, 'init' ));
 		//add_action( 'admin_enqueue_scripts', array( $this, 'init' ) );
 
-		$this->compatibility_mode = EALogic::get_option_value('compatibility.mode');
+		$this->compatibility_mode = EALogic::get_option_value('compatibility.mode', 0);
 	}
 
 	/**
