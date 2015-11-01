@@ -24,7 +24,6 @@ class EAAdminPanel
 		add_action( 'admin_init', array( $this, 'init' ));
 		//add_action( 'admin_enqueue_scripts', array( $this, 'init' ) );
 
-		$this->compatibility_mode = EALogic::get_option_value('compatibility.mode', 0);
 	}
 
 	/**
@@ -121,6 +120,8 @@ class EAAdminPanel
 	 */
 	public function add_settings_js()
 	{
+		$this->compatibility_mode = EALogic::get_option_value('compatibility.mode', 0);
+
 		if(!empty($this->compatibility_mode)) {
 			wp_enqueue_script( 'ea-compatibility-mode' );
 		}
@@ -137,6 +138,8 @@ class EAAdminPanel
 	 */
 	public function add_appointments_js()
 	{
+		$this->compatibility_mode = EALogic::get_option_value('compatibility.mode', 0);
+
 		if(!empty($this->compatibility_mode)) {
 			wp_enqueue_script( 'ea-compatibility-mode' );
 		}
