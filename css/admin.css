@@ -1,3 +1,12 @@
+hr.divider {
+	border-top: 2px dashed #DDD;
+	border-bottom: 0 none;
+	margin-top: 20px;
+}
+
+select.field {
+	width: 100px;
+}
 
 #tab-header {
 	text-align: center;
@@ -198,3 +207,59 @@ textarea[data-key="custom.css"] {
 	width: 100%;
 	height: 300px;
 }
+
+.sortable-placeholder {
+	border: 1px dashed #CCC;
+	width: 410px;
+	height: 40px;
+}
+
+.single-field-options {
+	display: block;
+	position: absolute;
+	right: -20px;
+	height: 40px;
+	width: 40px;
+	top: 0px;
+	text-align: center;
+	padding-top: 4px;
+}
+
+.field-settings {
+	background-color: #fff;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	width: 382px;
+	position: relative;
+	padding: 10px 15px;
+}
+
+.field-settings label {
+	display: inline-block;
+	width: 100px;
+}
+
+.remove-select-option {
+	float: right;
+}
+
+.field-settings .select-options li {
+	background-color: #ccc;
+	margin: 3px;
+	padding: 5px 10px 5px 10px;
+
+}
+
+.item-delete {
+	color: #A00;
+}
+
+.item-delete:hover {
+	color: red;
+}
+
+.inner-edit-table {
+	width: 100%;
+}
+

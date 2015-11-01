@@ -26,68 +26,72 @@ class EAAjax
 	function __construct()
 	{
 		// Frontend ajax calls
-		add_action( 'wp_ajax_nopriv_next_step', array($this, 'ajax_front_end') );
-		add_action( 'wp_ajax_next_step', array($this, 'ajax_front_end') );
+		add_action( 'wp_ajax_nopriv_ea_next_step', array($this, 'ajax_front_end') );
+		add_action( 'wp_ajax_ea_next_step', array($this, 'ajax_front_end') );
 
-		add_action( 'wp_ajax_nopriv_date_selected', array($this, 'ajax_date_selected') );
-		add_action( 'wp_ajax_date_selected', array($this, 'ajax_date_selected') );
+		add_action( 'wp_ajax_nopriv_ea_date_selected', array($this, 'ajax_date_selected') );
+		add_action( 'wp_ajax_ea_date_selected', array($this, 'ajax_date_selected') );
 
-		add_action( 'wp_ajax_res_appointment', array($this, 'ajax_res_appointment') );
-		add_action( 'wp_ajax_nopriv_res_appointment', array($this, 'ajax_res_appointment') );
+		add_action( 'wp_ajax_ea_res_appointment', array($this, 'ajax_res_appointment') );
+		add_action( 'wp_ajax_nopriv_ea_res_appointment', array($this, 'ajax_res_appointment') );
 
-		add_action( 'wp_ajax_final_appointment', array($this, 'ajax_final_appointment') );
-		add_action( 'wp_ajax_nopriv_final_appointment', array($this, 'ajax_final_appointment') );
+		add_action( 'wp_ajax_ea_final_appointment', array($this, 'ajax_final_appointment') );
+		add_action( 'wp_ajax_nopriv_ea_final_appointment', array($this, 'ajax_final_appointment') );
 
-		add_action( 'wp_ajax_cancel_appointment', array($this, 'ajax_cancel_appointment') );
-		add_action( 'wp_ajax_nopriv_cancel_appointment', array($this, 'ajax_cancel_appointment') );
+		add_action( 'wp_ajax_ea_cancel_appointment', array($this, 'ajax_cancel_appointment') );
+		add_action( 'wp_ajax_nopriv_ea_cancel_appointment', array($this, 'ajax_cancel_appointment') );
 
-		add_action( 'wp_ajax_month_status', array($this, 'ajax_month_status') );
-		add_action( 'wp_ajax_nopriv_month_status', array($this, 'ajax_month_status') );
+		add_action( 'wp_ajax_ea_month_status', array($this, 'ajax_month_status') );
+		add_action( 'wp_ajax_nopriv_ea_month_status', array($this, 'ajax_month_status') );
 		// end frontend
 
 		// admin ajax section
 		if(is_admin()) {
 			// Appointments
-			add_action( 'wp_ajax_appointments', array($this, 'ajax_appointments') );
+			add_action( 'wp_ajax_ea_appointments', array($this, 'ajax_appointments') );
 
 			// Appointment
-			add_action( 'wp_ajax_appointment', array($this, 'ajax_appointment') );
+			add_action( 'wp_ajax_ea_appointment', array($this, 'ajax_appointment') );
 
 			// Services
-			add_action( 'wp_ajax_services', array($this, 'ajax_services'));
+			add_action( 'wp_ajax_ea_services', array($this, 'ajax_services'));
 
 			// Service
-			add_action( 'wp_ajax_service', array($this, 'ajax_service'));
+			add_action( 'wp_ajax_ea_service', array($this, 'ajax_service'));
 
 			// Locations
-			add_action( 'wp_ajax_locations', array($this, 'ajax_locations'));
+			add_action( 'wp_ajax_ea_locations', array($this, 'ajax_locations'));
 
 			// Location
-			add_action( 'wp_ajax_location', array($this, 'ajax_location'));
+			add_action( 'wp_ajax_ea_location', array($this, 'ajax_location'));
 
 			// Worker
-			add_action( 'wp_ajax_worker', array($this, 'ajax_worker'));
+			add_action( 'wp_ajax_ea_worker', array($this, 'ajax_worker'));
 
 			// Workers
-			add_action( 'wp_ajax_workers', array($this, 'ajax_workers'));
+			add_action( 'wp_ajax_ea_workers', array($this, 'ajax_workers'));
 
 			// Connection
-			add_action( 'wp_ajax_connection', array($this, 'ajax_connection'));
+			add_action( 'wp_ajax_ea_connection', array($this, 'ajax_connection'));
 
 			// Connections
-			add_action( 'wp_ajax_connections', array($this, 'ajax_connections'));
+			add_action( 'wp_ajax_ea_connections', array($this, 'ajax_connections'));
 
 			// Open times
-			add_action( 'wp_ajax_open_times', array($this, 'ajax_open_times'));
+			add_action( 'wp_ajax_ea_open_times', array($this, 'ajax_open_times'));
 
 			// Setting
-			add_action( 'wp_ajax_setting', array($this, 'ajax_setting'));
+			add_action( 'wp_ajax_ea_setting', array($this, 'ajax_setting'));
 
 			// Settings
-			add_action( 'wp_ajax_settings', array($this, 'ajax_settings'));
+			add_action( 'wp_ajax_ea_settings', array($this, 'ajax_settings'));
 
-			// Settings
-			add_action( 'wp_ajax_report', array($this, 'ajax_report'));
+			// Report
+			add_action( 'wp_ajax_ea_report', array($this, 'ajax_report'));
+
+			// Custom fields
+			add_action( 'wp_ajax_ea_fields', array($this, 'ajax_fields'));
+			add_action( 'wp_ajax_ea_field', array($this, 'ajax_field'));
 
 		}
 
@@ -186,14 +190,30 @@ class EAAjax
 
 		$appointment = $this->models->get_row('ea_appointments', $data['id'], ARRAY_A);
 
-		// Merge data
-		foreach ($appointment as $key => $value) {
-			if(!array_key_exists($key, $data)) {
-				$data[$key] = $value;
-			}
+		// check IP
+		if($appointment['ip'] != $_SERVER['REMOTE_ADDR']) {
+			$this->send_err_json_result('{"err":true}');
 		}
 
-		$response = $this->models->replace( $table, $data, true );
+		$appointment['status'] = 'pending';
+
+		$response = $this->models->replace( $table, $appointment, true );
+
+
+		$meta = $this->models->get_all_rows('ea_meta_fields');
+
+		foreach ($meta as $f) {
+			$fields = array();
+			$fields['app_id'] = $appointment['id'];
+			$fields['field_id'] = $f->id;
+			if(array_key_exists($f->slug, $data)) {
+				$fields['value'] = $data[$f->slug];
+			} else {
+				$fields['value'] = '';
+			}
+
+			$response = $response && $this->models->replace( 'ea_fields', $fields, true );
+		}
 
 		if($response == false) {
 			$this->send_err_json_result('{"err":true}');
@@ -257,9 +277,18 @@ class EAAjax
 		if($this->type === 'GET') {
 			$response = $this->models->get_all_rows('ea_options');
 		} else {
-			foreach ($data as $option) {
-				// update single option
-				$response[] = $this->models->replace('ea_options', $option);
+			if(array_key_exists('options', $data)) {
+				foreach ($data['options'] as $option) {
+					// update single option
+					$response['options'][] = $this->models->replace('ea_options', $option);
+				}
+			}
+			if(array_key_exists('fields', $data)) {
+				foreach ($data['fields'] as $option) {
+					// update single option
+					$option['slug'] = sanitize_title($option['label']);
+					$response['fields'][] = $this->models->replace('ea_meta_fields', $option);
+				}
 			}
 		}
 
@@ -305,7 +334,7 @@ class EAAjax
 		$response = array();
 
 		if($this->type === 'GET') {
-			$response = $this->models->get_all_rows('ea_appointments', $data);
+			$response = $this->models->get_all_appointments($data);
 		}
 
 		die(json_encode($response));
@@ -313,10 +342,10 @@ class EAAjax
 
 	public function ajax_appointment()
 	{
-		$response = $this->parse_single_model('ea_appointments', false);
+		$response = $this->parse_appointment(false);
 		
 		if($response == false) {
-			$this->send_err_json_result('err');	
+			$this->send_err_json_result('err');
 		}
 
 		if($this->type != 'NEW' && $this->type != 'UPDATE') {
@@ -343,6 +372,7 @@ class EAAjax
 	 */
 	public function ajax_services()
 	{
+
 		$this->parse_input_data();
 
 		$response = array();
@@ -442,12 +472,35 @@ class EAAjax
 		$this->send_ok_json_result($response);
 	}
 
+	public function ajax_field()
+	{
+		$this->parse_single_model('ea_meta_fields');
+	}
+
+	public function ajax_fields()
+	{
+		$data = $this->parse_input_data();
+
+		$response = array();
+
+		if($this->type === 'GET') {
+			$response = $this->models->get_all_rows('ea_meta_fields', $data);
+		}
+
+		die(json_encode($response));
+	}
+
 	/**
 	 * REST enter point
 	 */
 	private function parse_input_data()
 	{
 		$method = $_SERVER['REQUEST_METHOD'];
+
+		if(!empty($_REQUEST['_method'])) {
+			$method = strtoupper($_REQUEST['_method']);
+			unset($_REQUEST['_method']);
+		}
 
 		switch ($method) {
 			case 'POST':
@@ -470,7 +523,7 @@ class EAAjax
 				$this->type = 'DELETE';
 				break;
 		}
-		
+
 		return $data;
 	}
 
@@ -516,6 +569,85 @@ class EAAjax
 				break;
 		}
 		
+		if($response == false) {
+			$this->send_err_json_result('{"err":true}');
+		}
+
+		if($end) {
+			$this->send_ok_json_result($response);
+		} else {
+			return $response;
+		}
+	}
+
+		/**
+	 * 
+	 */
+	private function parse_appointment($end = true)
+	{
+		$data = $this->parse_input_data();
+
+		if(!$end) {
+			$this->data = $data;
+		}
+
+		$table = 'ea_appointments';
+		$fields = 'ea_fields';
+
+		$app_fields = array('id','location','service','worker','date','start','end','status','user','price');
+		$app_data = array();
+
+		foreach ($app_fields as $value) {
+			if(array_key_exists($value, $data)) {
+				$app_data[$value] = $data[$value];
+			}
+		}
+
+		$meta_fields = $this->models->get_all_rows('ea_meta_fields');
+		$meta_data = array();
+
+		foreach ($meta_fields as $value) {
+			if(array_key_exists( $value->slug, $data)) {
+				$meta_data[] = array(
+					'app_id'   => null,
+					'field_id' => $value->id,
+					'value'    => $data[$value->slug]
+				);
+			}
+		}
+
+		$response = array();
+
+		switch ($this->type) {
+			case 'GET':
+				$id = (int)$_GET['id'];
+				$response = $this->models->get_row( $table, $id );
+				break;
+			case 'UPDATE':
+				$response = $this->models->replace( $table, $app_data, true );
+
+				$this->models->delete( $fields, array('app_id' => $app_data['id']), true );
+
+				foreach ($meta_data as $value) {
+					$value['app_id'] = $app_data['id'];
+					$this->models->replace( $fields, $value, true );
+				}
+
+				break;
+			case 'NEW':
+				$response = $this->models->replace( $table, $app_data, true );
+				foreach ($meta_data as $value) {
+					$value['app_id'] = $response->id;
+					$this->models->replace( $fields, $value, true );
+				}
+				break;
+			case 'DELETE':
+				$data = $_GET;
+				$response = $this->models->delete( $table, $data, true );
+				$this->models->delete( $table, array('app_id' => $app_data['id']), true );
+				break;
+		}
+
 		if($response == false) {
 			$this->send_err_json_result('{"err":true}');
 		}
