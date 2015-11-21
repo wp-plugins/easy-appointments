@@ -2,7 +2,18 @@
 
     var EA = {};
 
-    /**
+    Backbone.ajax = function() {
+        var args = Array.prototype.slice.call(arguments, 0)[0];
+        var change = {};
+
+        if(args.type === 'PUT' || args.type === 'DELETE') {
+            change.type = 'POST';
+            change.url = args.url + '&_method=' + args.type;
+        }
+
+        var newArgs = _.extend(args, change);
+        return Backbone.$.ajax.apply(Backbone.$, [newArgs]);
+    };    /**
      * Single location
      */
     EA.Location = Backbone.Model.extend({
@@ -13,7 +24,7 @@
             cord: null
         },
 
-        url: function() { return ajaxurl+'?action=location&id=' + encodeURIComponent(this.id) },
+        url: function() { return ajaxurl+'?action=ea_location&id=' + encodeURIComponent(this.id) },
 
         toJSON : function() {
             var attrs = _.clone( this.attributes );
@@ -29,7 +40,7 @@
             price: 10
         },
         url : function() {
-            return ajaxurl+'?action=service&id=' + this.id;
+            return ajaxurl+'?action=ea_service&id=' + this.id;
         },
         toJSON : function() {
             var attrs = _.clone( this.attributes );
@@ -46,7 +57,7 @@
             phone: ""
         },
         url : function() {
-            return ajaxurl+'?action=worker&id=' + this.id;
+            return ajaxurl+'?action=ea_worker&id=' + this.id;
         },
         toJSON : function() {
             var attrs = _.clone( this.attributes );
@@ -69,7 +80,7 @@
             is_working : 0
         },
 
-        url: function() { return ajaxurl+'?action=connection&id=' + encodeURIComponent(this.id) },
+        url: function() { return ajaxurl+'?action=ea_connection&id=' + encodeURIComponent(this.id) },
 
         toJSON: function() {
             var attrs = _.clone( this.attributes );
@@ -116,9 +127,9 @@
             location    : null,
             service     : null,
             worker      : null,
-            name        : '',
-            email       : '',
-            phone       : '',
+            // name        : '',
+            // email       : '',
+            // phone       : '',
             date        : null,
             start       : null,
             end         : null,
@@ -128,7 +139,7 @@
             price       : 0
         },
 
-        url: function() { return ajaxurl+'?action=appointment&id=' + encodeURIComponent(this.id) },
+        url: function() { return ajaxurl+'?action=ea_appointment&id=' + encodeURIComponent(this.id) },
 
         toJSON : function() {
             var attrs = _.clone( this.attributes );
@@ -151,7 +162,7 @@
      * Locations collection
      */
     EA.Locations = Backbone.Collection.extend({
-        url : ajaxurl+'?action=locations',
+        url : ajaxurl+'?action=ea_locations',
         model: EA.Location,
         cacheData: function() {
             if(typeof eaData !== 'undefined') {
@@ -162,7 +173,7 @@
      * Services collection
      */
     EA.Services = Backbone.Collection.extend({
-        url : ajaxurl+'?action=services',
+        url : ajaxurl+'?action=ea_services',
         model: EA.Service,
         parse: function(response) {
         	// console.log(response);
@@ -177,7 +188,7 @@
      * Workers collection
      */
     EA.Workers = Backbone.Collection.extend({
-        url : ajaxurl+'?action=workers',
+        url : ajaxurl+'?action=ea_workers',
         model: EA.Worker,
         cacheData: function() {
             if(typeof eaData !== 'undefined') {
@@ -188,13 +199,13 @@
      * Connections collection
      */
     EA.Connections = Backbone.Collection.extend({
-        url : ajaxurl+'?action=connections',
+        url : ajaxurl+'?action=ea_connections',
         model: EA.Connection
     });    /**
      * Appointments collection
      */
     EA.Appointments = Backbone.Collection.extend({
-        url : ajaxurl+'?action=appointments',
+        url : ajaxurl+'?action=ea_appointments',
         model: EA.Appointment
     });    /**
      * Main Admin View
@@ -308,9 +319,9 @@
     			if(value !== '') {
 
     				if(col === 'from') {
-    					value = '+' + value;
+    					value = value;
     				} else if(col === 'to') {
-    					value = '-' + value;
+    					value = value;
     				}
 
     				filter[col] = value;
@@ -469,6 +480,8 @@
             var view = this;
             var customParams = {};
 
+            this.$el.find('.time-start').change();
+
             $.each(this.$el.find('input, select, textarea'), function(index, elem){
                 var $elem = $(elem);
 
@@ -563,8 +576,8 @@
             });
 
             if(isComplete) {
-                filter['action'] = 'open_times';
-                filter['app_id'] = this.model.get('id');
+                filter.action = 'ea_open_times';
+                filter.app_id = this.model.get('id');
 
                 var that = this;
 
@@ -610,8 +623,9 @@
             if(hours.length === 1) {
                 hours = '0' + hours;
             }
-
-            this.model.set('end', hours + ":" + minutes);
+            // FIX there is time end issue here
+            // this.model.set('end', hours + ":" + minutes);
+            this.model.set('end', null);
         },
 
         serviceChange: function() {

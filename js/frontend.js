@@ -150,7 +150,7 @@
 		callServer : function( options, next_element ) {
 			var plugin = this;
 
-			options.action = 'next_step';
+			options.action = 'ea_next_step';
 
 			this.placeLoader(next_element.parent());
 
@@ -233,7 +233,7 @@
 
 			var options = this.getPrevousOptions(calendar);
 
-			options.action = 'date_selected';
+			options.action = 'ea_date_selected';
 			options.date = dateString;
 
 			this.placeLoader(calendar);
@@ -280,7 +280,7 @@
 				worker : this.$element.find('[name="worker"]').val(),
 				date : this.$element.find('.date').datepicker().val(),
 				start : this.$element.find('.selected-time').data('val'),
-				action : 'res_appointment'
+				action : 'ea_res_appointment'
 			};
 
 			// for booking overview
@@ -334,14 +334,15 @@
 
 			// make pre reservation
 			var options = {
-				name : this.$element.find('[name="name"]').val(),
-				email : this.$element.find('[name="email"]').val(),
-				phone : this.$element.find('[name="phone"]').val(),
-				description : this.$element.find('[name="description"]').datepicker().val(),
 				id : this.res_app
 			};
 
-			options.action = 'final_appointment';
+			this.$element.find('.custom-field').each(function(index, element){
+				var name = $(element).attr('name');
+				options[name] = $(element).val();
+			});
+
+			options.action = 'ea_final_appointment';
 
 			$.get(ea_ajaxurl, options, function(response) {
 				plugin.$element.find('.ea-submit').hide();
@@ -365,7 +366,7 @@
 
 			var options = {
 				id : this.res_app,
-				action : 'cancel_appointment'
+				action : 'ea_cancel_appointment'
 			};
 
 			$.get(ea_ajaxurl, options, function(response) {

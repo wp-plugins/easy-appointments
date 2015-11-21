@@ -74,8 +74,8 @@
 				<tr>
 					<th colspan="2" class="manage-column column-title">Id / <?php _e('Location', 'easy-appointments');?> / <?php _e('Service', 'easy-appointments');?> / <?php _e('Worker', 'easy-appointments');?></th>
 					<th colspan="2" class="manage-column column-title"><?php _e('Customer', 'easy-appointments');?></th>
-					<th class="manage-column column-title"><?php _e('Date & time', 'easy-appointments');?></th>
 					<th class="manage-column column-title"><?php _e('Descrtiption', 'easy-appointments');?></th>
+					<th class="manage-column column-title"><?php _e('Date & time', 'easy-appointments');?></th>
 					<th class="manage-column column-title"><?php _e('Status', 'easy-appointments');?> / <?php _e('Price', 'easy-appointments');?> / <?php _e('Created', 'easy-appointments');?></th>
 					<th class="manage-column column-title"><?php _e('Action', 'easy-appointments');?></th>
 				</tr>
@@ -94,16 +94,23 @@
 		<strong><%= _.findWhere(cache.Workers, {id:row.worker}).name  %></strong>
 	</td>
 	<td colspan="2">
-		<strong><%= row.name %></strong><br>
-		<strong><%= row.email %></strong><br>
-		<strong><%= row.phone %></strong>
+		<% _.each(cache.MetaFields,function(item,key,list) { %>
+			<% if (row[item.slug] !== "undefined" && item.type !== 'TEXTAREA') { %>
+			<strong><%= row[item.slug] %></strong><br>
+			<% } %>
+		<% });%>
+	</td>
+	<td>
+		<% _.each(cache.MetaFields,function(item,key,list) { %>
+			<% if (row[item.slug] !== "undefined" && item.type === 'TEXTAREA') { %>
+			<strong><%= row[item.slug] %></strong><br>
+			<% } %>
+		<% });%>
 	</td>
 	<td>
 		<strong><%= row.date %></strong><br>
-		<strong><%= row.start %></strong>
-	</td>
-	<td>
-		<strong><%= row.description %></strong>
+		<strong><%= row.start %></strong><br>
+		<strong><%= row.end %></strong><br>
 	</td>
 	<td>
 		<strong><%= row.status %></strong><br>
@@ -119,7 +126,7 @@
 
 <script type="text/template" id="ea-tpl-appointment-row-edit">
 <td colspan="8">
-	<table>
+	<table class="inner-edit-table">
 		<tbody>
 			<tr>
 				<td colspan="2">
@@ -155,9 +162,28 @@
 					</select>
 				</td>
 				<td colspan="2">
-					<input type="text" data-prop="name" placeholder="<?php _e('Name', 'easy-appointments');?>" value="<%= row.name %>"><br>
-					<input type="text" data-prop="email" placeholder="<?php _e('Email', 'easy-appointments');?>" value="<%= row.email %>"><br>
-					<input type="text" data-prop="phone" placeholder="<?php _e('Phone', 'easy-appointments');?>" value="<%= row.phone %>">
+					<% _.each(cache.MetaFields,function(item,key,list) { %>
+						<% if(item.type === 'INPUT') { %>
+						<input type="text" data-prop="<%= item.slug %>" placeholder="<%= item.label %>" value="<% if (typeof row[item.slug] !== "undefined") { %><%= row[item.slug] %><% } %>"><br>
+						<% } else if(item.type === 'SELECT') { %>
+							<select data-prop="<%= item.slug %>">
+								<% _.each(item.mixed.split(','),function(i,k,l) {
+									if(typeof row[item.slug] !== 'undefined' && i === row[item.slug]) { %>
+								%>
+								<option value="<%= i %>" selected><%= i %></option>
+								<% } else { %>
+								<option value="<%= i %>" ><%= i %></option>
+								<% }});%>
+							</select>
+						<% } %>
+					<% });%>
+				</td>
+				<td colspan="2">
+					<% _.each(cache.MetaFields,function(item,key,list) { %>
+						<% if(item.type === 'TEXTAREA') { %>
+						<textarea rows="3" data-prop="<%= item.slug %>" placeholder="<%= item.label %>"><% if (typeof row[item.slug] !== "undefined") { %><%= row[item.slug] %><% } %></textarea><br>
+						<% } %>
+					<% });%>
 				</td>
 				<td>
 					<p><?php _e('Date', 'easy-appointments');?> :</p>
@@ -165,9 +191,6 @@
 					<p><?php _e('Time', 'easy-appointments');?> :</p>
 					<select data-prop="start" disabled="disabled" class="time-start">
 					</select>
-				</td>
-				<td colspan="2">
-					<textarea rows="5" data-prop="description"><%= row.description %></textarea><br>
 				</td>
 				<td>
 					<select name="ea-select-status" data-prop="status">

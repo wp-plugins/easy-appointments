@@ -36,7 +36,7 @@
 			this.$element.find('form').validate();
 
 			// select change event
-			this.$element.find('select').change(jQuery.proxy( this.getNextOptions, this ));
+			this.$element.find('select').not('.custom-field').change(jQuery.proxy( this.getNextOptions, this ));
 
 			jQuery.datepicker.setDefaults( $.datepicker.regional[ea_settings.datepicker] );
 
@@ -90,7 +90,7 @@
 			var steps = this.$element.find('.step');
 
 			steps.each(function(index, element) {
-				var select = $(element).find('select');
+				var select = $(element).find('select').not('.custom-field');
 
 				if(select.length < 1) {
 					return;
@@ -179,7 +179,7 @@
 		callServer : function( options, next_element ) {
 			var plugin = this;
 
-			options.action = 'next_step';
+			options.action = 'ea_next_step';
 
 			this.placeLoader(next_element.parent());
 
@@ -234,7 +234,7 @@
 			$('#ea-loader').hide();
 		},
 		getCurrentStatus: function() {
-			var options = $(this.element).find('select');
+			var options = $(this.element).find('select').not('.custom-field');
 		},
 		blurNextSteps: function( current, dontScroll ) {
 			// check if there is scroll param
@@ -277,7 +277,7 @@
 
 			var options = this.getPrevousOptions(calendarEl);
 
-			options.action = 'date_selected';
+			options.action = 'ea_date_selected';
 			options.date = dateString;
 
 			this.placeLoader(calendarEl);
@@ -333,11 +333,11 @@
 
 			// check is all filled
 			if(this.checkStatus()) {
-				var selects = this.$element.find('select');
+				var selects = this.$element.find('select').not('.custom-field');
 
 				var fields = selects.serializeArray();
 
-				fields.push({ 'name' : 'action', 'value': 'month_status' });
+				fields.push({ 'name' : 'action', 'value': 'ea_month_status' });
 				fields.push({ 'name' : 'month', 'value': month });
 				fields.push({ 'name' : 'year', 'value': year });
 
@@ -369,7 +369,7 @@
 		 * @return {boolean} Is ready for sending data
 		 */
 		checkStatus: function() {
-			var selects = this.$element.find('select');
+			var selects = this.$element.find('select').not('.custom-field');
 
 			var isComplete = true;
 
@@ -395,7 +395,7 @@
 				worker : this.$element.find('[name="worker"]').val(),
 				date : this.$element.find('.date').datepicker().val(),
 				start : this.$element.find('.selected-time').data('val'),
-				action : 'res_appointment'
+				action : 'ea_res_appointment'
 			};
 
 			// for booking overview
@@ -448,20 +448,21 @@
 
 			// make pre reservation
 			var options = {
-				name : this.$element.find('[name="name"]').val(),
-				email : this.$element.find('[name="email"]').val(),
-				phone : this.$element.find('[name="phone"]').val(),
-				description : this.$element.find('[name="description"]').datepicker().val(),
 				id : this.res_app
 			};
 
-			options.action = 'final_appointment';
+			this.$element.find('.custom-field').each(function(index, element){
+				var name = $(element).attr('name');
+				options[name] = $(element).val();
+			});
+
+			options.action = 'ea_final_appointment';
 
 			$.get(ea_ajaxurl, options, function(response) {
 				plugin.$element.find('.ea-submit').hide();
 				plugin.$element.find('.ea-cancel').hide();
 				plugin.$element.find('.final').append('<h3>' + ea_settings['trans.done_message'] + '</h3>');
-				plugin.$element.find('form').find('input').prop('disabled', true);
+				plugin.$element.find('form').find('input,select,textarea').prop('disabled', true);
 			}, 'json')
 			.fail(function(){
 				plugin.find('.ea-submit').prop('disabled', false);
@@ -480,7 +481,7 @@
 
 			var options = {
 				id : this.res_app,
-				action : 'cancel_appointment'
+				action : 'ea_cancel_appointment'
 			};
 
 			$.get(ea_ajaxurl, options, function(response) {

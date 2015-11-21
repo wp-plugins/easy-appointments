@@ -4,7 +4,7 @@
  * Plugin Name: Easy Appointments
  * Plugin URI: http://nikolaloncar.com/easy-appointments-wordpress-plugin/
  * Description: Simple managment of Appointments
- * Version: 1.4.0
+ * Version: 1.7.0
  * Author: Nikola Loncar
  * Author URI: http://nikolaloncar.com
  * Text Domain: easy-appointments
@@ -26,6 +26,8 @@ class EasyAppointment
 	{
 		// on register hook
 		register_activation_hook( __FILE__, array($this, 'install'));
+
+		register_uninstall_hook( __FILE__, array('EasyAppointment', 'uninstall'));
 
 		add_action( 'plugins_loaded', array($this, 'update'));
 
@@ -59,13 +61,28 @@ class EasyAppointment
 		$install->init_data();
 	}
 
+	/**
+	 * Remove tables of Appointments plugin
+	 */
+	public static function uninstall()
+	{
+		require_once EA_SRC_DIR . 'uninstall.php';
+
+		$uninstall = new EAUninstallTools();
+
+		$uninstall->drop_db();
+		$uninstall->delete_db_version();
+	}
+
 	public function update()
 	{
 		// register domain
 		$this->register_text_domain();
 
 		// update database
+		require_once EA_SRC_DIR . 'dbmodels.php';
 		require_once EA_SRC_DIR . 'install.php';
+		require_once EA_SRC_DIR . 'metafields.php';
 
 		$tools = new EAInstallTools();
 		$tools->update();
