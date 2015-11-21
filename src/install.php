@@ -16,7 +16,7 @@ class EAInstallTools
 
 	function __construct()
 	{
-		$this->easy_app_db_version = '1.5.2';
+		$this->easy_app_db_version = '1.7.0';
 	}
 
 	/**
@@ -141,7 +141,6 @@ CREATE TABLE {$table_prefix}ea_meta_fields (
 ) $charset_collate ;
 EOT;
 
-
 $table_querys[] = <<<EOT
 CREATE TABLE {$table_prefix}ea_fields (
   id int(11) NOT NULL AUTO_INCREMENT,
@@ -210,7 +209,9 @@ EOT;
 			array('ea_key' => 'show.iagree','ea_value' => '0','type' => 'default'),
 			array('ea_key' => 'cancel.scroll','ea_value' => 'calendar','type' => 'default'),
 			array('ea_key' => 'multiple.work','ea_value' => '1','type' => 'default'),
-			array('ea_key' => 'compatibility.mode','ea_value' => '0','type' => 'default')
+			array('ea_key' => 'compatibility.mode','ea_value' => '0','type' => 'default'),
+			array('ea_key' => 'pending.subject.email','ea_value' => 'New Reservation #id#','type' => 'default'),
+			array('ea_key' => 'send.from.email', 'ea_value' => '','type' => 'default'),
 		);
 
 		// insert options
@@ -489,6 +490,27 @@ EOT;
 			}
 
 			$version = '1.5.2';
+		}
+
+		if(version_compare($version, '1.7.0', '<')) {
+
+			// rows data
+			$wp_ea_options = array(
+				array('ea_key' => 'pending.subject.email','ea_value' => 'New Reservation #id#','type' => 'default'),
+				array('ea_key' => 'send.from.email', 'ea_value' => '','type' => 'default'),
+			);
+
+			$table_name = $wpdb->prefix . 'ea_options';
+
+			// insert options
+			foreach ($wp_ea_options as $row) {
+				$wpdb->insert(
+					$table_name,
+					$row
+				);
+			}
+
+			$version = '1.7.0';
 		}
 
 		update_option( 'easy_app_db_version', $version );

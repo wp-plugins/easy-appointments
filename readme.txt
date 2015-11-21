@@ -4,7 +4,7 @@ Donate link: http://nikolaloncar.com/donate/
 Tags: appointment, appointments, booking, calendar, plugin, reservation, reservations, wordpress, wp appointment
 Requires at least: 3.7
 Tested up to: 4.3
-Stable tag: 1.6.0
+Stable tag: 1.7.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -130,6 +130,12 @@ You can set bootstrap form in two columns with `layout_cols` option. Example :
 12. Admin panel - Report - Time table overview
 
 == Changelog ==
+
+= 1.7.0 =
+* New option for subject of email admin notification
+* New option for "Send form" email notifications
+* Unistall script. Now after uninstall database tables of plugin will be removed
+* Bug fix for extended time for appointment after editing in admin panel
 
 = 1.6.0 =
 * Fix issue with activating the plugin and error output

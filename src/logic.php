@@ -322,17 +322,23 @@ class EALogic
 		$app_array = $dbmodels->get_appintment_by_id( $app_id );
 
 		$params = array();
-		
+
 		foreach ($app_array as $key => $value) {
 			$params["#$key#"] = $value;
 		}
 
 		$body_template = EALogic::get_option_value( 'mail.' . $app->status, 'mail' );
+		$send_from = EALogic::get_option_value( 'send.from.email', '' );
 
 		$body = str_replace(array_keys($params), array_values($params) , $body_template);
 
 		if(array_key_exists('email', $app_array)) {
 			$headers = array('Content-Type: text/html; charset=UTF-8');
+
+			if(!empty($send_from)) {
+				$headers[] = 'From: ' . $send_from;
+			}
+
 			wp_mail( $app_array['email'], 'Reservation #' . $app_id, $body, $headers );
 		}
 	}
@@ -356,6 +362,17 @@ class EALogic
 
 		$meta = $dbmodels->get_all_rows('ea_meta_fields', array(), array('position' => 'ASC'));
 
+		$params = array();
+
+		foreach ($data as $key => $value) {
+			$params["#$key#"] = $value;
+		}
+
+		$subject_template = EALogic::get_option_value( 'pending.subject.email', 'Notification : #id#' );
+		$send_from = EALogic::get_option_value( 'send.from.email', '' );
+
+		$subject = str_replace(array_keys($params), array_values($params) , $subject_template);
+
 		ob_start();
 
 		require EA_SRC_DIR . 'templates/mail.notification.tpl.php';
@@ -364,7 +381,11 @@ class EALogic
 
 		$headers = array('Content-Type: text/html; charset=UTF-8');
 
-		wp_mail( $emails, __('New Reservation #', 'easy-appointments') . $app_id, $mail_content, $headers );
+		if(!empty($send_from)) {
+			$headers[] = 'From: ' . $send_from;
+		}
+
+		wp_mail( $emails, $subject, $mail_content, $headers );
 	}
 
 	/**

@@ -623,8 +623,9 @@
             if(hours.length === 1) {
                 hours = '0' + hours;
             }
-
-            this.model.set('end', hours + ":" + minutes);
+            // FIX there is time end issue here
+            // this.model.set('end', hours + ":" + minutes);
+            this.model.set('end', null);
         },
 
         serviceChange: function() {

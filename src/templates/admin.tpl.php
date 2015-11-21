@@ -462,10 +462,21 @@
 						<label for=""><?php _e('Pending notification emails', 'easy-appointments');?> :</label>
 					</th>
 					<td>
-						<input style="width: 300px" class="field" data-key="pending.email" name="currency" type="text" value="<%= _.findWhere(settings, {ea_key:'pending.email'}).ea_value %>"><br>
+						<input style="width: 300px" class="field" data-key="pending.email" name="pending.email" type="text" value="<%= _.findWhere(settings, {ea_key:'pending.email'}).ea_value %>"><br>
 					</td>
 					<td>
 						<span class="description"> <?php _e('Enter email adress that will recive new reservation notification. Separate multiple emails with , (comma)', 'easy-appointments');?></span>
+					</td>
+				</tr>
+				<tr>
+					<th class="row">
+						<label for=""><?php _e('Admin notification subject', 'easy-appointments');?> :</label>
+					</th>
+					<td>
+						<input style="width: 300px" class="field" data-key="pending.subject.email" name="pending.subject.email" type="text" value="<%= _.findWhere(settings, {ea_key:'pending.subject.email'}).ea_value %>"><br>
+					</td>
+					<td>
+						<span class="description"> <?php _e('You can use any tag that is available as in custom email notifications.', 'easy-appointments');?></span>
 					</td>
 				</tr>
 				<tr>
@@ -477,6 +488,17 @@
 					</td>
 					<td>
 						<span class="description"> <?php _e('Mark this option if you want to user recive email after filing the form.', 'easy-appointments');?></span>
+					</td>
+				</tr>
+				<tr>
+					<th class="row">
+						<label for=""><?php _e('Send from', 'easy-appointments');?> :</label>
+					</th>
+					<td>
+						<input style="width: 300px" class="field" data-key="send.from.email" name="send.from.email" type="text" value="<%= _.findWhere(settings, {ea_key:'send.from.email'}).ea_value %>"><br>
+					</td>
+					<td>
+						<span class="description"> <?php _e('Send from email adress (Example: Name &lt;name@domain.com&gt;). Leave blank to use default address.', 'easy-appointments');?></span>
 					</td>
 				</tr>
 			</tbody>

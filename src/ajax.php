@@ -603,6 +603,12 @@ class EAAjax
 			}
 		}
 
+		// set end data
+		$service = $this->models->get_row('ea_services', $app_data['service']);
+		$end_time = strtotime("{$data['start']} + {$service->duration} minute");
+		$app_data['end'] = date('H:i', $end_time);
+
+
 		$meta_fields = $this->models->get_all_rows('ea_meta_fields');
 		$meta_data = array();
 
